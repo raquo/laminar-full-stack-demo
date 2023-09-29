@@ -2,32 +2,28 @@ import scala.sys.process.Process
 
 ThisBuild / version := "1.0.0"
 
-ThisBuild / scalaVersion := "3.3.1"
+ThisBuild / scalaVersion := Versions.Scala_3
 
-val circeVersion = "0.14.1"
-
-lazy val `shared-logic` = crossProject(JSPlatform, JVMPlatform)
-  .in(file("./shared-logic"))
+lazy val shared = crossProject(JSPlatform, JVMPlatform)
+  .in(file("./shared"))
   .settings(
-    // circe for jvm-js communication
     libraryDependencies ++= List(
-      "io.circe" %%% "circe-core",
-      "io.circe" %%% "circe-generic",
-      "io.circe" %%% "circe-parser"
-    ).map(_ % circeVersion)
+      "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % Versions.JsoniterScala,
+      // #TODO[Build] Using "provided" for macros instead of "compiler-internal" because IntelliJ does not understand the latter. Not sure if there's any difference.
+      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
+    )
   )
 
 lazy val server = project
   .in(file("./server"))
   .settings(
     libraryDependencies ++= List(
-      // cask as server (other choices are zio-http, http4s, akka-http, play...)
-      "com.lihaoyi" %% "cask" % "0.8.3"
+      "com.lihaoyi" %% "cask" % Versions.Cask
     ),
     assembly / mainClass := Some("server.Server"),
     assembly / assemblyJarName := "app.jar"
   )
-  .dependsOn(`shared-logic`.jvm)
+  .dependsOn(shared.jvm)
 
 def esModule = Def.settings(scalaJSLinkerConfig ~= {
   _.withModuleKind(ModuleKind.ESModule)
@@ -39,14 +35,14 @@ lazy val frontend = project
   .settings(
     libraryDependencies ++= List(
       // web framework (other choices are slinky, scala-js-react, outwatch...)
-      "com.raquo" %%% "laminar" % "16.0.0",
+      "com.raquo" %%% "laminar" % Versions.Laminar,
       // web component library (other (non-exclusive) choices are material-ui, bootstrap...)
-      "be.doeraene" %%% "web-components-ui5" % "1.17.0"
+      "be.doeraene" %%% "web-components-ui5" % "1.17.0" // #TODO remove
     ),
     esModule,
     scalaJSUseMainModuleInitializer := true
   )
-  .dependsOn(`shared-logic`.js)
+  .dependsOn(shared.js)
 
 val buildFrontend = taskKey[Unit]("Build frontend")
 

@@ -1,10 +1,13 @@
 package server
 
-import io.circe.parser.decode
+// import io.circe.parser.decode
 import business.SomeSharedData
 import cask.model.Request
-import cask.model.Response.Raw
+// import cask.model.Response.Raw
 import cask.router.Result
+import com.github.plokhotnyuk.jsoniter_scala.core.*
+
+import scala.util.{Failure, Success, Try}
 
 object Server extends cask.MainRoutes {
 
@@ -30,10 +33,10 @@ object Server extends cask.MainRoutes {
 
   @cask.post("/api/do-thing")
   def doThing(request: cask.Request) =
-    decode[SomeSharedData](request.text()) match {
-      case Left(err) => cask.Response(err.getMessage, statusCode = 400)
-      case Right(value) =>
-        cask.Response(s"I did something very cool with your $value")
+    Try(readFromString[SomeSharedData](request.text())) match {
+      case Failure(err: JsonReaderException) => cask.Response(err.getMessage, statusCode = 400)
+      case Failure(err) => cask.Response(err.getMessage, statusCode = 500)
+      case Success(value) => cask.Response(s"I did something cool with your $value")
     }
 
   @StaticResourcesWithContentType("/static")
@@ -41,5 +44,5 @@ object Server extends cask.MainRoutes {
 
   initialize()
 
-  println(s"Server listening at $host:$port")
+  println(s"Cask server listening at $host:$port")
 }

@@ -5,11 +5,8 @@ import be.doeraene.webcomponents.ui5.*
 import business.SomeSharedData
 import com.raquo.laminar.api.L.*
 import org.scalajs.dom
-import io.circe.syntax.*
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
-import scala.scalajs.js
+import com.github.plokhotnyuk.jsoniter_scala.core.*
 
 object EntryPoint {
 
@@ -29,7 +26,7 @@ object EntryPoint {
             .flatMap(text =>
               FetchStream.post(
                 url = "/api/do-thing",
-                _.body(SomeSharedData(text, 2).asJson.noSpaces),
+                _.body(writeToString(SomeSharedData(text, 2))),
                 _.headers(
                   "Content-Type" -> "application/json",
                   "Accept" -> "text/plain"
