@@ -1,0 +1,11 @@
+# flyctl launch added from .gitignore
+**/target
+**/node_modules
+
+**/.bloop
+**/.bsp
+**/.idea
+
+**/server/src/main/resources/static
+
+fly.toml

@@ -12,7 +12,7 @@ object Server extends cask.MainRoutes {
 
   override def host: String = Option(System.getProperty("isProd"))
     .map(_.toBoolean)
-    .fold("localhost")(isProd => if isProd then "0.0.0.0" else "localhost")
+    .fold("127.0.0.1")(isProd => if isProd then "0.0.0.0" else "127.0.0.1")
 
   @cask.get("/")
   def index() =
@@ -24,6 +24,9 @@ object Server extends cask.MainRoutes {
 
   @cask.get("/api")
   def hello() = "Hello World!"
+
+  @cask.get("/api/ping")
+  def ping() = "PONG"
 
   @cask.post("/api/do-thing")
   def doThing(request: cask.Request) =

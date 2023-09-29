@@ -16,17 +16,8 @@ object EntryPoint {
   def main(args: Array[String]): Unit = {
     println("hello")
 
-    def request(dataToSend: SomeSharedData) = new dom.RequestInit {
-      method = dom.HttpMethod.POST
-      body = dataToSend.asJson.noSpaces
-      headers = js.Array(
-        js.Array("Content-Type", "application/json"),
-        js.Array("Accept", "text/plain")
-      )
-    }
-
     val clickBus: EventBus[Unit] = new EventBus
-    val textToSendVar            = Var("")
+    val textToSendVar = Var("")
 
     render(
       dom.document.getElementById("root"),
@@ -36,24 +27,25 @@ object EntryPoint {
           child.text <-- clickBus.events
             .sample(textToSendVar.signal)
             .flatMap(text =>
-              EventStream.fromFuture(
-                dom
-                  .fetch("/api/do-thing", request(SomeSharedData(text, 2)))
-                  .toFuture
-                  .flatMap(_.text().toFuture),
-                emitFutureIfCompleted = true
+              FetchStream.post(
+                url = "/api/do-thing",
+                _.body(SomeSharedData(text, 2).asJson.noSpaces),
+                _.headers(
+                  "Content-Type" -> "application/json",
+                  "Accept" -> "text/plain"
+                )
               )
             )
         ),
         div(
-          display    := "flex",
+          display := "flex",
           alignItems := "center",
           Label("Enter some text: "),
           Input(
             _.tpe := InputType.Text,
             _.events.onChange.mapToValue --> textToSendVar.writer,
             marginRight := "1em",
-            marginLeft  := "1em"
+            marginLeft := "1em"
           ),
           Button("Click me", _.events.onClick.mapTo(()) --> clickBus.writer)
         )

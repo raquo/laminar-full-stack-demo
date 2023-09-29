@@ -1,19 +1,20 @@
 {
-  "name": "demo-flyio-jvm",
+  "name": "weather",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
+    "dev-debug": "vite --debug",
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "3.2.4",
-    "vite-plugin-html": "3.2.0",
-    "http-proxy": "1.18.1"
+    "http-proxy": "^1.18.1",
+    "vite": "^3.2.7",
+    "vite-plugin-html": "^3.2.0"
   },
   "dependencies": {
-    "@ui5/webcomponents": "1.8.0",
-    "@ui5/webcomponents-fiori": "1.8.0",
-    "@ui5/webcomponents-icons": "1.8.0"
+    "@ui5/webcomponents": "1.17.0",
+    "@ui5/webcomponents-fiori": "1.17.0",
+    "@ui5/webcomponents-icons": "1.17.0"
   }
 }

@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:11
+FROM azul/zulu-openjdk-alpine:17
 
 COPY ./dist/app.jar /app/app.jar
 WORKDIR /app
