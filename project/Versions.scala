@@ -4,7 +4,7 @@ object Versions {
 
   val Laminar = "16.0.0"
 
-  val Cask = "0.9.1"
+  val Armeria = "1.25.2"
 
   // val Waypoint = "7.0.0"
 

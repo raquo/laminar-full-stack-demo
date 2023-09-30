@@ -9,3 +9,5 @@
 **/server/src/main/resources/static
 
 fly.toml
+
+.DS_Store

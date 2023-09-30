@@ -16,7 +16,7 @@ object EntryPoint {
     render(
       dom.document.getElementById("root"),
       div(
-        h1("Weather demo"),
+        h1("Weather demo+"),
         div(
           child.text <-- FetchStream.post(
             url = "/api/do-thing",

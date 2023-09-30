@@ -4,17 +4,13 @@ import { defineConfig } from "vite";
 import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
 import rollupPluginSourcemaps from 'rollup-plugin-sourcemaps';
 
-const scalaVersion = "3.3.1"
-
 export default defineConfig(({ command, mode, ssrBuild }) => {
 
-    const mainJS = `/target/scala-${scalaVersion}/frontend-${mode === 'production' ? 'opt' : 'fastopt'}/main.js`
-    console.log('mainJS', mainJS)
-    const script = `<script type="module" src="${mainJS}"></script>`
+    const script = `<script type="module" src="./index.js"></script>`
 
     return {
-        base: "/static/",
-        publicDir: './public',
+        base: "/",
+        publicDir: 'public', // #nc >>> Why did this stop working?????
         plugins: [
           scalaJSPlugin({
               cwd: '..',
@@ -30,7 +26,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           })
         ],
         build: {
-            // cssCodeSplit: false,
+            // outDir: "dist",
+            // outDir: "../server/src/main/resources/static", // #TODO can we do this directly?
+            // cssCodeSplit: false,  // false = Output entire CSS as a separate file
             rollupOptions: {
                 plugins: [rollupPluginSourcemaps()],
             },

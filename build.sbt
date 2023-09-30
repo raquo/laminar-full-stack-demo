@@ -1,5 +1,7 @@
 import org.scalajs.linker.interface.ModuleSplitStyle
 
+// addDependencyTreePlugin
+
 import scala.sys.process.Process
 
 ThisBuild / version := "1.0.0"
@@ -20,10 +22,24 @@ lazy val server = project
   .in(file("./server"))
   .settings(
     libraryDependencies ++= List(
-      "com.lihaoyi" %% "cask" % Versions.Cask
+      "com.linecorp.armeria" %% "armeria-scala" % Versions.Armeria
     ),
-    assembly / mainClass := Some("server.Server"),
-    assembly / assemblyJarName := "app.jar"
+    assembly / mainClass := Some("server.ArmeriaServer"),
+    assembly / assemblyJarName := "app.jar",
+
+    // Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
+    // https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
+    // #TODO Ask people if this is ok
+    assembly / assemblyMergeStrategy := {
+      case x if x.endsWith("module-info.class") => MergeStrategy.discard
+      case x if x.endsWith("META-INF/io.netty.versions.properties") => MergeStrategy.discard
+      case x if x.endsWith("META-INF/com.linecorp.armeria.versions.properties") => MergeStrategy.discard
+      case x if x.endsWith("META-INF/native/lib/libnetty-unix-common.a") => MergeStrategy.discard
+      case x =>
+        val oldStrategy = (assembly / assemblyMergeStrategy).value
+        oldStrategy(x)
+    }
+
   )
   .dependsOn(shared.jvm)
 

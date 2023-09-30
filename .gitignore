@@ -1,5 +1,7 @@
+/dist/
+/frontend/dist/
+
 target/
-dist/
 node_modules/
 
 .bloop/
@@ -8,3 +10,4 @@ node_modules/
 
 server/src/main/resources/static/
 
+.DS_Store

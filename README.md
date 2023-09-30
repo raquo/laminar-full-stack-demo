@@ -48,7 +48,7 @@ cd frontend
 npm run dev
 ```
 
-Then you can go to [`localhost:3000/static`](http://localhost:3000/static).
+Then you can go to [`localhost:3000/`](http://localhost:3000/).
 
 ## Prod setup
 
