@@ -1,6 +1,9 @@
 {
   "name": "weather",
-  "version": "1.0.0",
+  "private": true,
+  "version": "0.0.1",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "dev-debug": "vite --debug",
@@ -8,13 +11,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@scala-js/vite-plugin-scalajs": "^1.0.0",
     "http-proxy": "^1.18.1",
-    "vite": "^3.2.7",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "terser": "^5.20.0",
+    "vite": "^4.1.0",
     "vite-plugin-html": "^3.2.0"
-  },
-  "dependencies": {
-    "@ui5/webcomponents": "1.17.0",
-    "@ui5/webcomponents-fiori": "1.17.0",
-    "@ui5/webcomponents-icons": "1.17.0"
   }
 }

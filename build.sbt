@@ -1,3 +1,5 @@
+import org.scalajs.linker.interface.ModuleSplitStyle
+
 import scala.sys.process.Process
 
 ThisBuild / version := "1.0.0"
@@ -25,21 +27,18 @@ lazy val server = project
   )
   .dependsOn(shared.jvm)
 
-def esModule = Def.settings(scalaJSLinkerConfig ~= {
-  _.withModuleKind(ModuleKind.ESModule)
-})
-
 lazy val frontend = project
   .in(file("./frontend"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
     libraryDependencies ++= List(
-      // web framework (other choices are slinky, scala-js-react, outwatch...)
       "com.raquo" %%% "laminar" % Versions.Laminar,
-      // web component library (other (non-exclusive) choices are material-ui, bootstrap...)
-      "be.doeraene" %%% "web-components-ui5" % "1.17.0" // #TODO remove
     ),
-    esModule,
+    scalaJSLinkerConfig ~= {
+      _.withModuleKind(ModuleKind.ESModule)
+        // .withModuleSplitStyle(
+        //   ModuleSplitStyle.SmallModulesFor(List("com.raquo.app")))
+    },
     scalaJSUseMainModuleInitializer := true
   )
   .dependsOn(shared.js)

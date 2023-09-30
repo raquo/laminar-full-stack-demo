@@ -83,3 +83,11 @@ You can apply it to your account via `fly deploy` and then see that it's live wi
 You need to have [flyctl](https://fly.io/docs/hands-on/install-flyctl/) installed for this to work.
 
 You can see more complete instructions [here](https://fly.io/docs/languages-and-frameworks/dockerfile/).
+
+
+## Source maps
+
+`vite build` in `frontend` dir is configured to generate source maps. It calls `sbt frontend/fullLinkJS` on its own internally, and then applies production optimizations. Those source maps are good, it seems. Analysis can be viewed with `npx source-map-explorer dist/assets/index-<hash>.js`
+
+Simply running `frontend/fullLinkJS` myself produces source maps that are invalid, source-map-explorer gives errors like "Your source map refers to generated column 20 on line 727, but the source only contains 19 column(s) on that line.
+Check that you are using the correct source map." and requires that you specify the --no-border-checks option. 

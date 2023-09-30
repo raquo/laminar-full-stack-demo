@@ -1,27 +1,42 @@
 import { createHtmlPlugin } from 'vite-plugin-html'
 
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
+import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
+import rollupPluginSourcemaps from 'rollup-plugin-sourcemaps';
 
 const scalaVersion = "3.3.1"
 
 export default defineConfig(({ command, mode, ssrBuild }) => {
-
-    const htmlPlugin = createHtmlPlugin()
 
     const mainJS = `/target/scala-${scalaVersion}/frontend-${mode === 'production' ? 'opt' : 'fastopt'}/main.js`
     console.log('mainJS', mainJS)
     const script = `<script type="module" src="${mainJS}"></script>`
 
     return {
+        base: "/static/",
         publicDir: './public',
-        plugins: createHtmlPlugin({
+        plugins: [
+          scalaJSPlugin({
+              cwd: '..',
+              projectID: 'frontend'
+          }),
+          createHtmlPlugin({
             minify: process.env.NODE_ENV === 'production',
             inject: {
                 data: {
                     script
                 }
             }
-        }),
+          })
+        ],
+        build: {
+            // cssCodeSplit: false,
+            rollupOptions: {
+                plugins: [rollupPluginSourcemaps()],
+            },
+            minify: "terser",
+            sourcemap: true
+        },
         server: {
             port: 3000,
             // host: '0.0.0.0',
@@ -47,7 +62,6 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
                 }
             },
             logLevel: 'debug'
-        },
-        base: "/static/"
+        }
     }
 })
