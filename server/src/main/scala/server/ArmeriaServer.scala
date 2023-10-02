@@ -5,7 +5,7 @@ import business.SomeSharedData
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 
 import scala.util.{Failure, Success, Try}
-import com.linecorp.armeria.common.HttpResponse
+import com.linecorp.armeria.common.{HttpMethod, HttpResponse}
 import com.linecorp.armeria.scala.implicits.*
 import com.linecorp.armeria.server.file.FileService
 import com.linecorp.armeria.server.{Server, ServerBuilder}
@@ -29,6 +29,16 @@ object ArmeriaServer {
 
   sb.http(InetSocketAddress(host, port))
 
+  sb.withRoute(
+    _.methods(HttpMethod.POST)
+      .path("/api/do-thing")
+      .build((ctx, req) => {
+        HttpResponse.of(req.aggregate().join().content().toStringUtf8)
+      })
+  )
+
+  sb.service("/api/do-thing", (ctx, req) => HttpResponse.of("ok"))
+
   sb.service("/test/{name}", (ctx, req) => {
     HttpResponse.of(
       s"""
@@ -45,8 +55,6 @@ object ArmeriaServer {
   // index.html file is located at root, but we don't want people to have "index.html"
   // in the URL if they somehow manually navigate to it, so we redirect to root URL.
   sb.service("/index.html", (ctx, req) => HttpResponse.ofRedirect("/"))
-
-  println()
 
   private val staticFileService = FileService
     .builder(ClassLoader.getSystemClassLoader(), "static")

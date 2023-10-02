@@ -1,6 +1,6 @@
-import {createHtmlPlugin} from "vite-plugin-html"
 import {defineConfig} from "vite";
 import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
+import injectHtmlVarsPlugin from "./vite-plugins/inject-html-vars.js"
 import rollupPluginSourcemaps from "rollup-plugin-sourcemaps";
 
 export default defineConfig(
@@ -11,23 +11,20 @@ export default defineConfig(
   }) => {
     return {
       base: "/",
-      publicDir: "public", // #nc >>> file an issue with similar template to this: https://github.com/ghost91-/vite-dev-server-problem
+      publicDir: "public",
       plugins: [
         scalaJSPlugin({
           cwd: "..",
           projectID: "frontend"
         }),
-        createHtmlPlugin({
-          minify: process.env.NODE_ENV === "production",
-          inject: {
-            data: {
-              script: '<script type="module" src="./index.js"></script>'
-            }
-          }
+        injectHtmlVarsPlugin({
+          SCRIPT_URL: "./index.js",
+          SCRIPT_URL_2: "./index2.js"
         })
       ],
       build: {
-        // outDir: "dist",
+        outDir: "dist",
+        assetsDir: "assets", // path relative to outDir
         // outDir: "../server/src/main/resources/static", // #TODO can we do this directly?
         // cssCodeSplit: false,  // false = Output entire CSS as a separate file
         rollupOptions: {
