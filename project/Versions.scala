@@ -4,7 +4,9 @@ object Versions {
 
   val Laminar = "16.0.0"
 
-  val Armeria = "1.25.2"
+  val Javalin = "5.6.1"
+
+  val Slf4j_Simple = "2.0.9"
 
   // val Waypoint = "7.0.0"
 

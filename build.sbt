@@ -22,9 +22,10 @@ lazy val server = project
   .in(file("./server"))
   .settings(
     libraryDependencies ++= List(
-      "com.linecorp.armeria" %% "armeria-scala" % Versions.Armeria
+      "io.javalin" % "javalin" % Versions.Javalin,
+      "org.slf4j" % "slf4j-simple" % Versions.Slf4j_Simple
     ),
-    assembly / mainClass := Some("server.ArmeriaServer"),
+    assembly / mainClass := Some("server.Server"),
     assembly / assemblyJarName := "app.jar",
 
     // Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
