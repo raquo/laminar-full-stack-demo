@@ -7,6 +7,9 @@ node_modules/
 .bloop/
 .bsp/
 .idea/
+.metals/
+.vscode/
+metals.sbt
 
 server/src/main/resources/static/
 

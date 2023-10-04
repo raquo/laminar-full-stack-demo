@@ -1,8 +1,8 @@
 package com.raquo.app
 
-import business.SomeSharedData
 import com.github.plokhotnyuk.jsoniter_scala.core.*
-import com.raquo.laminar.api.L.*
+import com.raquo.weather.SomeSharedData
+import com.raquo.laminar.api.L.{*, given}
 import org.scalajs.dom
 
 object EntryPoint {

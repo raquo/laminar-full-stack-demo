@@ -1,16 +1,16 @@
-package server
-
-import business.SomeSharedData
+package com.raquo.server
 
 import com.github.plokhotnyuk.jsoniter_scala.core.*
+import com.raquo.weather.{GradientReport, SomeSharedData, WeatherFetcher}
 import io.javalin.Javalin
 import io.javalin.http.HttpStatus
 import io.javalin.http.staticfiles.{Location, StaticFileConfig}
+import com.raquo.server.Utils.*
+import com.raquo.weather.WeatherFetcher.ApiError
 
 import java.nio.charset.StandardCharsets
 import java.util.function.Consumer
 import scala.util.{Failure, Success, Try}
-// import server.Utils.given
 
 object Server {
 
@@ -38,11 +38,30 @@ object Server {
     })
 
     app.get("/", ctx => {
-      ctx.html(Utils.getResourceFileAsString("static/index.html", StandardCharsets.UTF_8))
+      ctx.html(getResourceFileAsString("static/index.html", StandardCharsets.UTF_8))
     })
 
     app.get("/ping", ctx => {
       ctx.result("pong")
+    })
+
+    app.get("/api/gradient/{gradientId}", ctx => {
+      ctx.io {
+        WeatherFetcher
+          .fetchGradient(ctx.pathParam("gradientId"))
+          .tap { report =>
+            ctx.jsonResult(report)
+          }
+          .tapError {
+            case err: ApiError =>
+              ctx.status(err.httpStatusCode)
+              ctx.result(".... " + err.message)
+            case otherErr =>
+              ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode)
+              ctx.result(otherErr.toString)
+          }
+          //.recover { case _ => null } // #nc Otherwise the error is unhandled... ugh
+      }
     })
 
     app.post("/api/do-thing", ctx => {

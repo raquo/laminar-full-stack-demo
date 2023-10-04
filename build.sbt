@@ -23,9 +23,12 @@ lazy val server = project
   .settings(
     libraryDependencies ++= List(
       "io.javalin" % "javalin" % Versions.Javalin,
-      "org.slf4j" % "slf4j-simple" % Versions.Slf4j_Simple
+      "org.slf4j" % "slf4j-simple" % Versions.Slf4j_Simple,
+      "com.softwaremill.sttp.client3" %% "cats" % Versions.Sttp,
+      "org.typelevel" %% "cats-effect" % Versions.CatsEffect,
+      "ru.tinkoff" %% "phobos-core" % Versions.Phobos, // only used to parse weather API xmls
     ),
-    assembly / mainClass := Some("server.Server"),
+    assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
 
     // Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
@@ -50,6 +53,7 @@ lazy val frontend = project
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
+      //"com.raquo" %%% "waypoint" % Versions.Waypoint,
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)

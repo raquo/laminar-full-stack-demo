@@ -1,4 +1,4 @@
-package business
+package com.raquo.weather
 
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
