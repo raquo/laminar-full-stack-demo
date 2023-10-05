@@ -1,83 +1,77 @@
 package com.raquo.server
 
-import com.github.plokhotnyuk.jsoniter_scala.core.*
-import com.raquo.weather.{GradientReport, SomeSharedData, WeatherFetcher}
-import io.javalin.Javalin
-import io.javalin.http.HttpStatus
-import io.javalin.http.staticfiles.{Location, StaticFileConfig}
+import cats.effect.*
 import com.raquo.server.Utils.*
-import com.raquo.weather.WeatherFetcher.ApiError
+import com.raquo.weather.{ApiError, WeatherFetcher}
+import org.http4s.*
+import org.http4s.dsl.io.*
+import org.http4s.ember.server.EmberServerBuilder
+import org.http4s.headers
+import org.http4s.implicits.*
+import org.http4s.server.Router
+import org.http4s.server.staticcontent.resourceServiceBuilder
 
-import java.nio.charset.StandardCharsets
-import java.util.function.Consumer
-import scala.util.{Failure, Success, Try}
-
-object Server {
-
-  private def port = Option(java.lang.System.getProperty("port")).fold(9000)(_.toInt)
-
-  private def host: String = Option(java.lang.System.getProperty("isProd"))
-    .map(_.toBoolean)
-    .fold("127.0.0.1")(isProd => if isProd then "0.0.0.0" else "127.0.0.1")
+object Server extends IOApp {
 
   // --
 
-  def main(args: Array[String]): Unit = {
-    val app = Javalin.create(config => {
-      config.staticFiles.add((staticFiles: StaticFileConfig) => {
-        staticFiles.hostedPath = "/"
-        staticFiles.directory = "static"
-        staticFiles.location = Location.CLASSPATH
-        staticFiles.skipFileFunction = ctx => {
-          val skip = ctx.getPathInfo == "/index.html"
-          println(">>> " + ctx.getPathInfo + "  skip? " + skip)
-          skip
-        }
-      })
-      // config.spaRoot.addFile("/", "static/index.html", Location.CLASSPATH)
-    })
+  private val staticAssetsService = resourceServiceBuilder[IO]("/static").toRoutes
 
-    app.get("/", ctx => {
-      ctx.html(getResourceFileAsString("static/index.html", StandardCharsets.UTF_8))
-    })
+  private val httpService = HttpRoutes.of[IO] {
 
-    app.get("/ping", ctx => {
-      ctx.result("pong")
-    })
+    // You must serve the index.html file that loads your frontend code for
+    // every url that is defined in your frontend (Waypoint) routes, in order
+    // for users to be able to navigate to these URLs from outside of your app.
+    case request @ GET -> Root =>
+      StaticFile.fromResource("/static/index.html", Some(request)).getOrElseF(InternalServerError())
 
-    app.get("/api/gradient/{gradientId}", ctx => {
-      ctx.io {
-        WeatherFetcher
-          .fetchGradient(ctx.pathParam("gradientId"))
-          .tap { report =>
-            ctx.jsonResult(report)
-          }
-          .tapError {
-            case err: ApiError =>
-              ctx.status(err.httpStatusCode)
-              ctx.result(".... " + err.message)
-            case otherErr =>
-              ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode)
-              ctx.result(otherErr.toString)
-          }
-          //.recover { case _ => null } // #nc Otherwise the error is unhandled... ugh
-      }
-    })
+    // This route covers all URLs under `/app`, including `/app` and `/app/`.
+    case request @ GET -> "app" /: _ =>
+      StaticFile.fromResource("/static/index.html", Some(request)).getOrElseF(InternalServerError())
 
-    app.post("/api/do-thing", ctx => {
-      Try(readFromString[SomeSharedData](ctx.body())) match {
-        case Failure(err: JsonReaderException) =>
-          ctx.status(HttpStatus.BAD_REQUEST)
-          ctx.result(err.getMessage)
-        case Failure(err) =>
-          ctx.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          ctx.result(err.getMessage)
-        case Success(value) =>
-          ctx.result(s"I did something cool with your $value")
-      }
-    })
+    // Vite moves index.html into the public directory, but we don't want
+    // users to navigate manually to /index.html in the browser, because
+    // that route is not defined in Waypoint, we use `/` instead.
+    case GET -> Root / "index.html" =>
+      TemporaryRedirect(headers.Location(uri"/"))
 
-    app.start(host, port)
+    case GET -> Root / "ping" =>
+      Ok(s"Pong")
+
+    case GET -> Root / "hello" / name =>
+      Ok(s"Hello, $name.")
+
   }
+
+  private val httpApiService = HttpRoutes.of[IO] {
+
+    case GET -> Root / "gradient" / gradientId =>
+      WeatherFetcher
+        .fetchGradient(gradientId)
+        .attempt.flatMap {
+          case Right(report) =>
+            Ok(report.toString) // #TODO json encoding
+          case Left(err: ApiError) =>
+            CustomStatusCode(err.httpStatusCode)(err.message)
+          case Left(otherErr) =>
+            InternalServerError(otherErr.toString)
+        }
+  }
+
+  private val app = Router.define(
+    "/" -> httpService,
+    "/api" -> httpApiService
+  )(default = staticAssetsService).orNotFound
+
+  override def run(args: List[String]): IO[ExitCode] =
+    EmberServerBuilder
+      .default[IO]
+      .withIdleTimeout(ServerConfig.idleTimeOut)
+      .withHost(ServerConfig.host)
+      .withPort(ServerConfig.port)
+      .withHttpApp(app)
+      .build
+      .use(_ => IO.never)
+      .as(ExitCode.Success)
 
 }

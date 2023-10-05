@@ -9,7 +9,7 @@ enum Gradient(
 ) {
 
   val cityIds: List[String] = cities.map(_.id)
-  
+
   // Note: Lytton burned down and does not have current observations, so its usefulness is questionable
   case Squamish extends Gradient(
     id = "squamish",

@@ -3,19 +3,12 @@ package com.raquo.weather
 import cats.Parallel
 import cats.effect.IO
 import com.raquo.weather.ecapi.{CityStationReportXml, DateTimeXml}
-import org.eclipse.jetty.http.HttpStatus
 import sttp.client3.*
 import sttp.client3.httpclient.cats.HttpClientCatsBackend
 
 import scala.util.{Failure, Success, Try}
 
 object WeatherFetcher {
-
-  class ApiError(val message: String, val httpStatusCode: Int) extends Exception(message)
-
-  def ApiError(message: String, httpStatusCode: Int): ApiError = new ApiError(message, httpStatusCode)
-
-  def ApiError(message: String): ApiError = ApiError(message, HttpStatus.INTERNAL_SERVER_ERROR_500)
 
   /**
    * @param cityStationId  [[CityStation]] ID
@@ -41,13 +34,12 @@ object WeatherFetcher {
           }
         }
     }
-
   }
 
   def fetchGradient(gradientId: String): IO[GradientReport] = {
     Try(Gradient.byId(gradientId)) match {
-      case Failure(err) =>
-        throw ApiError(s"Unknown gradient id: `$gradientId`.", HttpStatus.BAD_REQUEST_400)
+      case Failure(_) =>
+        throw ApiError(s"Unknown gradient id: `$gradientId`.", 400)
 
       case Success(gradient) =>
         val cityStationIds = gradient.cityIds

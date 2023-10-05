@@ -22,10 +22,11 @@ lazy val server = project
   .in(file("./server"))
   .settings(
     libraryDependencies ++= List(
-      "io.javalin" % "javalin" % Versions.Javalin,
-      "org.slf4j" % "slf4j-simple" % Versions.Slf4j_Simple,
-      "com.softwaremill.sttp.client3" %% "cats" % Versions.Sttp,
       "org.typelevel" %% "cats-effect" % Versions.CatsEffect,
+      "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
+      "org.http4s" %% "http4s-ember-server" % Versions.Http4s,
+      "org.http4s" %% "http4s-dsl" % Versions.Http4s,
+      "com.softwaremill.sttp.client3" %% "cats" % Versions.Sttp,
       "ru.tinkoff" %% "phobos-core" % Versions.Phobos, // only used to parse weather API xmls
     ),
     assembly / mainClass := Some("com.raquo.server.Server"),

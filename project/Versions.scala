@@ -14,7 +14,7 @@ object Versions {
 
   // -- Backend --
 
-  val Javalin = "5.6.1"
+  val Http4s = "0.23.23"
 
   val Slf4j_Simple = "2.0.9"
 

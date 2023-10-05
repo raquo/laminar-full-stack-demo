@@ -8,8 +8,8 @@ import com.github.plokhotnyuk.jsoniter_scala.macros.*
   * @param id        e.g. s0000141
   * @param province  e.g. BC
   * @param name      e.g. Vancouver
-  * @param cityLat   e.g. 49.25N
-  * @param cityLon   e.g. 123.12W
+  * @param cityLat   in decimal degrees, e.g. 49.25N
+  * @param cityLon   in decimal degrees, e.g. 123.12W
   */
 case class CityStation(
     id: String,
