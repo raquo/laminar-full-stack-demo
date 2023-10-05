@@ -1,38 +1,42 @@
 package com.raquo.weather
 
-import cats.Parallel
 import cats.effect.IO
+import cats.syntax.all.*
 import com.raquo.weather.ecapi.{CityStationReportXml, DateTimeXml}
-import sttp.client3.*
-import sttp.client3.httpclient.cats.HttpClientCatsBackend
+import org.http4s.*
+import org.http4s.client.Client
+import org.http4s.implicits.*
 
+import scala.concurrent.duration.*
 import scala.util.{Failure, Success, Try}
 
-object WeatherFetcher {
+class WeatherFetcher(httpClient: Client[IO]) {
 
   /**
-   * @param cityStationId  [[CityStation]] ID
+   * @param cityStationId [[CityStation]] ID
    * @return (cityStationId, reportXml). IO can fail with ApiError
    */
   def fetchCityWeather(cityStationId: String): IO[(String, CityStationReportXml)] = {
-    HttpClientCatsBackend.resource[IO]().use { backend =>
-      basicRequest
-        .get(uri"https://dd.weather.gc.ca/citypage_weather/xml/BC/${cityStationId}_e.xml")
-        .send(backend)
-        .map { response =>
-          response.body match {
-            case Left(err) =>
-              throw ApiError(err, response.code.code)
-            case Right(xmlString) =>
-              ecapi.CityStationReportDecoder.decode(xmlString) match {
-                case Left(decodingError) =>
-                  throw ApiError(s"City id ${cityStationId}: ${decodingError.getMessage}")
-                case Right(reportXml) =>
-                  (cityStationId, reportXml)
-              }
+    //val x = EntityDecoder.decodeBy[IO, String](MediaRange.`application/*`) { y =>
+    //  DecodeResult.success(y.body)
+    //}
+    // #TODO implement an XML codec that takes care of error handling (what about 40x / 50x responses?)
+    httpClient.get(uri"https://dd.weather.gc.ca/citypage_weather/xml/BC" / (cityStationId + "_e.xml")) { response =>
+      for {
+        responseText <- response.as[String]
 
+        result <- if (response.status.isSuccess) {
+          ecapi.CityStationReportDecoder.decode(responseText) match {
+            case Left(decodingError) =>
+              IO.raiseError(ApiError(s"City id ${cityStationId}: ${decodingError.getMessage}"))
+            case Right(reportXml) =>
+              IO.pure(cityStationId, reportXml)
           }
+        } else {
+          IO.raiseError(throw ApiError(s"Weather API error: ${responseText}", response.status.code))
         }
+
+      } yield result
     }
   }
 
@@ -43,13 +47,17 @@ object WeatherFetcher {
 
       case Success(gradient) =>
         val cityStationIds = gradient.cityIds
-        Parallel
-          .parTraverse(cityStationIds) { cityStationId =>
-            fetchCityWeather(cityStationId)
-          }
-          .map { cityStationXmlReports =>
-            cityStationReportsToGradientReport(gradient, cityStationXmlReports.toMap)
-          }
+        // Make several requests in parallel to speed things up
+        cityStationIds.parTraverse { cityStationId =>
+          // The 0 second delay is for demo purposes. You can increase it to e.g. 10 seconds
+          // to prove that requests are being made in parallel. If they were made
+          // sequentially, you would expect a total latency of (N * 10 sec), where N is the
+          // number of requests to be made, but the actual latency will be just 10 seconds.
+          IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
+        }
+        .map { cityStationXmlReports =>
+          cityStationReportsToGradientReport(gradient, cityStationXmlReports.toMap)
+        }
     }
   }
 

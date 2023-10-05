@@ -14,13 +14,13 @@ object Versions {
 
   // -- Backend --
 
+  val CatsEffect = "3.5.2"
+
   val Http4s = "0.23.23"
 
-  val Slf4j_Simple = "2.0.9"
+  val Log4Cats = "2.6.0"
 
-  val Sttp = "3.9.0"
-
-  val CatsEffect = "3.5.2"
+  val Logback = "1.4.11"
 
   // val ParallelCollections = "1.0.4"
 

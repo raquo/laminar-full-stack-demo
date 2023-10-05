@@ -22,12 +22,18 @@ lazy val server = project
   .in(file("./server"))
   .settings(
     libraryDependencies ++= List(
+      // Effect library providing the IO type, used as a better alternative to scala.Future
       "org.typelevel" %% "cats-effect" % Versions.CatsEffect,
-      "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
+      // Http4s web server framework
       "org.http4s" %% "http4s-ember-server" % Versions.Http4s,
       "org.http4s" %% "http4s-dsl" % Versions.Http4s,
-      "com.softwaremill.sttp.client3" %% "cats" % Versions.Sttp,
-      "ru.tinkoff" %% "phobos-core" % Versions.Phobos, // only used to parse weather API xmls
+      // Logging
+      "org.typelevel" %% "log4cats-slf4j" % Versions.Log4Cats,
+      "ch.qos.logback" % "logback-classic" % Versions.Logback,
+      // Http4s HTTP client to fetch data from the weather API
+      "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
+      // XML decoder (to parse weather API XMLs)
+      "ru.tinkoff" %% "phobos-core" % Versions.Phobos,
     ),
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
