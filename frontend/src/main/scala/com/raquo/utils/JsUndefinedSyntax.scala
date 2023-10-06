@@ -14,6 +14,12 @@ object JsUndefinedSyntax {
   //   but looks nicer.
   // - I haven't used these much.
 
+  //   # TODO
+  // - I've since realized that you can say `A | Unit`, and it seems to work
+  //   well in my limited testing. Unit is js.undefined at runtime, so, only a question of types.
+  //   Scala.js has a bunch of necessary implicit conversions for this, let's
+  //   hope they work well.
+
   /** Only js.undefined is of this type */
   type jsUndefined = js.UndefOr[Nothing] // type of js.undefined
 

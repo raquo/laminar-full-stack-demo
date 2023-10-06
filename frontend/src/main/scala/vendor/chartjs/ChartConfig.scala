@@ -1,7 +1,6 @@
 package vendor.chartjs
 
 import com.raquo.utils.DynamicJsObject
-import com.raquo.utils.JsUndefinedSyntax.*
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
@@ -15,8 +14,8 @@ class ChartConfig(
   @JSName("type")
   val typ: String,
   val data: ChartData,
-  val options: ChartConfigOptions || jsUndefined = js.undefined,
-  val plugins: js.Array[js.Object] || jsUndefined = js.undefined
+  val options: ChartConfigOptions | Unit = js.undefined,
+  val plugins: js.Array[js.Object] | Unit = js.undefined
 ) extends js.Object
 
 
@@ -24,7 +23,7 @@ class ChartConfig(
   * @param labels X axis labels
   */
 class ChartData(
-  val labels: js.Array[String] || jsUndefined = js.undefined,
+  val labels: js.Array[String] | Unit = js.undefined,
   val datasets: js.Array[ChartDataset]
 ) extends js.Object
 
@@ -45,7 +44,7 @@ class ChartData(
 class ChartDataset(
   val label: String,
   val data: js.Array[_],
-  val parsing: js.Dictionary[String] | Boolean || jsUndefined = js.undefined
+  val parsing: js.Dictionary[String] | Boolean | Unit = js.undefined
 ) extends DynamicJsObject
 
 /**
@@ -63,6 +62,6 @@ class ChartDataset(
   *                  and [[https://www.chartjs.org/docs/latest/api/interfaces/Plugin.html API]]
   */
 class ChartConfigOptions(
-  val parsing: js.Dictionary[String] | Boolean || jsUndefined = js.undefined,
-  val plugins: js.Dictionary[js.Object | Boolean] | Boolean || jsUndefined = js.undefined
+  val parsing: js.Dictionary[String] | Boolean | Unit = js.undefined,
+  val plugins: js.Dictionary[js.Object | Boolean] | Boolean | Unit = js.undefined
 ) extends js.Object
