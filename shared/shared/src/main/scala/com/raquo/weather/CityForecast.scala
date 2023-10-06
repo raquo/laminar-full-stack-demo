@@ -3,6 +3,8 @@ package com.raquo.weather
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
 
+import scala.scalajs.js.annotation.JSExportAll
+
 /**
  * @param dateTimeIssued  Time that the forecast was issued at.
  * @param dateEffective   Date (yyyy-mm-dd) that the forecast is for.
@@ -11,6 +13,7 @@ import com.github.plokhotnyuk.jsoniter_scala.macros.*
  * @param windKts         Average wind over the last hour, in kts
  * @param windDirDegrees  Average wind direction over the last hour, in degrees
  */
+@JSExportAll
 case class CityForecast(
   dateTimeIssued: String,
   dateEffective: String,

@@ -1,7 +1,5 @@
 import org.scalajs.linker.interface.ModuleSplitStyle
 
-// addDependencyTreePlugin
-
 import scala.sys.process.Process
 
 ThisBuild / version := "1.0.0"
@@ -15,6 +13,15 @@ lazy val shared = crossProject(JSPlatform, JVMPlatform)
       "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % Versions.JsoniterScala,
       // #TODO[Build] Using "provided" for macros instead of "compiler-internal" because IntelliJ does not understand the latter. Not sure if there's any difference.
       "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
+    )
+  )
+  .jvmSettings(
+    libraryDependencies ++= List(
+      // This dependency lets us put @JSExportAll and similar Scala.js
+      // annotations on data structures shared between JS and JVM.
+      // With this library, on the JVM, these annotations compile to
+      // no-op, which is exactly what we need.
+      "org.scala-js" %% "scalajs-stubs" % Versions.ScalaJsStubs
     )
   )
 
@@ -38,6 +45,7 @@ lazy val server = project
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
 
+    // #TODO once my backend dependencies stabilize, remove or reduce this block, since we don't use armeria anymore.
     // Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
     // https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
     // #TODO Ask people if this is ok
@@ -57,6 +65,7 @@ lazy val server = project
 lazy val frontend = project
   .in(file("./frontend"))
   .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
@@ -67,33 +76,38 @@ lazy val frontend = project
         // .withModuleSplitStyle(
         //   ModuleSplitStyle.SmallModulesFor(List("com.raquo.app")))
     },
-    scalaJSUseMainModuleInitializer := true
+    scalaJSUseMainModuleInitializer := true, // Generated scala.js output will call your main() method to start your app.
+    externalNpm := baseDirectory.value // ScalablyTyped needs to know the directory with package.json
   )
   .dependsOn(shared.js)
 
 val buildFrontend = taskKey[Unit]("Build frontend")
 
 buildFrontend := {
-  /*
-  To build the frontend, we do the following things:
-  - fullLinkJS the frontend sub-module
-  - run npm ci in the frontend directory (might not be required)
-  - package the application with vite-js (output will be in the resources of the server sub-module)
-   */
+  // Generate Scala.js JS output for production
   (frontend / Compile / fullLinkJS).value
-  val npmCiExit = Process(Utils.npm :: "ci" :: Nil, cwd = baseDirectory.value / "frontend").run().exitValue()
-  if (npmCiExit > 0) {
+
+  // Install JS dependencies from package-lock.json
+  val npmCiExitCode = Process("npm ci", cwd = (frontend / baseDirectory).value).!
+  if (npmCiExitCode > 0) {
     throw new IllegalStateException(s"npm ci failed. See above for reason")
   }
 
-  val buildExit = Process(Utils.npm :: "run" :: "build" :: Nil, cwd = baseDirectory.value / "frontend").run().exitValue()
-  if (buildExit > 0) {
+  // Build the frontend with vite
+  val buildExitCode = Process("npm run build", cwd = (frontend / baseDirectory).value).!
+  if (buildExitCode > 0) {
     throw new IllegalStateException(s"Building frontend failed. See above for reason")
   }
 
-  IO.copyDirectory(baseDirectory.value / "frontend" / "dist", baseDirectory.value / "server" / "src" / "main" / "resources" / "static")
+  // Copy vite output into server resources, where it can be accessed by the server,
+  // even after the server is packaged in a fat jar.
+  IO.copyDirectory(
+    source = (frontend / baseDirectory).value / "dist",
+    target = (server / baseDirectory).value / "src" / "main" / "resources" / "static"
+  )
 }
 
+// Always build the frontend first before packaging the application in a fat jar
 (server / assembly) := (server / assembly).dependsOn(buildFrontend).value
 
 val packageApplication = taskKey[File]("Package the whole application into a fat jar")

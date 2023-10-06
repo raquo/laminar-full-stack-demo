@@ -3,6 +3,9 @@ package com.raquo.weather
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
 
+import scala.scalajs.js.annotation.JSExportAll
+
+@JSExportAll
 final case class SomeSharedData(text: String, number: Int)
 
 object SomeSharedData {

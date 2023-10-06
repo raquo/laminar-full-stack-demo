@@ -3,20 +3,23 @@ package com.raquo.weather
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
 
+import scala.scalajs.js.annotation.JSExportAll
+
 /** Note: the coordinates are the geographic center of the city, not the station location.
   *
-  * @param id        e.g. s0000141
-  * @param province  e.g. BC
-  * @param name      e.g. Vancouver
-  * @param cityLat   in decimal degrees, e.g. 49.25N
-  * @param cityLon   in decimal degrees, e.g. 123.12W
+  * @param id       e.g. s0000141
+  * @param province e.g. BC
+  * @param name     e.g. Vancouver
+  * @param cityLat  in decimal degrees, e.g. 49.25N
+  * @param cityLon  in decimal degrees, e.g. 123.12W
   */
+@JSExportAll
 case class CityStation(
-    id: String,
-    province: String,
-    name: String,
-    cityLat: String,
-    cityLon: String
+  id: String,
+  province: String,
+  name: String,
+  cityLat: String,
+  cityLon: String
 )
 
 object CityStation {

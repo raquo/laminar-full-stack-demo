@@ -3,14 +3,17 @@ package com.raquo.weather
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.macros.*
 
+import scala.scalajs.js.annotation.JSExportAll
+
 /**
   *
   * @param cities                  List of cities to display, in order
   * @param currentConditionsByCity cityId -> currentConditions.
   *                                Note: some records might be missing if current conditions are not available
   * @param forecastDays            list of day captions, in order to be displayed
-  * @param forecastsByDate         date (day_caption -> cityId -> forecast)
+  * @param forecastsByDay          (day_caption -> cityId -> forecast)
   */
+@JSExportAll
 case class GradientReport(
   cities: List[CityStation],
   currentConditionsByCity: Map[String, CityCurrentConditions],

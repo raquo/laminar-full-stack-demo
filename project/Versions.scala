@@ -22,9 +22,9 @@ object Versions {
 
   val Logback = "1.4.11"
 
-  // val ParallelCollections = "1.0.4"
-
   val Phobos = "0.21.0"
+
+  val ScalaJsStubs = "1.1.0"
 
   // -- Testing --
 

@@ -27,7 +27,7 @@ object ServerConfig {
    *  - Low value in dev helps shut down the JVM fast when reloading the server.
    *  - On prod we want it higher in order to reduce the latency of subsequent requests.
    *    Another option is to define shutdownTimeout, which would force-kill the JVM.
-   *    See discussion at https://discord.com/channels/632277896739946517/632286375311573032/1159309165076942898
+   *    See [[https://discord.com/channels/632277896739946517/632286375311573032/1159309165076942898 Discord discussion]]
    */
   private[server] val idleTimeOut: Duration = if (isProd) 60.seconds else 2.seconds
 

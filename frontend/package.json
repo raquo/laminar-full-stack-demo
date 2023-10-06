@@ -7,7 +7,8 @@
     "dev": "vite",
     "dev-debug": "vite --debug",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sourcemap-report":  "node sourcemap-report.js"
   },
   "devDependencies": {
     "@scala-js/vite-plugin-scalajs": "^1.0.0",
@@ -15,6 +16,10 @@
     "less": "^4.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "terser": "^5.20.0",
+    "typescript": "^5.2.2",
     "vite": "^4.1.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0"
   }
 }

@@ -28,11 +28,11 @@ object Server extends IOApp {
         // You must serve the index.html file that loads your frontend code for
         // every url that is defined in your frontend (Waypoint) routes, in order
         // for users to be able to navigate to these URLs from outside of your app.
-        case request@GET -> Root =>
+        case request @ GET -> Root =>
           StaticFile.fromResource("/static/index.html", Some(request)).getOrElseF(InternalServerError())
 
         // This route covers all URLs under `/app`, including `/app` and `/app/`.
-        case request@GET -> "app" /: _ =>
+        case request @ GET -> "app" /: _ =>
           StaticFile.fromResource("/static/index.html", Some(request)).getOrElseF(InternalServerError())
 
         // Vite moves index.html into the public directory, but we don't want

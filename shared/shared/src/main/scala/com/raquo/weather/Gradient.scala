@@ -2,6 +2,9 @@ package com.raquo.weather
 
 import CityStation.*
 
+import scala.scalajs.js.annotation.JSExportAll
+
+@JSExportAll
 enum Gradient(
   val id: String,
   val name: String,
