@@ -4,7 +4,9 @@ object Versions {
 
   // -- Shared --
 
-  val JsoniterScala = "2.23.5"
+  val JsoniterScala = "2.24.0"
+
+  val Borer = "1.10.3"
 
   // -- Frontend --
 

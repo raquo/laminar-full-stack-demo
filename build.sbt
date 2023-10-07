@@ -10,9 +10,11 @@ lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .in(file("./shared"))
   .settings(
     libraryDependencies ++= List(
+      // JSON codec (see also in `server` and `frontend`)
       "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % Versions.JsoniterScala,
-      // #TODO[Build] Using "provided" for macros instead of "compiler-internal" because IntelliJ does not understand the latter. Not sure if there's any difference.
-      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
+      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided",
+      "io.bullet" %%% "borer-core" % Versions.Borer,
+      "io.bullet" %%% "borer-derivation" % Versions.Borer,
     )
   )
   .jvmSettings(
@@ -41,6 +43,8 @@ lazy val server = project
       "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
       // XML decoder (to parse weather API XMLs)
       "ru.tinkoff" %% "phobos-core" % Versions.Phobos,
+      // JSON codec (see also in `shared` and `frontend`)
+      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
     ),
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
@@ -69,7 +73,9 @@ lazy val frontend = project
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
-      //"com.raquo" %%% "waypoint" % Versions.Waypoint,
+      "com.raquo" %%% "waypoint" % Versions.Waypoint,
+      // JSON codec (see also in `shared` and `server`)
+      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)

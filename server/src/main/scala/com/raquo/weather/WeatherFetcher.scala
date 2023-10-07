@@ -41,7 +41,7 @@ class WeatherFetcher(httpClient: Client[IO]) {
   }
 
   def fetchGradient(gradientId: String): IO[GradientReport] = {
-    Try(Gradient.byId(gradientId)) match {
+    Try(Gradient.forId(gradientId)) match {
       case Failure(_) =>
         throw ApiError(s"Unknown gradient id: `$gradientId`.", 400)
 
@@ -96,7 +96,7 @@ class WeatherFetcher(httpClient: Client[IO]) {
           None
         }
         val currentConditions = CityCurrentConditions(
-          datetimeObserved = dateObserved.toLocalDateTime.toString,
+          localDatetimeObserved = dateObserved.toLocalDateTime.toString,
           temperatureC = Try(currentConditionsXml.temperature.value.toDouble).toOption,
           pressureKPa = Try(currentConditionsXml.pressure.value.toDouble).toOption,
           relativeHumidityPercent = Try(currentConditionsXml.relativeHumidity.value.toDouble).toOption,

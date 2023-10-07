@@ -2,15 +2,16 @@ package com.raquo.server
 
 import cats.effect.*
 import com.raquo.server.Utils.*
-import com.raquo.weather.{ApiError, WeatherFetcher}
-import org.http4s.*
+import com.raquo.weather.{ApiError, GradientReport, WeatherFetcher}
+import io.bullet.borer.*
 import org.http4s.dsl.io.*
 import org.http4s.ember.client.EmberClientBuilder
 import org.http4s.ember.server.EmberServerBuilder
-import org.http4s.headers
+import org.http4s.*
 import org.http4s.implicits.*
 import org.http4s.server.Router
 import org.http4s.server.staticcontent.resourceServiceBuilder
+import com.raquo.utils.JsonEntityCodec.given
 
 object Server extends IOApp {
 
@@ -54,12 +55,12 @@ object Server extends IOApp {
 
       httpApiService = HttpRoutes.of[IO] {
 
-        case GET -> Root / "gradient" / gradientId =>
+        case GET -> Root / "weather" / "gradient" / gradientId =>
           weatherFetcher
             .fetchGradient(gradientId)
             .attempt.flatMap {
               case Right(report) =>
-                Ok(report.toString) // #TODO json encoding
+                Ok(report) // #TODO json encoding
               case Left(err: ApiError) =>
                 CustomStatusCode(err.httpStatusCode)(err.message)
               case Left(otherErr) =>

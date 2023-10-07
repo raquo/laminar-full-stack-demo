@@ -1,7 +1,7 @@
 package com.raquo.weather
 
-import com.github.plokhotnyuk.jsoniter_scala.core.*
-import com.github.plokhotnyuk.jsoniter_scala.macros.*
+import io.bullet.borer.*
+import io.bullet.borer.derivation.MapBasedCodecs.*
 
 import scala.scalajs.js.annotation.JSExportAll
 
@@ -25,5 +25,5 @@ case class CityForecast(
 
 object CityForecast {
 
-  implicit val codec: JsonValueCodec[CityForecast] = JsonCodecMaker.make
+  given codec: Codec[CityForecast] = deriveCodec
 }

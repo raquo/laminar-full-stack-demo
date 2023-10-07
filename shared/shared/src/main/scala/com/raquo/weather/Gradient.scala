@@ -29,9 +29,11 @@ enum Gradient(
 
 object Gradient {
 
-  val gradientIds: Array[String] = Gradient.values.map(_.id)
+  //given codec: Codec[Gradient] = Codec.of[String].bimap(_.id, forId(_))
 
-  def byId(gradientId: String): Gradient = {
+  val gradientIds: List[String] = Gradient.values.map(_.id).toList
+
+  def forId(gradientId: String): Gradient = {
     Gradient.values
       .find(_.id == gradientId)
       .getOrElse(throw new Exception(s"Unknown gradient id: `${gradientId}`"))

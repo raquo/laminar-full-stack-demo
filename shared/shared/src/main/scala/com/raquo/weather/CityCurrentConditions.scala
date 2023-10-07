@@ -1,20 +1,20 @@
 package com.raquo.weather
 
-import com.github.plokhotnyuk.jsoniter_scala.core.*
-import com.github.plokhotnyuk.jsoniter_scala.macros.*
+import io.bullet.borer.*
+import io.bullet.borer.derivation.MapBasedCodecs.*
 
 import scala.scalajs.js.annotation.JSExportAll
 
 /**
-  * @param datetimeObserved        Time that current conditions were observed, in ISO 8601 format, local time
-  * @param temperatureC            
-  * @param pressureKPa             
+  * @param localDatetimeObserved        Time that current conditions were observed, in ISO 8601 format, local time
+  * @param temperatureC
+  * @param pressureKPa
   * @param relativeHumidityPercent Relative humidity in percent (0..100)
   * @param wind
   */
 @JSExportAll
 case class CityCurrentConditions(
-  datetimeObserved: String,
+  localDatetimeObserved: String,
   // iconCode: String,
   temperatureC: Option[Double],
   pressureKPa: Option[Double],
@@ -24,5 +24,5 @@ case class CityCurrentConditions(
 
 object CityCurrentConditions {
 
-  implicit val codec: JsonValueCodec[CityCurrentConditions] = JsonCodecMaker.make
+  given codec: Codec[CityCurrentConditions] = deriveCodec
 }

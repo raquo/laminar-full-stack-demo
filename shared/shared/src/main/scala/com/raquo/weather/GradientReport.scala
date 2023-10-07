@@ -1,9 +1,9 @@
 package com.raquo.weather
 
-import com.github.plokhotnyuk.jsoniter_scala.core.*
-import com.github.plokhotnyuk.jsoniter_scala.macros.*
-
 import scala.scalajs.js.annotation.JSExportAll
+
+import io.bullet.borer.*
+import io.bullet.borer.derivation.MapBasedCodecs.*
 
 /**
   *
@@ -23,5 +23,5 @@ case class GradientReport(
 
 object GradientReport {
 
-  implicit val codec: JsonValueCodec[GradientReport] = JsonCodecMaker.make
+  given codec: Codec[GradientReport] = deriveCodec
 }
