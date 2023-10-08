@@ -2,7 +2,7 @@ package com.raquo.server
 
 import cats.effect.*
 import com.raquo.server.Utils.*
-import com.raquo.weather.{ApiError, GradientReport, WeatherFetcher}
+import com.raquo.weather.{ApiResponse, GradientReport, WeatherFetcher}
 import io.bullet.borer.*
 import org.http4s.dsl.io.*
 import org.http4s.ember.client.EmberClientBuilder
@@ -58,13 +58,11 @@ object Server extends IOApp {
         case GET -> Root / "weather" / "gradient" / gradientId =>
           weatherFetcher
             .fetchGradient(gradientId)
-            .attempt.flatMap {
-              case Right(report) =>
-                Ok(report) // #TODO json encoding
-              case Left(err: ApiError) =>
-                CustomStatusCode(err.httpStatusCode)(err.message)
-              case Left(otherErr) =>
-                InternalServerError(otherErr.toString)
+            .handleError { err =>
+              ApiResponse.Error(err.getMessage, Status.InternalServerError.code)
+            }
+            .flatMap { response =>
+              CustomStatusCode(response.statusCode)(response)
             }
       }
 

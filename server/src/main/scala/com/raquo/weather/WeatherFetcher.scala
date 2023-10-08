@@ -16,7 +16,7 @@ class WeatherFetcher(httpClient: Client[IO]) {
    * @param cityStationId [[CityStation]] ID
    * @return (cityStationId, reportXml). IO can fail with ApiError
    */
-  def fetchCityWeather(cityStationId: String): IO[(String, CityStationReportXml)] = {
+  def fetchCityWeather(cityStationId: String): IO[ApiResponse[(String, CityStationReportXml)]] = {
     //val x = EntityDecoder.decodeBy[IO, String](MediaRange.`application/*`) { y =>
     //  DecodeResult.success(y.body)
     //}
@@ -25,25 +25,34 @@ class WeatherFetcher(httpClient: Client[IO]) {
       for {
         responseText <- response.as[String]
 
-        result <- if (response.status.isSuccess) {
+        result = if (response.status.isSuccess) {
           ecapi.CityStationReportDecoder.decode(responseText) match {
             case Left(decodingError) =>
-              IO.raiseError(ApiError(s"City id ${cityStationId}: ${decodingError.getMessage}"))
+              ApiResponse.Error(
+                s"City id ${cityStationId}: ${decodingError.getMessage}",
+                Status.InternalServerError.code
+              )
             case Right(reportXml) =>
-              IO.pure(cityStationId, reportXml)
+              ApiResponse.Success((cityStationId, reportXml))
           }
         } else {
-          IO.raiseError(throw ApiError(s"Weather API error: ${responseText}", response.status.code))
+          ApiResponse.Error(
+            s"Weather API error [${response.status.code}]: ${responseText}",
+            Status.InternalServerError.code
+          )
         }
 
       } yield result
     }
   }
 
-  def fetchGradient(gradientId: String): IO[GradientReport] = {
+  def fetchGradient(gradientId: String): IO[ApiResponse[GradientReport]] = {
     Try(Gradient.forId(gradientId)) match {
       case Failure(_) =>
-        throw ApiError(s"Unknown gradient id: `$gradientId`.", 400)
+        ApiResponse.Error(
+          s"Unknown gradient id: `$gradientId`.",
+          Status.BadRequest.code
+        ).pure
 
       case Success(gradient) =>
         val cityStationIds = gradient.cityIds
@@ -55,8 +64,20 @@ class WeatherFetcher(httpClient: Client[IO]) {
           // number of requests to be made, but the actual latency will be just 10 seconds.
           IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
         }
-        .map { cityStationXmlReports =>
-          cityStationReportsToGradientReport(gradient, cityStationXmlReports.toMap)
+        .map { cityStationResponses =>
+          val maybeError = cityStationResponses.collectFirst {
+            case err: ApiResponse.Error => err
+          }
+          maybeError match {
+            case Some(error) => error
+            case None =>
+              val successResponses = cityStationResponses.collect {
+                case success: ApiResponse.Success[(String, CityStationReportXml) @unchecked] => success.result
+              }
+              ApiResponse.Success(
+                cityStationReportsToGradientReport(gradient, successResponses.toMap)
+              )
+          }
         }
     }
   }
@@ -73,7 +94,6 @@ class WeatherFetcher(httpClient: Client[IO]) {
   /**
    * @param gradient
    * @param cityReportXmls
-   * @throws ApiError if unable to compile report
    * @return
    */
   private def cityStationReportsToGradientReport(

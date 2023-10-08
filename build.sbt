@@ -6,13 +6,20 @@ ThisBuild / version := "1.0.0"
 
 ThisBuild / scalaVersion := Versions.Scala_3
 
+// Run the frontend development loop (also run vite: `cd frontend; npm run dev`)
+addCommandAlias("ffast", ";~frontend/fastLinkJS")
+// Start the backend server, and make sure to stop it afterwards
+addCommandAlias("sup", ";server/reStop ;~server/reStart ;server/reStop")
+// Build frontend for production
+addCommandAlias("fbuild", ";buildFrontend")
+// Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
+addCommandAlias("jar", ";packageApplication")
+
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .in(file("./shared"))
   .settings(
     libraryDependencies ++= List(
-      // JSON codec (see also in `server` and `frontend`)
-      "com.github.plokhotnyuk.jsoniter-scala" %%% "jsoniter-scala-core" % Versions.JsoniterScala,
-      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided",
+      // JSON codec
       "io.bullet" %%% "borer-core" % Versions.Borer,
       "io.bullet" %%% "borer-derivation" % Versions.Borer,
     )
@@ -43,8 +50,6 @@ lazy val server = project
       "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
       // XML decoder (to parse weather API XMLs)
       "ru.tinkoff" %% "phobos-core" % Versions.Phobos,
-      // JSON codec (see also in `shared` and `frontend`)
-      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
     ),
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
@@ -74,8 +79,6 @@ lazy val frontend = project
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
       "com.raquo" %%% "waypoint" % Versions.Waypoint,
-      // JSON codec (see also in `shared` and `server`)
-      "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % Versions.JsoniterScala % "provided"
     ),
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
