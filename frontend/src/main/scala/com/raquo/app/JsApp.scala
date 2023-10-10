@@ -5,8 +5,6 @@ import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.waypoint.*
 import com.raquo.weather.Gradient
-import io.bullet.borer.*
-import io.bullet.borer.derivation.MapBasedCodecs.*
 import org.scalajs.dom
 
 import scala.scalajs.js
@@ -186,7 +184,7 @@ object JsApp {
 
   def renderDataGraphST(): HtmlElement = {
     import typings.chartJs.chartJsStrings
-    import typings.chartJs.distTypesIndexMod.{ChartComponent, ChartConfiguration, ChartData, ChartDataset, ChartOptions, ChartType}
+    import typings.chartJs.distTypesIndexMod.{ChartConfiguration, ChartData, ChartDataset}
     import typings.chartJs.mod.*
     canvasTag(
       width := "500px",

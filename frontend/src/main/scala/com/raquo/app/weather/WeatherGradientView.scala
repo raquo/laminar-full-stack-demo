@@ -42,7 +42,7 @@ object WeatherGradientView {
       h1(child.text <-- gradientS.map(_.name + " gradient")),
       //child.text <-- gradientS.map { gradient => gradient.id }.setDisplayName("gradientS.flatmap")
       child.maybe <-- maybeApiErrorS.map(_.map(err => div(textAlign.center, span(cls("u-error"), err)))),
-      //child <-- gradientReportS.map { r => div(r.toString) },
+      child <-- gradientReportS.map { r => div(r.toString) },
       //child.text <--
       //    .map {
       //      case ApiResponse.Result(report) =>
