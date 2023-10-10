@@ -33,9 +33,11 @@ object Gradient {
 
   val gradientIds: List[String] = Gradient.values.map(_.id).toList
 
-  def forId(gradientId: String): Gradient = {
-    Gradient.values
-      .find(_.id == gradientId)
-      .getOrElse(throw new Exception(s"Unknown gradient id: `${gradientId}`"))
+  def forId(gradientId: String): Option[Gradient] = {
+    Gradient.values.find(_.id == gradientId)
+  }
+
+  def forIdGet(gradientId: String): Gradient = {
+    forId(gradientId).getOrElse(throw new Exception(s"Unknown gradient id: `${gradientId}`"))
   }
 }

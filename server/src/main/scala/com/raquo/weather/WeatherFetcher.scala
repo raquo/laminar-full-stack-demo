@@ -2,6 +2,7 @@ package com.raquo.weather
 
 import cats.effect.IO
 import cats.syntax.all.*
+import com.raquo.data.ApiResponse
 import com.raquo.weather.ecapi.{CityStationReportXml, DateTimeXml}
 import org.http4s.*
 import org.http4s.client.Client
@@ -33,7 +34,7 @@ class WeatherFetcher(httpClient: Client[IO]) {
                 Status.InternalServerError.code
               )
             case Right(reportXml) =>
-              ApiResponse.Success((cityStationId, reportXml))
+              ApiResponse.Result((cityStationId, reportXml))
           }
         } else {
           ApiResponse.Error(
@@ -47,14 +48,14 @@ class WeatherFetcher(httpClient: Client[IO]) {
   }
 
   def fetchGradient(gradientId: String): IO[ApiResponse[GradientReport]] = {
-    Try(Gradient.forId(gradientId)) match {
-      case Failure(_) =>
+    Gradient.forId(gradientId) match {
+      case None =>
         ApiResponse.Error(
           s"Unknown gradient id: `$gradientId`.",
           Status.BadRequest.code
         ).pure
 
-      case Success(gradient) =>
+      case Some(gradient) =>
         val cityStationIds = gradient.cityIds
         // Make several requests in parallel to speed things up
         cityStationIds.parTraverse { cityStationId =>
@@ -72,9 +73,9 @@ class WeatherFetcher(httpClient: Client[IO]) {
             case Some(error) => error
             case None =>
               val successResponses = cityStationResponses.collect {
-                case success: ApiResponse.Success[(String, CityStationReportXml) @unchecked] => success.result
+                case success: ApiResponse.Result[(String, CityStationReportXml) @unchecked] => success.result
               }
-              ApiResponse.Success(
+              ApiResponse.Result(
                 cityStationReportsToGradientReport(gradient, successResponses.toMap)
               )
           }

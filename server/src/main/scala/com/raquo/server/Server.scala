@@ -1,8 +1,9 @@
 package com.raquo.server
 
 import cats.effect.*
+import com.raquo.data.ApiResponse
 import com.raquo.server.Utils.*
-import com.raquo.weather.{ApiResponse, GradientReport, WeatherFetcher}
+import com.raquo.weather.{GradientReport, WeatherFetcher}
 import io.bullet.borer.*
 import org.http4s.dsl.io.*
 import org.http4s.ember.client.EmberClientBuilder
@@ -62,7 +63,11 @@ object Server extends IOApp {
               ApiResponse.Error(err.getMessage, Status.InternalServerError.code)
             }
             .flatMap { response =>
-              CustomStatusCode(response.statusCode)(response)
+              val statusCode = response match {
+                case _: ApiResponse.Result[_] => Status.Ok.code
+                case ApiResponse.Error(_, statusCode) => statusCode
+              }
+              CustomStatusCode(statusCode)(response)
             }
       }
 

@@ -11,6 +11,12 @@ import com.raquo.waypoint.*
 
 val appRoot = root / "app"
 
+// Note: there is also NotFoundPage, but it does not have a designated
+// URL of its own (like /404): we retain the URL that the user entered to
+// give the user a chance to fix it.
+// And so, even though NotFoundPage does not have its own route listed
+// here, JsRouter.currentPageSignal still emits it when necessary.
+
 val routes = List(
   Route.static(HomePage, root / endOfSegments),
   Route[WeatherGradientPage, String](

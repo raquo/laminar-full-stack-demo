@@ -8,12 +8,15 @@ import com.raquo.waypoint
 import io.bullet.borer.*
 import org.scalajs.dom
 
+import scala.util.{Failure, Success, Try}
+
 /** See [[https://github.com/raquo/Waypoint Waypoint documentation]] for details on how frontend routing works. */
 object JsRouter extends waypoint.Router[Page](
   routes = routes,
   getPageTitle = _.title, // displayed in the browser tab next to favicon
   serializePage = page => Json.encode(page).toUtf8String, // serialize page data for storage in History API log
-  deserializePage = pageStr => Json.decodeString(pageStr).to[Page].value // deserialize the above
+  deserializePage = pageStr => Json.decodeString(pageStr).to[Page].value, // deserialize the above
+  routeFallback = _ => pages.NotFoundPage
 )(
   popStateEvents = windowEvents(_.onPopState), // this is how Waypoint avoids an explicit dependency on Laminar
   owner = unsafeWindowOwner // this router will live as long as the window
@@ -32,7 +35,10 @@ object JsRouter extends waypoint.Router[Page](
     val isLinkElement = el.ref.isInstanceOf[dom.html.Anchor]
 
     if (isLinkElement) {
-      el.amend(href(absoluteUrlForPage(page)))
+      Try(absoluteUrlForPage(page)) match {
+        case Success(url) => el.amend(href(url))
+        case Failure(err) => dom.console.error(err)
+      }
     }
 
     // If element is a link and user is holding a modifier while clicking:
