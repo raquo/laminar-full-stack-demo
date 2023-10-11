@@ -58,6 +58,10 @@ object Colors extends js.Object
 object BarController extends js.Object
 
 @js.native
+@JSImport("chart.js", "LineController")
+object LineController extends js.Object
+
+@js.native
 @JSImport("chart.js", "CategoryScale")
 object CategoryScale extends js.Object
 
@@ -68,6 +72,14 @@ object LinearScale extends js.Object
 @js.native
 @JSImport("chart.js", "BarElement")
 object BarElement extends js.Object
+
+@js.native
+@JSImport("chart.js", "LineElement")
+object LineElement extends js.Object
+
+@js.native
+@JSImport("chart.js", "PointElement")
+object PointElement extends js.Object
 
 @js.native
 @JSImport("chart.js", "Legend")

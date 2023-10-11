@@ -12,7 +12,7 @@ import scala.scalajs.js.annotation.JSName
   */
 class ChartConfig(
   @JSName("type")
-  val typ: String,
+  val typ: String = null,
   val data: ChartData,
   val options: ChartConfigOptions | Unit = js.undefined,
   val plugins: js.Array[js.Object] | Unit = js.undefined
@@ -43,8 +43,12 @@ class ChartData(
   */
 class ChartDataset(
   val label: String,
+  @JSName("type")
+  val typ: String | Unit = js.undefined,
   val data: js.Array[_],
-  val parsing: js.Dictionary[String] | Boolean | Unit = js.undefined
+  val parsing: js.Dictionary[String] | Boolean | Unit = js.undefined,
+  val xAxisID: String | Unit = js.undefined,
+  val yAxisID: String | Unit = js.undefined,
 ) extends DynamicJsObject
 
 /**
@@ -56,6 +60,10 @@ class ChartDataset(
   *                Example data: `[{id: 'Sales', nested: {value: 1500}}, {id: 'Purchases', nested: {value: 500}}]`
   *                And its parsing config for bar chart: `js.Dictionary("xAxisKey" -> "id", "yAxisKey" -> "nested.value")`
   *
+  * @param scales  Define the scales: scaleId => { type: "logarithmic", position: "right" }
+  *                 - Chart.js can infer axis orientation (X or Y) from the position.
+  *                 - Use axis ids on datasets
+  *
   * @param plugins Requires a pluginId => pluginConfig dictionary.
   *                - Pass `false` to disable a specific plugin, or all plugins.
   *                - See [[https://www.chartjs.org/docs/latest/developers/plugins.html Chart.js docs]]
@@ -63,5 +71,18 @@ class ChartDataset(
   */
 class ChartConfigOptions(
   val parsing: js.Dictionary[String] | Boolean | Unit = js.undefined,
+  val scales: js.Dictionary[ChartAxis] | Unit = js.undefined,
   val plugins: js.Dictionary[js.Object | Boolean] | Boolean | Unit = js.undefined
 ) extends js.Object
+
+/** @param typ      linear (?) | time | logarithmic | r |
+  * @param position left | right | top | bottom | ?
+  *
+  * [[https://www.chartjs.org/docs/latest/axes/ Axes docs]]
+  */
+class ChartAxis(
+  @JSName("type")
+  val typ: String | Unit = js.undefined,
+  val position: String | Unit = js.undefined,
+  val beginAtZero: Boolean | Unit = js.undefined
+) extends DynamicJsObject

@@ -42,6 +42,7 @@ object JsApp {
 
   private def renderHomePage(): HtmlElement = {
     // Shared inline styles. You can also use CSS classes for common styling of course.
+    // See https://laminar.dev/documentation#approaches-to-css for a high level summary.
     val linkStyles = List(
       fontSize := "120%",
       lineHeight := "2em",
@@ -65,9 +66,19 @@ object JsApp {
         // a URL for it, and so its <a> element has no `href` property. By default, the browsers
         // make such href-less links appear like plaintext & unclickable, but that's just styling.
         // You can still click on it, and get an exception. And you can override the styles with CSS.
-        li(a(navigateTo(UnroutedPage("bar")), "UnroutedPage – page with no route")),
+        {
+          dom.console.warn("The code below will print a Waypoint error about UnroutedPage(bar) to the console. This is expected, we are demonstrating this failure on purpose.")
+          li(a(navigateTo(UnroutedPage("bar")), "UnroutedPage – page with no route"))
+        }
       )
     )
+  }
+
+  val linkPages: List[(String, Page)] = {
+    val gradientPages = Gradient.values.toList.map { gradient =>
+      (gradient.name, WeatherGradientPage(gradient.id))
+    }
+    gradientPages ++ List()
   }
 
   private def renderNotFoundPage(): HtmlElement = {
@@ -78,149 +89,4 @@ object JsApp {
       p("The important part being, it's not the server giving you a 404. The server loaded index.html and that loaded your frontend code, and that code is what's showing this page.")
     )
   }
-
-  val linkPages: List[(String, Page)] = (
-    Gradient.values.toList.map(gradient => (gradient.name, WeatherGradientPage(gradient.id))) ++ List()
-
-    //DuckCounterPage,
-    //TodoMvcPage,
-    //AjaxTesterPage,
-    //FetchTesterPage,
-    //WebComponentsPage,
-    //SvgContainerPage
-  )
-
-
-
-
-
-
-
-  def registerComponents(): Unit = {
-    import vendor.chartjs.*
-    Chart.register(
-      BarController,
-      BarElement,
-      CategoryScale,
-      LinearScale
-    )
-  }
-
-  def renderDataGraph(): HtmlElement = {
-
-    registerComponents()
-
-    val clickBus: EventBus[Unit] = new EventBus
-    val textToSendVar = Var("")
-
-    div(
-      h1("Weather demo+"),
-      div(
-        //child.text <-- FetchStream.post(
-        //  url = "/api/do-thing",
-        //  _.body(writeToString(SomeSharedData("hello", 2))),
-        //  _.headers(
-        //    "Content-Type" -> "application/json",
-        //    "Accept" -> "text/plain"
-        //  )
-        //)
-      ),
-      renderDataGraph()
-      )
-    
-    import vendor.chartjs.*
-    canvasTag(
-      width := "500px",
-      height := "200px",
-
-      onMountUnmountCallbackWithState(
-        mount = { nodeCtx =>
-          Chart(
-            canvas = nodeCtx.thisNode.ref,
-            config = ChartConfig(
-              typ = "bar",
-              data = ChartData(
-                labels = js.Array("Red", "Blue", "Yellow", "Green", "Purple", "Orange"),
-                datasets = js.Array(
-                  ChartDataset(
-                    label = "# of Votes",
-                    data = js.Array(10, 19, 3, 5, 2, 3)
-                  ).updateDynamic(
-                    "backgroundColor" -> js.Array(
-                      "rgb(255, 99, 132)",
-                      "rgb(54, 162, 235)",
-                      "rgb(255, 206, 86)",
-                      "rgb(75, 192, 192)",
-                      "rgb(153, 102, 255)",
-                      "rgb(255, 159, 64)"
-                    )
-                  )
-                )
-              )
-            )
-          )
-        },
-        unmount = { (_, maybeChart) =>
-          maybeChart.foreach(_.destroy())
-        }
-      )
-    )
-  }
-
-  // --
-
-  def registerComponentsST(): Unit = {
-    import typings.chartJs.distTypesIndexMod.ChartComponent
-    import typings.chartJs.mod.*
-    Chart.register(
-      js.Array(
-        BarController.^,
-        BarElement.^,
-        CategoryScale.^,
-        LinearScale.^
-      ).map(_.asInstanceOf[ChartComponent])
-    )
-  }
-
-  def renderDataGraphST(): HtmlElement = {
-    import typings.chartJs.chartJsStrings
-    import typings.chartJs.distTypesIndexMod.{ChartConfiguration, ChartData, ChartDataset}
-    import typings.chartJs.mod.*
-    canvasTag(
-      width := "500px",
-      height := "200px",
-
-      onMountUnmountCallbackWithState(
-        mount = { nodeCtx =>
-          val chartConfig = ChartConfiguration(
-            `type` = chartJsStrings.bar,
-            data = ChartData(
-              datasets = js.Array(
-                new js.Object {
-                  val label = "# of Votes"
-                  val data = js.Array(10, 19, 3, 5, 2, 3)
-                  val backgroundColor = js.Array(
-                    "rgb(255, 99, 132)",
-                    "rgb(54, 162, 235)",
-                    "rgb(255, 206, 86)",
-                    "rgb(75, 192, 192)",
-                    "rgb(153, 102, 255)",
-                    "rgb(255, 159, 64)"
-                  )
-                }.asInstanceOf[ChartDataset[chartJsStrings.bar, _]]
-              )
-            ).setLabels(
-              js.Array("Red", "Blue", "Yellow", "Green", "Purple", "Orange")
-            )
-          )
-
-          Chart(nodeCtx.thisNode.ref, chartConfig)
-        },
-        unmount = { (_, maybeChart) =>
-          maybeChart.foreach(_.destroy())
-        }
-      )
-    )
-  }
-
 }
