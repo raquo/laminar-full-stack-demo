@@ -32,9 +32,12 @@ import scala.scalajs.js.annotation.JSImport
 @js.native
 @JSImport("chart.js")
 class Chart(
-  canvas: dom.HTMLCanvasElement | dom.CanvasRenderingContext2D,
-  config: ChartConfig
+  val canvas: dom.HTMLCanvasElement | dom.CanvasRenderingContext2D,
+  val config: ChartConfig
 ) extends js.Object {
+  
+  /** Call this after mutating chart config, for it to take effect. */
+  def update(): Unit = js.native
 
   def destroy(): Unit = js.native
 }

@@ -3,20 +3,20 @@ package com.raquo.weather
 import cats.effect.IO
 import cats.syntax.all.*
 import com.raquo.data.ApiResponse
-import com.raquo.weather.ecapi.{CityStationReportXml, DateTimeXml}
+import com.raquo.weather.ecapi.{CityStationReportXml, DateTimeXml, ForecastXml, TemperaturesForecastXml}
 import org.http4s.*
 import org.http4s.client.Client
 import org.http4s.implicits.*
 
 import scala.concurrent.duration.*
-import scala.util.{Failure, Success, Try}
+import scala.util.Try
 
 class WeatherFetcher(httpClient: Client[IO]) {
 
   /**
-   * @param cityStationId [[CityStation]] ID
-   * @return (cityStationId, reportXml). IO can fail with ApiError
-   */
+    * @param cityStationId [[CityStation]] ID
+    * @return (cityStationId, reportXml). IO can fail with ApiError
+    */
   def fetchCityWeather(cityStationId: String): IO[ApiResponse[(String, CityStationReportXml)]] = {
     //val x = EntityDecoder.decodeBy[IO, String](MediaRange.`application/*`) { y =>
     //  DecodeResult.success(y.body)
@@ -59,27 +59,27 @@ class WeatherFetcher(httpClient: Client[IO]) {
         val cityStationIds = gradient.cityIds
         // Make several requests in parallel to speed things up
         cityStationIds.parTraverse { cityStationId =>
-          // The 0 second delay is for demo purposes. You can increase it to e.g. 10 seconds
-          // to prove that requests are being made in parallel. If they were made
-          // sequentially, you would expect a total latency of (N * 10 sec), where N is the
-          // number of requests to be made, but the actual latency will be just 10 seconds.
-          IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
-        }
-        .map { cityStationResponses =>
-          val maybeError = cityStationResponses.collectFirst {
-            case err: ApiResponse.Error => err
+            // The 0 second delay is for demo purposes. You can increase it to e.g. 10 seconds
+            // to prove that requests are being made in parallel. If they were made
+            // sequentially, you would expect a total latency of (N * 10 sec), where N is the
+            // number of requests to be made, but the actual latency will be just 10 seconds.
+            IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
           }
-          maybeError match {
-            case Some(error) => error
-            case None =>
-              val successResponses = cityStationResponses.collect {
-                case success: ApiResponse.Result[(String, CityStationReportXml) @unchecked] => success.result
-              }
-              ApiResponse.Result(
-                cityStationReportsToGradientReport(gradient, successResponses.toMap)
-              )
+          .map { cityStationResponses =>
+            val maybeError = cityStationResponses.collectFirst {
+              case err: ApiResponse.Error => err
+            }
+            maybeError match {
+              case Some(error) => error
+              case None =>
+                val successResponses = cityStationResponses.collect {
+                  case success: ApiResponse.Result[(String, CityStationReportXml)@unchecked] => success.result
+                }
+                ApiResponse.Result(
+                  cityStationReportsToGradientReport(gradient, successResponses.toMap)
+                )
+            }
           }
-        }
     }
   }
 
@@ -93,10 +93,10 @@ class WeatherFetcher(httpClient: Client[IO]) {
   }
 
   /**
-   * @param gradient
-   * @param cityReportXmls
-   * @return
-   */
+    * @param gradient
+    * @param cityReportXmls
+    * @return
+    */
   private def cityStationReportsToGradientReport(
     gradient: Gradient,
     cityReportXmls: Map[String, CityStationReportXml]
@@ -127,12 +127,59 @@ class WeatherFetcher(httpClient: Client[IO]) {
         (cityStationId, currentConditions)
     }
 
+    val forecastDays = cityReportXmls
+      .collect {
+        case (_, CityStationReportXml(_, Some(forecastGroup))) =>
+          forecastGroup.forecast
+            .filter(useForecast)
+            .map(_.period.textForecastName)
+      }
+      .max(Ordering.by(_.size)) // longest chain of days gotta be the right one.
+
+    val forecastsByDay = cityReportXmls
+      .collect {
+        case (cityStationId, CityStationReportXml(_, Some(forecastGroup))) =>
+          forecastGroup.forecast
+            .filter(useForecast)
+            .flatMap { forecastXml =>
+              val maybeForecast = forecastXml.temperatures
+                .find(useTemperature)
+                .flatMap(_.temperature.value.toDoubleOption)
+                .map { temperature =>
+                  CityForecast(
+                    dateTimeIssued = forecastGroup.dateTime.find(useLocalDateTime).get.toLocalDateTime.toString,
+                    iconCode = forecastXml.abbreviatedForecast.iconCode.code,
+                    temperatureC = temperature
+                  )
+                }
+              maybeForecast.map { forecast =>
+                forecastXml.period.textForecastName -> (cityStationId, forecast)
+              }
+            }
+      }
+      .flatten
+      .groupMap(_._1)((_, v) => v)
+      .map { (cityStationId, forecasts) =>
+        cityStationId -> Map.from(forecasts)
+      }
+
     GradientReport(
       cities = gradient.cities,
       currentConditionsByCity = currentConditionsByCity,
-      forecastDays = Nil, // #nc
-      forecastsByDay = Map.empty // #nc
+      forecastDays = forecastDays,
+      forecastsByDay = forecastsByDay
     )
   }
 
+  private def useForecast(forecast: ForecastXml): Boolean = {
+    !forecast.period.textForecastName.toLowerCase.contains("night")
+  }
+
+  private def useTemperature(forecast: TemperaturesForecastXml): Boolean = {
+    forecast.temperature.`class` == "high"
+  }
+
+  private def useLocalDateTime(dateTime: DateTimeXml): Boolean = {
+    dateTime.zone != "UTC" // looking for local TZ like "PST" or "PDT"
+  }
 }

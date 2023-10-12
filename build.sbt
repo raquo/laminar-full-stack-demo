@@ -85,8 +85,20 @@ lazy val frontend = project
         // .withModuleSplitStyle(
         //   ModuleSplitStyle.SmallModulesFor(List("com.raquo.app")))
     },
-    scalaJSUseMainModuleInitializer := true, // Generated scala.js output will call your main() method to start your app.
-    externalNpm := baseDirectory.value // ScalablyTyped needs to know the directory with package.json
+    // Ignore changes to .less and .css files when watching files with sbt.
+    // With the suggested build configuration and usage patterns, these files are
+    // not included in the scala.js output, so there is no need for sbt to watch
+    // their contents. If sbt was also watching those files, editing them would
+    // cause the entire Scala.js app to do a full reload, whereas right now we
+    // have Vite watching those files, and it is able to hot-reload them without
+    // reloading the entire application – much faster and smoother.
+    watchSources := watchSources.value.filterNot { source =>
+      source.base.getName.endsWith(".less") || source.base.getName.endsWith(".css")
+    },
+    // Generated scala.js output will call your main() method to start your app.
+    scalaJSUseMainModuleInitializer := true,
+    // ScalablyTyped needs to know the directory with package.json
+    externalNpm := baseDirectory.value
   )
   .dependsOn(shared.js)
 

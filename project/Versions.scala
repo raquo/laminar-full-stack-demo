@@ -12,7 +12,7 @@ object Versions {
 
   val Laminar = "16.0.0"
 
-  val Waypoint = "7.0.0"
+  val Waypoint = "7.1.0-SNAPSHOT"
 
   // -- Backend --
 

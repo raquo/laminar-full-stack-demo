@@ -29,7 +29,10 @@ case class ForecastGroupXml(
 case class ForecastXml(
   period: ForecastPeriodXml,
   textSummary: TextSummaryXml,
-  cloudPrecip: CloudPrecipXml
+  abbreviatedForecast: AbbreviatedForecastXml,
+  cloudPrecip: CloudPrecipXml,
+  temperatures: List[TemperaturesForecastXml],
+  winds: WindsXml
 )
 
 case class ForecastPeriodXml(
@@ -43,6 +46,15 @@ case class TextSummaryXml(
 
 case class CloudPrecipXml(
   textSummary: TextSummaryXml
+)
+
+case class TemperaturesForecastXml(
+  textSummary: TextSummaryXml,
+  temperature: TemperatureForecastXml
+)
+
+case class WindsXml(
+  wind: List[WindForecastXml]
 )
 
 case class AbbreviatedForecastXml(
@@ -80,6 +92,14 @@ case class IconCodeXml(
 case class TemperatureXml(
   @attr unitType: String,
   @attr units: String,
+  @attr `class`: Option[String],
+  @text value: String
+)
+
+case class TemperatureForecastXml(
+  @attr unitType: String,
+  @attr units: String,
+  @attr `class`: String, // "high" | "low"
   @text value: String
 )
 
@@ -95,6 +115,14 @@ case class RelativeHumidityXml(
 )
 
 case class WindXml(
+  speed: WindSpeedXml,
+  direction: WindDirectionXml,
+  bearing: WindBearingXml
+)
+
+case class WindForecastXml(
+  @attr index: Int, // 1, 2, 3, ...
+  @attr rank: String, // "major" | "minor"
   speed: WindSpeedXml,
   direction: WindDirectionXml,
   bearing: WindBearingXml
@@ -125,25 +153,38 @@ implicit val WindSpeedDecoder: ElementDecoder[WindSpeedXml] = deriveElementDecod
 
 implicit val WindDirectionDecoder: ElementDecoder[WindDirectionXml] = deriveElementDecoder
 
-implicit val windBearingDecoder: ElementDecoder[WindBearingXml] = deriveElementDecoder
+implicit val WindBearingDecoder: ElementDecoder[WindBearingXml] = deriveElementDecoder
 
-implicit val windDecoder: ElementDecoder[WindXml] = deriveElementDecoder
+implicit val WindDecoder: ElementDecoder[WindXml] = deriveElementDecoder
 
-implicit val temperatureDecoder: ElementDecoder[TemperatureXml] = deriveElementDecoder
+implicit val WindForecastDecoder: ElementDecoder[WindForecastXml] = deriveElementDecoder
 
-implicit val relativeHumidityDecoder: ElementDecoder[RelativeHumidityXml] = deriveElementDecoder
+implicit val WindsDecoder: ElementDecoder[WindsXml] = deriveElementDecoder
 
-implicit val pressureDecoder: ElementDecoder[PressureXml] = deriveElementDecoder
+implicit val TemperatureDecoder: ElementDecoder[TemperatureXml] = deriveElementDecoder
 
-implicit val iconCodeDecoder: ElementDecoder[IconCodeXml] = deriveElementDecoder
+implicit val RelativeHumidityDecoder: ElementDecoder[RelativeHumidityXml] = deriveElementDecoder
 
-implicit val textSummaryDecoder: ElementDecoder[TextSummaryXml] = deriveElementDecoder
+implicit val PressureDecoder: ElementDecoder[PressureXml] = deriveElementDecoder
 
-implicit val cloudPrecipDecoder: ElementDecoder[CloudPrecipXml] = deriveElementDecoder
+implicit val IconCodeDecoder: ElementDecoder[IconCodeXml] = deriveElementDecoder
+
+implicit val TextSummaryDecoder: ElementDecoder[TextSummaryXml] = deriveElementDecoder
+
+implicit val CloudPrecipDecoder: ElementDecoder[CloudPrecipXml] = deriveElementDecoder
 
 implicit val ForecastPeriodDecoder: ElementDecoder[ForecastPeriodXml] = deriveElementDecoder
 
 implicit val DateTimeDecoder: ElementDecoder[DateTimeXml] = deriveElementDecoder
+
+implicit val PopDecoder: ElementDecoder[PopXml] = deriveElementDecoder
+
+implicit val AbbreviatedForecastDecoder: ElementDecoder[AbbreviatedForecastXml] = deriveElementDecoder
+
+implicit val TemperatureForecastDecoder: ElementDecoder[TemperatureForecastXml] = deriveElementDecoder
+
+implicit val TemperaturesForecastDecoder: ElementDecoder[TemperaturesForecastXml] = deriveElementDecoder
+
 
 implicit val ForecastDecoder: ElementDecoder[ForecastXml] = deriveElementDecoder
 

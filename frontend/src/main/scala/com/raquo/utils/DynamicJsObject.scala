@@ -3,6 +3,8 @@ package com.raquo.utils
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
 
+trait DynamicJsObject extends js.Object
+
 /**
   * These updateDynamic helpers provide an easy way to set rarely
   * used values on JS types that you don't care to type properly.
@@ -21,7 +23,9 @@ import scala.scalajs.js.annotation.JSName
   *      val backgroundColor: String = ...
   *    }
   */
-class DynamicJsObject extends js.Object {
+object DynamicJsObject {
+
+  // #TODO update comments
 
   // Note: js.Object classes have significant caveats when it comes to
   // overloading methods, so it's best to define unique JSName-s for them
@@ -36,22 +40,23 @@ class DynamicJsObject extends js.Object {
   // `"yes"` to js.Any in case of overloads. I'm not sure if it is supposed to, but
   // it would have been nice if that worked. #TODO[Scala]
 
-  //def updateDynamic(key: String, value: js.Any): this.type = {
-  //  this.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
-  //  this
-  //}
+  extension (obj: js.Object)
 
-  //@JSName("updateDynamicPair")
-  //def updateDynamic(keyValuePair: (String, js.Any)): this.type = {
-  //  this.asInstanceOf[js.Dynamic].updateDynamic(keyValuePair._1)(keyValuePair._2)
-  //  this
-  //}
+    //def updateDynamic(key: String, value: js.Any): obj.type = {
+    //  obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
+    //  obj
+    //}
+    //
+    //def updateDynamic(keyValuePair: (String, js.Any)): obj.type = {
+    //  obj.asInstanceOf[js.Dynamic].updateDynamic(keyValuePair._1)(keyValuePair._2)
+    //  obj
+    //}
 
-  //@JSName("updateDynamicPairs")
-  def updateDynamic(keyValuePairs: (String, js.Any)*): this.type = {
-    keyValuePairs.foreach { (key, value) =>
-      this.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
+    def updateDynamic(keyValuePairs: (String, js.Any)*): obj.type = {
+      keyValuePairs.foreach { (key, value) =>
+        obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
+      }
+      obj
     }
-    this
-  }
+
 }

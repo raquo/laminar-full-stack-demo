@@ -7,7 +7,7 @@ import org.http4s.{EntityEncoder, Response, Status}
 import scala.jdk.FutureConverters.given
 
 object Utils {
-
+  
   extension [L, R] (either: Either[L, R])
 
     def getRight: R = {

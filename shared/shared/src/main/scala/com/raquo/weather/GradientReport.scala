@@ -19,7 +19,34 @@ case class GradientReport(
   currentConditionsByCity: Map[String, CityCurrentConditions],
   forecastDays: List[String],
   forecastsByDay: Map[String, Map[String, CityForecast]]
-)
+) {
+
+  def selectCurrentConditions[A](
+    f: CityCurrentConditions => Option[A]
+  ): List[Option[A]] = {
+    cities.flatMap { city =>
+      for {
+        conditions <- currentConditionsByCity.get(city.id)
+      } yield {
+        f(conditions)
+      }
+    }
+  }
+
+  def selectForecasts[A](
+    day: String,
+    f: CityForecast => Option[A]
+  ): List[Option[A]] = {
+    cities.flatMap { city =>
+      for {
+        forecastsByCity <- forecastsByDay.get(day)
+        forecast <- forecastsByCity.get(city.id)
+      } yield {
+        f(forecast)
+      }
+    }
+  }
+}
 
 object GradientReport {
 
