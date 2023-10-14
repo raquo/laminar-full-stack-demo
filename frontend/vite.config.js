@@ -1,7 +1,8 @@
 import {defineConfig} from "vite";
 import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
-import injectHtmlVarsPlugin from "./vite-plugins/inject-html-vars.js"
+import injectHtmlVarsPlugin from "./vite-plugins/inject-html-vars.js";
 import rollupPluginSourcemaps from "rollup-plugin-sourcemaps";
+import globResolverPlugin from "./vite-plugins/glob-resolver.js";
 
 export default defineConfig(
   ({
@@ -20,6 +21,13 @@ export default defineConfig(
         injectHtmlVarsPlugin({
           SCRIPT_URL: "./index.js",
           SCRIPT_URL_2: "./index2.js"
+        }),
+        globResolverPlugin({
+          cwd: __dirname,
+          ignore: [
+            'node_modules/**',
+            'target/**'
+          ]
         })
       ],
       build: {
@@ -35,6 +43,7 @@ export default defineConfig(
       },
       server: {
         port: 3000,
+        strictPort: true,
         // host: "0.0.0.0",
         proxy: {
           "/api": {

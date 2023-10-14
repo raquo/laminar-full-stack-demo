@@ -19,9 +19,8 @@ import scala.scalajs.js.annotation.JSImport
 
 object WeatherGradientView {
 
-  // #TODO Find a more compact way to reference a sibling file
   @js.native
-  @JSImport("../../../../frontend/src/main/scala/com/raquo/app/weather/WeatherGradientView.less")
+  @JSImport("@find/**/WeatherGradientView.less")
   private object Stylesheet extends js.Any
 
   private val _ = Stylesheet

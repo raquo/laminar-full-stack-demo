@@ -7,9 +7,8 @@ import scala.scalajs.js.annotation.JSImport
 
 object Tabs {
 
-  // #TODO Find a more compact way to reference a sibling file
   @js.native
-  @JSImport("../../../../frontend/src/main/scala/com/raquo/app/weather/Tabs.less")
+  @JSImport("@find/**/Tabs.less")
   private object Stylesheet extends js.Any
 
   private val _ = Stylesheet
