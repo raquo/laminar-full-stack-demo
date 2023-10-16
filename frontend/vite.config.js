@@ -18,16 +18,16 @@ export default defineConfig(
           cwd: "..",
           projectID: "frontend"
         }),
-        injectHtmlVarsPlugin({
-          SCRIPT_URL: "./index.js",
-          SCRIPT_URL_2: "./index2.js"
-        }),
         globResolverPlugin({
           cwd: __dirname,
           ignore: [
             'node_modules/**',
             'target/**'
           ]
+        }),
+        injectHtmlVarsPlugin({
+          SCRIPT_URL: "./index.js",
+          SCRIPT_URL_2: "./index2.js"
         })
       ],
       build: {
@@ -46,6 +46,10 @@ export default defineConfig(
         strictPort: true,
         // host: "0.0.0.0",
         proxy: {
+          // Note: we only proxy /api URLs to the server, if you need more,
+          // you need to set that up.
+          // #TODO Can't we just proxy everything except index.html and /app?
+          // #TODO hide away the proxy config (do we even need it?)
           "/api": {
             target: "http://127.0.0.1:9000",
             secure: false,
