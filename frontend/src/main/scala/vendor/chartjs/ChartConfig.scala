@@ -34,7 +34,7 @@ class ChartConfig(
   var typ: String = null,
   var data: ChartData,
   var options: ChartConfigOptions = ChartConfigOptions(),
-  var plugins: js.Array[js.Object] = js.Array()
+  var plugins: js.Dictionary[js.Object] = js.Dictionary()
 ) extends DynamicJsObject
 
 
@@ -65,6 +65,14 @@ class ChartDataset(
   @JSName("type")
   var typ: String | Unit = js.undefined,
   var data: js.Array[_],
+  var backgroundColor: String | Unit = js.undefined,
+  var borderColor: String | Unit = js.undefined,
+  var pointBackgroundColor: String | Unit = js.undefined,
+  var pointBorderColor: String | Unit = js.undefined,
+  var pointBorderWidth: Number | Unit = js.undefined,
+  var pointRadius: Number | Unit = js.undefined,
+  var pointHoverBorderWidth: Number | Unit = js.undefined,
+  var pointHoverRadius: Number | Unit = js.undefined,
   var parsing: js.Dictionary[String] | Boolean | Unit = js.undefined,
   var xAxisID: String | Unit = js.undefined,
   var yAxisID: String | Unit = js.undefined,

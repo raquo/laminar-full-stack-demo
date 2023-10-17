@@ -25,8 +25,10 @@ object WeatherGradientView {
   // to avoid loading the entire library. It will also tell you which
   // components are needed if you forget to include them.
   Chart.register(
-    BarController,
-    BarElement,
+    ChartDataLabelsPlugin,
+    Legend,
+    //BarController,
+    //BarElement,
     LineController,
     LineElement,
     PointElement,
@@ -167,15 +169,32 @@ object WeatherGradientView {
     canvasElement: dom.html.Canvas
   ): Chart = {
     // Note: most data and configuration is updated when the graph data is received
-    new Chart(
+
+    val chart = new Chart(
       canvas = canvasElement,
       config = new ChartConfig(
         data = new ChartData(),
         options = new ChartConfigOptions(
-          animation = false
+          animation = false,
+          plugins = js.Dictionary(
+            "legend" -> js.Dynamic.literal(
+              "display" -> true,
+              "position" -> "bottom",
+              "labels" -> js.Dynamic.literal(
+                "boxHeight" -> 0,
+              )
+            ),
+            "datalabels" -> js.Dynamic.literal(
+              "font" -> js.Dynamic.literal(
+                "weight" -> "bold"
+              )
+            )
+          )
         )
       )
     )
+
+    chart
   }
 
   private def updateChart(chart: Chart, selectedDay: Option[String], report: GradientReport): Unit = {
@@ -215,11 +234,24 @@ object WeatherGradientView {
   private def temperatureDatasetConfig(temperatures: js.Array[Double | Null]): ChartDataset = {
     new ChartDataset(
       label = "Temperature",
-      typ = "bar",
+      typ = "line",
       yAxisID = "yMain",
-      data = temperatures
+      data = temperatures,
+      borderColor = "#0000f0",
+      pointBackgroundColor = "#0000d0",
+      pointBorderWidth = 0,
+      pointRadius = 4,
+      pointHoverRadius = 5,
+      pointHoverBorderWidth = 0
     ).updateDynamic(
-      "spanGaps" -> true
+      "spanGaps" -> true,
+      "datalabels" -> js.Dynamic.literal(
+        "align" -> "top",
+        "color" -> "#000080",
+        "formatter" -> (((value: Double, ctx: js.Dynamic) => {
+          Math.round(value).toString + "°"
+        }): js.Function2[Double, js.Dynamic, Any])
+      )
     )
   }
 
@@ -228,9 +260,19 @@ object WeatherGradientView {
       label = "Pressure",
       typ = "line",
       yAxisID = "yPressure",
-      data = pressures
+      data = pressures,
+      borderColor = "#f00000",
+      pointBackgroundColor = "#d00000",
+      pointBorderWidth = 0,
+      pointRadius = 4,
+      pointHoverRadius = 5,
+      pointHoverBorderWidth = 0
     ).updateDynamic(
-      "spanGaps" -> true
+      "spanGaps" -> true,
+      "datalabels" -> js.Dynamic.literal(
+        "align" -> "top",
+        "color" -> "#800000"
+      )
     )
   }
 
@@ -243,7 +285,12 @@ object WeatherGradientView {
         "type" -> "category",
         "grid" -> js.Dictionary(
           "display" -> false
-        )
+        ),
+        "ticks" -> js.Dynamic.literal(
+          "minRotation" -> 90,
+          "maxRotation" -> 90,
+        ),
+        "offset" -> true
       )
     val scales = js.Dictionary(
       "x" -> xAxis,
@@ -290,7 +337,7 @@ object WeatherGradientView {
       new ChartAxis(
         position = "right",
         min = min,
-        max = max
+        max = max + pressureStepSize // allow extra space for data point labels
       ).updateDynamic(
         "ticks" -> js.Dictionary(
           "stepSize" -> pressureStepSize,

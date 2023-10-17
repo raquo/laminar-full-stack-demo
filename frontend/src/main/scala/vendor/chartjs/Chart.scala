@@ -45,7 +45,9 @@ class Chart(
 @js.native
 @JSImport("chart.js")
 object Chart extends js.Object {
-
+  
+  def defaults: ChartConfigOptions = js.native
+  
   // Can accept: ..., plugins
   def register(components: js.Object*): Unit = js.native
 

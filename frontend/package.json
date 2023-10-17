@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@scala-js/vite-plugin-scalajs": "^1.0.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "glob": "^10.3.10",
     "http-proxy": "^1.18.1",
     "less": "^4.2.0",
