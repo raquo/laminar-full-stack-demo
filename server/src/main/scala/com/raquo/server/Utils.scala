@@ -1,13 +1,15 @@
 package com.raquo.server
 
-import cats.effect.IO
+//import cats.effect.IO
+import cats.effect.*
 import cats.syntax.all.*
-import org.http4s.{EntityEncoder, Response, Status}
-
-import scala.jdk.FutureConverters.given
+//import org.http4s.dsl.io.*
+//import org.http4s.implicits.*
+import org.http4s.*
+//import org.http4s.headers.`Content-Length`
 
 object Utils {
-  
+
   extension [L, R] (either: Either[L, R])
 
     def getRight: R = {
@@ -35,6 +37,18 @@ object Utils {
         sideEffect(err)
       })
     }
+
+  //extension (status: Status)
+  //
+  //  def raw(body: String, headers: Header.ToRaw*)(
+  //    implicit w: EntityEncoder[IO, String],
+  //  ): Response[IO] = {
+  //    val entity = w.toEntity(body)
+  //    val contentSizeHeader = entity.length.flatMap(x => `Content-Length`.fromLong(x).toOption)
+  //    val allHeaders = w.headers |+| Headers(contentSizeHeader, headers)
+  //
+  //    Response[IO](status, headers = allHeaders, body = entity.body)
+  //  }
 
   def CustomStatusCode[A](statusCode: Int)(body: A)(using EntityEncoder[IO, A]): IO[Response[IO]] = {
     Response(Status.fromInt(statusCode).getRight).withEntity(body).pure[IO]

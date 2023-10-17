@@ -1,18 +1,18 @@
 package com.raquo.server
 
+import cats.data.Kleisli
 import cats.effect.*
 import com.raquo.data.ApiResponse
 import com.raquo.server.Utils.*
 import com.raquo.weather.{GradientReport, WeatherFetcher}
 import io.bullet.borer.*
+import org.http4s.*
 import org.http4s.dsl.io.*
 import org.http4s.ember.client.EmberClientBuilder
 import org.http4s.ember.server.EmberServerBuilder
-import org.http4s.*
 import org.http4s.implicits.*
 import org.http4s.server.Router
 import org.http4s.server.staticcontent.resourceServiceBuilder
-import com.raquo.utils.JsonEntityCodec.given
 
 object Server extends IOApp {
 
@@ -49,32 +49,63 @@ object Server extends IOApp {
 
         case GET -> Root / "hello" / name =>
           Ok(s"Hello, $name.")
-
       }
+
+      notFoundResponse <- Resource.make(NotFound(
+        """<!DOCTYPE html>
+          |<html>
+          |<body>
+          |<h1>Not found</h1>
+          |<p>The page you are looking for is not found.</p>
+          |<p>This message was generated on the server.</p>
+          |</body>
+          |</html>""".stripMargin('|'),
+        headers.`Content-Type`(MediaType.text.html)
+      ))(_ => IO.unit)
 
       weatherFetcher = WeatherFetcher(httpClient)
 
-      httpApiService = HttpRoutes.of[IO] {
+      httpApiService = {
+        // Importing this locally where we actually use JSON entity codecs,
+        // because these given instances supercede the default
+        // EntityEncoder.stringEncoder, causing our other routes to output
+        // HTML content in JSON-encoded strings. // #TODO Is this fixable?
+        import com.raquo.utils.JsonEntityCodec.given
 
-        case GET -> Root / "weather" / "gradient" / gradientId =>
-          weatherFetcher
-            .fetchGradient(gradientId)
-            .handleError { err =>
-              ApiResponse.Error(err.getMessage, Status.InternalServerError.code)
-            }
-            .flatMap { response =>
-              val statusCode = response match {
-                case _: ApiResponse.Result[_] => Status.Ok.code
-                case ApiResponse.Error(_, statusCode) => statusCode
+        HttpRoutes.of[IO] {
+
+          case GET -> Root / "weather" / "gradient" / gradientId =>
+            weatherFetcher
+              .fetchGradient(gradientId)
+              .handleError { err =>
+                val errorMessage = err match {
+                  case uhe: java.net.UnknownHostException =>
+                    s"Unknown host: ${uhe.getMessage}"
+                  case _ =>
+                    err.getMessage
+                }
+                ApiResponse.Error(errorMessage, Status.InternalServerError.code)
               }
-              CustomStatusCode(statusCode)(response)
-            }
+              .flatMap { response =>
+                val statusCode = response match {
+                  case _: ApiResponse.Result[_] => Status.Ok.code
+                  case ApiResponse.Error(_, statusCode) => statusCode
+                }
+                CustomStatusCode(statusCode)(response)
+              }
+        }
       }
 
-      app = Router.define(
-        "/" -> httpService,
-        "/api" -> httpApiService
-      )(default = staticAssetsService).orNotFound
+      app = {
+        val router = Router.define(
+          "/" -> httpService,
+          "/api" -> httpApiService
+        )(default = staticAssetsService)
+
+        Kleisli[IO, Request[IO], Response[IO]] { request =>
+          router.run(request).getOrElse(notFoundResponse)
+        }
+      }
 
       _ <- EmberServerBuilder
         .default[IO]
@@ -84,6 +115,7 @@ object Server extends IOApp {
         .withHttpApp(app)
         .withLogger(logger)
         .build
+
     } yield {
       ExitCode.Success
     }).useForever

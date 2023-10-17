@@ -22,7 +22,8 @@ class WeatherFetcher(httpClient: Client[IO]) {
     //  DecodeResult.success(y.body)
     //}
     // #TODO implement an XML codec that takes care of error handling (what about 40x / 50x responses?)
-    httpClient.get(uri"https://dd.weather.gc.ca/citypage_weather/xml/BC" / (cityStationId + "_e.xml")) { response =>
+    val url = uri"https://dd.weather.gc.ca/citypage_weather/xml/BC" / (cityStationId + "_e.xml")
+    httpClient.get(url) { response =>
       for {
         responseText <- response.as[String]
 
