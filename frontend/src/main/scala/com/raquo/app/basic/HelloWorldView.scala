@@ -4,8 +4,6 @@ import com.raquo.laminar.api.L.{*, given}
 
 object HelloWorldView {
 
-  // #nc use view
-
   def apply(): HtmlElement = {
     // #Exercise for the reader:
     // What will change if we move nameVar to the
@@ -20,7 +18,7 @@ object HelloWorldView {
         placeholder := "Enter your name here",
         onInput.mapToValue --> nameVar
       ),
-      span(
+      p(
         "Hello, ",
         child.text <-- nameVar.signal.map(_.toUpperCase)
       )

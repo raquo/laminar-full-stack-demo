@@ -1,7 +1,7 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
-import com.raquo.app.basic.{CounterView, FormStateView}
+import com.raquo.app.basic.*
 import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JsImportSideEffect
@@ -54,6 +54,7 @@ object JsApp {
 
   private val selectedAppSignal = SplitRender(JsRouter.currentPageSignal)
     .collectStatic(HomePage)(HomePageView())
+    .collectStatic(HelloWorldPage)(HelloWorldView())
     .collectStatic(CounterPage)(CounterView())
     .collectStatic(FormStatePage)(FormStateView())
     .collectSignal[WeatherGradientPage](WeatherGradientView(_))

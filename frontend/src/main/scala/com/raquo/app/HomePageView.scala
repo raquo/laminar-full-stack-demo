@@ -18,14 +18,15 @@ object HomePageView {
     (gradient.name, WeatherGradientPage(gradient.id))
   }
 
+  private val basicPages = List(HelloWorldPage, CounterPage, FormStatePage)
+
   def apply(): HtmlElement = {
     div(
       //cls("HomePageView"),
       h2("Basic examples"),
       ul(
         linkStyles,
-        List(CounterPage, FormStatePage)
-          .map(pageLink(_))
+        basicPages.map(pageLink(_))
       ),
       h2("Wind gradient (chart.js)"),
       ul(
