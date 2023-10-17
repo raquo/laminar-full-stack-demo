@@ -1,18 +1,25 @@
 .Tabs {
 
   .-tab {
-    padding: 6px 4px;
-    font-size: 1.2em;
+    padding: 6px 10px;
+    font-size: 1em;
     background: white;
     border: none;
 
-    &:hover {
-      cursor: pointer;
-      background: azure;
+    &.x-selected {
+      //background: aqua;
+      border: 1px solid #ccc;
+      border-bottom: 0;
     }
 
-    &.x-selected {
-      background: aqua;
+    &:not(.x-selected) {
+      border-bottom: 1px solid #ccc;
+      background: #f9f9f9;
+
+      &:hover {
+        cursor: pointer;
+        background: azure;
+      }
     }
   }
 }

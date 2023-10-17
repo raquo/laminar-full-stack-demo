@@ -84,12 +84,19 @@ object WeatherGradientView {
   private def renderOtherGradients(
     gradientS: EventStream[Gradient]
   ): Modifier.Base = {
-    children <-- gradientS.map { gradient =>
-      val otherGradients = Gradient.values.filterNot(_ == gradient)
-      otherGradients.map { g =>
-        a(g.name, navigateTo(WeatherGradientPage(g.id)))
-      }.toList
-    }
+    // We use implicit conversion here to convert a list of modifiers into one modifier
+    List[Modifier.Base](
+      "See also: ",
+      children <-- gradientS.map { gradient =>
+        val otherGradients = Gradient.values.filterNot(_ == gradient)
+        otherGradients.flatMap { g =>
+          List[Node]( // Node is the common type of elements and text nodes
+            a(g.name, navigateTo(WeatherGradientPage(g.id))),
+            ", "
+          )
+        }.toList.init
+      }
+    )
   }
 
   // This function is only called once (when gradientReportStream emits
