@@ -19,6 +19,9 @@ val appRoot = root / "app"
 
 val routes = List(
   Route.static(HomePage, root / endOfSegments),
+  Route.static(CounterPage, root / "basic" / "hello" / endOfSegments),
+  Route.static(CounterPage, root / "basic" / "counter" / endOfSegments),
+  Route.static(FormStatePage, root / "form-state" / endOfSegments),
   Route[WeatherGradientPage, String](
     encode = page => page.gradientId,
     decode = gradientId => WeatherGradientPage(gradientId = gradientId),

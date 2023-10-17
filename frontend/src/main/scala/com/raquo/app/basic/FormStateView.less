@@ -1,0 +1,41 @@
+.FormStateView {
+
+  > h1 {
+    margin-bottom: 35px;
+  }
+
+  > form {
+
+    > .-inputRow {
+      margin: 10px -10px;
+      padding: 10px;
+
+      &.x-hasError {
+        background: #ffeeee;
+      }
+
+      > .-error {
+        margin-top: 5px;
+        color: red;
+        font-size: 90%;
+      }
+
+      > input, > button {
+        margin: 0 5px;
+      }
+
+      > input {
+        padding: 4px 2px;
+      }
+
+      > button {
+        padding: 4px 8px;
+      }
+    }
+
+    > button[type="submit"] {
+      margin-top: 20px;
+      padding: 4px 8px;
+    }
+  }
+}

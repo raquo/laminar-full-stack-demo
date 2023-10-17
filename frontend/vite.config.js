@@ -3,6 +3,7 @@ import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
 import injectHtmlVarsPlugin from "./vite-plugins/inject-html-vars.js";
 import rollupPluginSourcemaps from "rollup-plugin-sourcemaps";
 import globResolverPlugin from "./vite-plugins/glob-resolver.js";
+import importSideEffectPlugin from "./vite-plugins/import-side-effect.js";
 
 export default defineConfig(
   ({
@@ -25,9 +26,12 @@ export default defineConfig(
             'target/**'
           ]
         }),
+        importSideEffectPlugin({
+          // See comments in vite-plugins/import-side-effect.js
+          importFnName: "importSideEffect_3DfPjKW0ZYyY"
+        }),
         injectHtmlVarsPlugin({
-          SCRIPT_URL: "./index.js",
-          SCRIPT_URL_2: "./index2.js"
+          SCRIPT_URL: "./index.js"
         })
       ],
       build: {

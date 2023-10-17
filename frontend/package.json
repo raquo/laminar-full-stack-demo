@@ -1,7 +1,7 @@
 {
-  "name": "weather",
+  "name": "demo",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
     "glob": "^10.3.10",
     "http-proxy": "^1.18.1",
     "less": "^4.2.0",
+    "magic-string": "^0.30.5",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "terser": "^5.20.0",
     "typescript": "^5.2.2",

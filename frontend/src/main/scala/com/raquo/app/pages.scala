@@ -5,16 +5,34 @@ import io.bullet.borer.derivation.MapBasedCodecs.*
 
 object pages {
 
-  sealed abstract class Page(val title: String)
+  sealed trait Page(val title: String)
 
-  case object HomePage extends Page("Home")
+  // In our code extending this trait means we auto-render an
+  // h1 element for this page, just for kicks
+  sealed abstract class TitledPage(title: String) extends Page(title)
 
-  case object NotFoundPage extends Page("Not Found :(")
+  case object HomePage extends TitledPage("Laminar Demo")
+
+  case object HelloWorldPage extends TitledPage("Hello world")
+
+  case object CounterPage extends TitledPage("Counter")
+
+  case object FormStatePage extends TitledPage("Form State")
+
+  case object UncontrolledInputsPage extends TitledPage("Uncontrolled Inputs")
+
+  case object ControlledInputsPage extends TitledPage("Controlled Inputs")
+
+  // This page does not extend TitledPage so that we don't
+  // auto-render h1 for it, because it has its own styling
+  case class TodoMvcPage(section: String) extends Page("TodoMVC")
 
   case class WeatherGradientPage(gradientId: String) extends Page(s"Weather Gradient") // #TODO update title to match content
 
+  case object NotFoundPage extends TitledPage("Page not found")
+
   // This page does not have a route defined for it, to show you what happens in those cases.
-  case class UnroutedPage(foo: String) extends Page(s"Unrouted page")
+  case class UnroutedPage(foo: String) extends TitledPage(s"Unrouted page")
 
   given pageCodec: Codec[Page] = deriveAllCodecs
 

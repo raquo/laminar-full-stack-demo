@@ -1,5 +1,6 @@
 import {globSync} from "glob";
 import path from "path";
+import {splitModuleId} from "./helpers";
 
 /**
  * In raw JS or Typescript, you can import local resources with a relative path,
@@ -20,7 +21,7 @@ import path from "path";
  * non-unique file names, you will need to provide a more specific glob
  * pattern to disambiguate.
  */
-export default function globResolverPlugin(globOptions) {
+export default function globResolverPlugin (globOptions) {
   if (globOptions === null || !globOptions.cwd || !globOptions.ignore) {
     throw new Error("globResolverPlugin: you must provide globOptions (at least `cwd` and `ignore`) to configure the glob search. See https://www.npmjs.com/package/glob")
   }
@@ -30,7 +31,9 @@ export default function globResolverPlugin(globOptions) {
     resolveId (sourcePath) {
       // console.log(">>>" + sourcePath)
       if (sourcePath.startsWith(prefix)) {
-        const globPattern = sourcePath.substring(prefix.length);
+        const {moduleId, querySuffix} = splitModuleId(sourcePath);
+
+        const globPattern = moduleId.substring(prefix.length);
         const matchedFiles = globSync(globPattern, globOptions);
 
         if (matchedFiles.length === 0) {
@@ -38,7 +41,7 @@ export default function globResolverPlugin(globOptions) {
         } else if (matchedFiles.length > 1) {
           throw new Error(`Ambiguous @find pattern ${globPattern}, found multiple matches:\n> ${matchedFiles.join("\n> ")}\nPlease use a more specific glob pattern.`);
         } else {
-          const matchedFile = path.resolve(globOptions.cwd, matchedFiles[0])
+          const matchedFile = path.resolve(globOptions.cwd, matchedFiles[0]) + querySuffix;
           // console.log(">>>" + matchedFile)
           return matchedFile;
         }
