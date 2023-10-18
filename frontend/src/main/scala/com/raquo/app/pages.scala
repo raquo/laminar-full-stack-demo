@@ -17,7 +17,9 @@ object pages {
 
   case object CounterPage extends TitledPage("Counter")
 
-  case object FormStatePage extends TitledPage("Form State")
+  case object TimePage extends TitledPage("Time")
+
+  case object FormStatePage extends TitledPage("Form State & Validation")
 
   case object UncontrolledInputsPage extends TitledPage("Uncontrolled Inputs")
 
@@ -25,7 +27,7 @@ object pages {
 
   // This page does not extend TitledPage so that we don't
   // auto-render h1 for it, because it has its own styling
-  case class TodoMvcPage(section: String) extends Page("TodoMVC")
+  case object TodoMvcPage extends Page("TodoMVC")
 
   case class WeatherGradientPage(gradientId: String) extends Page(s"Weather Gradient") // #TODO update title to match content
 

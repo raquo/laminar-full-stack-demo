@@ -1,4 +1,4 @@
-package com.raquo.app.basic
+package com.raquo.app.form
 
 case class FormState(
   city: String = "",

@@ -1,7 +1,9 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
+import com.raquo.app.todomvc.TodoMvcApp
 import com.raquo.app.basic.*
+import com.raquo.app.form.*
 import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JsImportSideEffect
@@ -56,7 +58,11 @@ object JsApp {
     .collectStatic(HomePage)(HomePageView())
     .collectStatic(HelloWorldPage)(HelloWorldView())
     .collectStatic(CounterPage)(CounterView())
+    .collectStatic(TimePage)(TimeView())
+    .collectStatic(UncontrolledInputsPage)(UncontrolledInputsView())
+    .collectStatic(ControlledInputsPage)(ControlledInputsView())
     .collectStatic(FormStatePage)(FormStateView())
+    .collectStatic(TodoMvcPage)(TodoMvcApp.node)
     .collectSignal[WeatherGradientPage](WeatherGradientView(_))
     .collectStatic(NotFoundPage)(renderNotFoundPage())
     .signal

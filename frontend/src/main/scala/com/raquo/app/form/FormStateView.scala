@@ -1,4 +1,4 @@
-package com.raquo.app.basic
+package com.raquo.app.form
 
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JsImportSideEffect
@@ -49,6 +49,7 @@ object FormStateView {
         renderInputRow(_.zipError)(
           label("Zip code: "),
           input(
+            cls("-zipCodeInput"),
             placeholder("12345"),
             controlled(
               value <-- stateVar.signal.map(_.zip),
@@ -57,7 +58,7 @@ object FormStateView {
           ),
           button(
             typ("button"), // "submit" is the default butto type in HTML
-            "Set SF zip code",
+            "Set SF",
             onClick.mapTo("94110") --> zipWriter
           )
         ),

@@ -3,56 +3,72 @@ package com.raquo.app
 import com.raquo.app.JsRouter.*
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.weather.Gradient
+import com.raquo.weather.Gradient.Squamish
 import org.scalajs.dom
 
 object HomePageView {
 
   // Shared inline styles. You can also use CSS classes for common styling of course.
   // See https://laminar.dev/documentation#approaches-to-css for a high level summary.
-  private val linkStyles = List(
-    lineHeight := style.em(1.75),
-    paddingLeft := "30px"
+  private val listStyles = List(
+    margin := "10px 0",
+    paddingLeft := "30px",
+    lineHeight := style.em(1.75) // typed helper to build "1.75em" string.
   )
 
-  private val gradientPages = Gradient.values.toList.map { gradient =>
-    (gradient.name, WeatherGradientPage(gradient.id))
-  }
+  private val basicPages = List(HelloWorldPage, CounterPage, TimePage)
 
-  private val basicPages = List(HelloWorldPage, CounterPage, FormStatePage)
+  private val formPages = List(UncontrolledInputsPage, ControlledInputsPage, FormStatePage)
+
+  private val appPages = List(TodoMvcPage)
 
   def apply(): HtmlElement = {
     div(
       //cls("HomePageView"),
       h2("Basic examples"),
       ul(
-        linkStyles,
+        listStyles,
         basicPages.map(pageLink(_))
       ),
-      h2("Wind gradient (chart.js)"),
+      h2("Forms"),
       ul(
-        linkStyles,
-        gradientPages.map { (caption, page) =>
-          pageLink(page, caption = Some(caption))
-        }
+        listStyles,
+        formPages.map(pageLink(_))
+      ),
+      h2("Apps"),
+      ul(
+        listStyles,
+        appPages.map(pageLink(_))
+      ),
+      h2("Integrations"),
+      ul(
+        listStyles,
+        pageLink(WeatherGradientPage(Squamish.id), caption = Some("Wind gradient (chart.js)")),
+        li(">>> Fetch Tester"),
+        li(">>> Web components (UI5 + theming)"),
+        li(">>> Web components (manual Shoelace)"),
+        li(">>> SVG files, inline, etc.")
       ),
       h2("Broken links for testing"),
       ul(
-        linkStyles,
+        listStyles,
         pageLink(
           WeatherGradientPage("foo"),
-          caption = Some("Weather gradient with bad gradientId")
+          caption = Some("Wind gradient with bad gradientId")
         ),
+        // Note: the below is commented out by default to prevent annoying errors in the console.
+        //
         // Note: the page linked below is unroutable, so our `navigateTo` helper can't generate
         // a URL for it, and so its <a> element has no `href` property. By default, the browsers
         // make such href-less links appear like plaintext & unclickable, but that's just styling.
         // You can still click on it, and get an exception. And you can override the styles with CSS.
-        {
-          dom.console.warn("The code below will print a Waypoint error about UnroutedPage(bar) to the console. This is expected, we are demonstrating this failure on purpose.")
-          pageLink(
-            UnroutedPage("bar"),
-            caption = Some("UnroutedPage – page with no route")
-          )
-        }
+        //{
+        //  dom.console.warn("The code below will print a Waypoint error about UnroutedPage(bar) to the console. This is expected, we are demonstrating this failure on purpose.")
+        //  pageLink(
+        //    UnroutedPage("bar"),
+        //    caption = Some("UnroutedPage – page with no route")
+        //  )
+        //}
       )
     )
   }

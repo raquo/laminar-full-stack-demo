@@ -21,7 +21,11 @@ val routes = List(
   Route.static(HomePage, root / endOfSegments),
   Route.static(HelloWorldPage, root / "basic" / "hello" / endOfSegments),
   Route.static(CounterPage, root / "basic" / "counter" / endOfSegments),
-  Route.static(FormStatePage, root / "form-state" / endOfSegments),
+  Route.static(TimePage, root / "basic" / "time" / endOfSegments),
+  Route.static(UncontrolledInputsPage, root / "form" / "uncontrolled-inputs" / endOfSegments),
+  Route.static(ControlledInputsPage, root / "form" / "controlled-inputs" / endOfSegments),
+  Route.static(FormStatePage, root / "form" / "form-state" / endOfSegments),
+  Route.static(TodoMvcPage, root / "apps" / "todomvc" / endOfSegments),
   Route[WeatherGradientPage, String](
     encode = page => page.gradientId,
     decode = gradientId => WeatherGradientPage(gradientId = gradientId),
