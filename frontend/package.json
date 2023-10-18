@@ -23,6 +23,10 @@
     "vite": "^4.1.0"
   },
   "dependencies": {
+    "@ui5/webcomponents": "~1.17.0",
+    "@ui5/webcomponents-base": "~1.17.0",
+    "@ui5/webcomponents-fiori": "~1.17.0",
+    "@ui5/webcomponents-icons": "~1.17.0",
     "chart.js": "^4.4.0"
   }
 }

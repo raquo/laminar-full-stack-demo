@@ -4,6 +4,7 @@ import com.raquo.app.JsRouter.*
 import com.raquo.app.todomvc.TodoMvcApp
 import com.raquo.app.basic.*
 import com.raquo.app.form.*
+import com.raquo.app.integrations.SapUI5WebComponentsView
 import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JsImportSideEffect
@@ -12,6 +13,8 @@ import com.raquo.weather.Gradient
 import org.scalajs.dom
 
 object JsApp {
+
+  JsImportSideEffect("@ui5/webcomponents-localization/dist/Assets.js")
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
   JsImportSideEffect("@find/**/JsApp.less")
@@ -64,6 +67,7 @@ object JsApp {
     .collectStatic(FormStatePage)(FormStateView())
     .collectStatic(TodoMvcPage)(TodoMvcApp.node)
     .collectSignal[WeatherGradientPage](WeatherGradientView(_))
+    .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())
     .collectStatic(NotFoundPage)(renderNotFoundPage())
     .signal
 

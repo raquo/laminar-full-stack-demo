@@ -26,6 +26,7 @@ val routes = List(
   Route.static(ControlledInputsPage, root / "form" / "controlled-inputs" / endOfSegments),
   Route.static(FormStatePage, root / "form" / "form-state" / endOfSegments),
   Route.static(TodoMvcPage, root / "apps" / "todomvc" / endOfSegments),
+  Route.static(UI5WebComponentsPage, root / "integrations" / "web-components" / "sap-ui5" / endOfSegments),
   Route[WeatherGradientPage, String](
     encode = page => page.gradientId,
     decode = gradientId => WeatherGradientPage(gradientId = gradientId),

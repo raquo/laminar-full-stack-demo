@@ -30,7 +30,9 @@ object pages {
   case object TodoMvcPage extends Page("TodoMVC")
 
   case class WeatherGradientPage(gradientId: String) extends Page(s"Weather Gradient") // #TODO update title to match content
-
+  
+  case object UI5WebComponentsPage extends Page("SAP UI5 Web Components")
+  
   case object NotFoundPage extends TitledPage("Page not found")
 
   // This page does not have a route defined for it, to show you what happens in those cases.
