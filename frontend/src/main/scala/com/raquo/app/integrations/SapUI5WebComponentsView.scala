@@ -17,38 +17,47 @@ object SapUI5WebComponentsView {
 
     div(
       cls("SapUI5WebComponentsView"),
+      // Most concise syntax using Scala 3 union types.
+      // Not supported in Scala 2. Not supported by IntelliJ yet.
+      // https://github.com/sherpal/LaminarSAPUI5Bindings#remark-for-scala-213-users
+      // https://youtrack.jetbrains.com/issue/SCL-21713/Method-accepting-a-union-of-types-that-includes-a-Function-type-problems-with-go-to-definition-type-hints-and-autocomplete-Scala
       Title(
         _.level := TitleLevel.H1,
         "SAP UI5 Web Components"
       ),
 
-      Title(
+      // Alternative syntax, supported by Scala 2, and IntelliJ.
+      // Requires calling the .of method, and prepending regular
+      // modifiers with "_ => " due to lack of union types.
+      Title.of(
         _.level := TitleLevel.H2,
-        "Date picker"
+        _ => "Date picker"
       ),
       renderDatePicker(),
 
-      Title(
+      Title.of(
         _.level := TitleLevel.H2,
-        "Multi combo box"
+        _ => "Multi combo box"
       ),
       renderMultiComboBox(),
 
-      Title(
+      Title.of(
         _.level := TitleLevel.H2,
-        "Multi token input"
+        _ => "Multi token input"
       ),
       renderMultiTokenInput()
     )
   }
+
+  // A few examples borrowed from the https://github.com/sherpal/LaminarSAPUI5Bindings demo page.
 
   private def renderDatePicker(): HtmlElement = {
     val selectedDateVar: Var[String] = Var("2023-01-31")
     div(
       //Label(child.text <-- selectedTimeBus.events.map(value => s"Currently selected: $value")),
       //br(),
-      DatePicker(
-        value <-- selectedDateVar,
+      DatePicker.of(
+        _ => value <-- selectedDateVar,
         _.events.onChange.mapToValue --> selectedDateVar
       )
     )
@@ -56,10 +65,10 @@ object SapUI5WebComponentsView {
 
   private def renderMultiComboBox(): HtmlElement = {
     val countries = List("Canada", "New Zealand", "Australia", "UK")
-    MultiComboBox(
+    MultiComboBox.of(
       _.placeholder := "Choose your countries",
-      width := "300px",
-      countries.zipWithIndex.map((country, index) =>
+      _ => width := "300px",
+      _ => countries.zipWithIndex.map((country, index) =>
         MultiComboBox.item(_.text := country, _.selected := (index == 0))
       )
     )
@@ -88,16 +97,16 @@ object SapUI5WebComponentsView {
 
     val valueStateChanges = EventStream.merge(valueStateBecomesErrorEvents, valueStateBecomesNormalEvents)
 
-    MultiInput(
+    MultiInput.of(
       _.showSuggestions := true,
       _.valueState <-- valueStateChanges,
-      width := "50%",
+      _ => width := "50%",
       _.slots.valueStateMessage := div("Token is already in the list"),
-      countries.map(country => MultiInput.suggestion(_.text := country)),
+      _ => countries.map(country => MultiInput.suggestion(_.text := country)),
       _.slots.tokens <-- tokenValuesVar.signal.map(_.map(tokenValue => MultiInput.token(_.text := tokenValue))),
       _.events.onChange.map(_.target.value) --> changeBus.writer,
-      newValuesChanges --> tokenValuesVar.writer,
-      value <-- changeBus.events.mapTo(""),
+      _ => newValuesChanges --> tokenValuesVar.writer,
+      _ => value <-- changeBus.events.mapTo(""), // clear input text when selecting a value
       _.events.onTokenDelete.map(_.detail.token.text) --> tokenValuesVar.updater((values, toRemove) =>
         values.filterNot(_ == toRemove)
       )
