@@ -14,7 +14,7 @@ object Versions {
 
   val Waypoint = "7.1.0-SNAPSHOT"
 
-  val UI5 = "1.17.0"
+  val UI5 = "1.17.1"
 
   // -- Backend --
 

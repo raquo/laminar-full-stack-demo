@@ -97,6 +97,7 @@ object SapUI5WebComponentsView {
       _.slots.tokens <-- tokenValuesVar.signal.map(_.map(tokenValue => MultiInput.token(_.text := tokenValue))),
       _.events.onChange.map(_.target.value) --> changeBus.writer,
       newValuesChanges --> tokenValuesVar.writer,
+      value <-- changeBus.events.mapTo(""),
       _.events.onTokenDelete.map(_.detail.token.text) --> tokenValuesVar.updater((values, toRemove) =>
         values.filterNot(_ == toRemove)
       )

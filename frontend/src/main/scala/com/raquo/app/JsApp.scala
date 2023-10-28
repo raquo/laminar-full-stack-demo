@@ -14,8 +14,6 @@ import org.scalajs.dom
 
 object JsApp {
 
-  JsImportSideEffect("@ui5/webcomponents-localization/dist/Assets.js")
-
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
   JsImportSideEffect("@find/**/JsApp.less")
 
