@@ -1,21 +1,20 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
-import com.raquo.app.todomvc.TodoMvcApp
 import com.raquo.app.basic.*
 import com.raquo.app.form.*
-import com.raquo.app.integrations.SapUI5WebComponentsView
+import com.raquo.app.integrations.{SapUI5WebComponentsView, ShoelaceWebComponentsView}
+import com.raquo.app.todomvc.TodoMvcApp
 import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JsImportSideEffect
+import com.raquo.utils.JSImportSideEffect
 import com.raquo.waypoint.*
-import com.raquo.weather.Gradient
 import org.scalajs.dom
 
 object JsApp {
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JsImportSideEffect("@find/**/JsApp.less")
+  JSImportSideEffect("@find/**/JsApp.less")
 
   // This method is the entry point of your JS app.
   // It is recognized by its name and type signature,
@@ -66,6 +65,7 @@ object JsApp {
     .collectStatic(TodoMvcPage)(TodoMvcApp.node)
     .collectSignal[WeatherGradientPage](WeatherGradientView(_))
     .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())
+    .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
     .collectStatic(NotFoundPage)(renderNotFoundPage())
     .signal
 

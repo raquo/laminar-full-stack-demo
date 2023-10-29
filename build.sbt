@@ -103,6 +103,8 @@ lazy val frontend = project
     // We aren't using ScalablyTyped right now, at least not for the following libraries,
     // so no need to get bindings for them.
     stIgnore ++= List(
+      "@shoelace-style/shoelace",
+      "bootstrap-icons",
       "@ui5/webcomponents",
       "@ui5/webcomponents-fiori",
       "@ui5/webcomponents-icons",

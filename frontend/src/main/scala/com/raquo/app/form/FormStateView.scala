@@ -1,13 +1,13 @@
 package com.raquo.app.form
 
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JsImportSideEffect
+import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 
 object FormStateView {
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JsImportSideEffect("@find/**/FormStateView.less")
+  JSImportSideEffect("@find/**/FormStateView.less")
 
   private val stateVar = Var(FormState())
 

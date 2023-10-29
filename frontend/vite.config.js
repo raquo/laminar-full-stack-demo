@@ -4,6 +4,8 @@ import injectHtmlVarsPlugin from "./vite-plugins/inject-html-vars.js";
 import rollupPluginSourcemaps from "rollup-plugin-sourcemaps";
 import globResolverPlugin from "./vite-plugins/glob-resolver.js";
 import importSideEffectPlugin from "./vite-plugins/import-side-effect.js";
+import rollupCopyPlugin from 'rollup-plugin-copy'
+import path from "path";
 
 export default defineConfig(
   ({
@@ -16,8 +18,8 @@ export default defineConfig(
       publicDir: "public",
       plugins: [
         scalaJSPlugin({
-          cwd: "..",
-          projectID: "frontend"
+          cwd: "..", // path to build.sbt
+          projectID: "frontend" // scala.js project name in build.sbt
         }),
         globResolverPlugin({
           cwd: __dirname,
@@ -32,6 +34,17 @@ export default defineConfig(
         }),
         injectHtmlVarsPlugin({
           SCRIPT_URL: "./index.js"
+        }),
+        rollupCopyPlugin({
+          copyOnce: true,
+          targets: [
+            {
+              // If changing `dest`, you must also change the call to `Shoelace.setBasePath` in your Scala.js code.
+              // Required by Shoelace: https://shoelace.style/getting-started/installation
+              src: path.resolve(__dirname, 'node_modules/@shoelace-style/shoelace/dist/assets/icons/*.svg'),
+              dest: path.resolve(__dirname, 'public/assets/shoelace/assets/icons')
+            }
+          ]
         })
       ],
       build: {

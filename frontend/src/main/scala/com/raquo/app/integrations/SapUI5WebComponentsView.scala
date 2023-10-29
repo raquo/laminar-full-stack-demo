@@ -3,15 +3,14 @@ package com.raquo.app.integrations
 import be.doeraene.webcomponents.ui5.*
 import be.doeraene.webcomponents.ui5.configkeys.*
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JsImportSideEffect
+import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
 
 object SapUI5WebComponentsView {
 
-  JsImportSideEffect("@find/**/SapUI5WebComponentsView.less")
+  JSImportSideEffect("@find/**/SapUI5WebComponentsView.less")
 
   def apply(): HtmlElement = {
 

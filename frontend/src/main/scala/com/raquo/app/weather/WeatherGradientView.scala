@@ -6,7 +6,7 @@ import com.raquo.app.jsonApiDecoder
 import com.raquo.app.pages.WeatherGradientPage
 import com.raquo.data.ApiResponse
 import com.raquo.laminar.api.L.*
-import com.raquo.utils.{DynamicJsObject, JsImportSideEffect}
+import com.raquo.utils.{DynamicJsObject, JSImportSideEffect}
 import com.raquo.utils.Url.*
 import com.raquo.utils.Utils.*
 import com.raquo.weather.{Gradient, GradientReport}
@@ -19,7 +19,7 @@ import scala.scalajs.js.JSConverters.*
 object WeatherGradientView {
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JsImportSideEffect("@find/**/WeatherGradientView.less")
+  JSImportSideEffect("@find/**/WeatherGradientView.less")
 
   // Chart.js requires you to load the necessary components this way
   // to avoid loading the entire library. It will also tell you which

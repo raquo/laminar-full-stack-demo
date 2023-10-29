@@ -45,9 +45,8 @@ object HomePageView {
         listStyles,
         pageLink(WeatherGradientPage(Squamish.id), caption = Some("Wind gradient (chart.js)")),
         pageLink(UI5WebComponentsPage),
+        pageLink(ShoelaceWebComponentsPage),
         li(">>> Fetch Tester"),
-        li(">>> Web components (UI5 + theming)"),
-        li(">>> Web components (manual Shoelace)"),
         li(">>> SVG files, inline, etc.")
       ),
       h2("Broken links for testing"),

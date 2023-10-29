@@ -33,6 +33,8 @@ object pages {
   
   case object UI5WebComponentsPage extends Page("SAP UI5 Web Components")
   
+  case object ShoelaceWebComponentsPage extends Page("Shoelace Web Components")
+  
   case object NotFoundPage extends TitledPage("Page not found")
 
   // This page does not have a route defined for it, to show you what happens in those cases.

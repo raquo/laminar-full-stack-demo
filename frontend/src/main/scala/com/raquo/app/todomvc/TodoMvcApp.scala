@@ -1,12 +1,12 @@
 package com.raquo.app.todomvc
 
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JsImportSideEffect
+import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 
 object TodoMvcApp {
 
-  JsImportSideEffect("@find/**/TodoMvcApp.css")
+  JSImportSideEffect("@find/**/TodoMvcApp.css")
 
   // This implementation is very loosely based on Outwatch TodoMVC, for comparison see
   // https://github.com/clovellytech/outwatch-examples/tree/master/todomvc/src/main/scala/todomvc
