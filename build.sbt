@@ -74,7 +74,6 @@ lazy val server = project
 lazy val frontend = project
   .in(file("./frontend"))
   .enablePlugins(ScalaJSPlugin)
-  .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
@@ -97,21 +96,7 @@ lazy val frontend = project
       source.base.getName.endsWith(".less") || source.base.getName.endsWith(".css")
     },
     // Generated scala.js output will call your main() method to start your app.
-    scalaJSUseMainModuleInitializer := true,
-    // ScalablyTyped needs to know the directory with package.json
-    externalNpm := baseDirectory.value,
-    // We aren't using ScalablyTyped right now, at least not for the following libraries,
-    // so no need to get bindings for them.
-    stIgnore ++= List(
-      "@shoelace-style/shoelace",
-      "bootstrap-icons",
-      "@ui5/webcomponents",
-      "@ui5/webcomponents-fiori",
-      "@ui5/webcomponents-icons",
-      "@ui5/webcomponents-base",
-      "@ui5/webcomponents-localization",
-      "chart.js"
-    )
+    scalaJSUseMainModuleInitializer := true
   )
   .dependsOn(shared.js)
 
