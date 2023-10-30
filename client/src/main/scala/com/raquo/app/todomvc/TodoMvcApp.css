@@ -186,6 +186,7 @@
   border: none; /* Mobile Safari */
   -webkit-appearance: none;
   appearance: none;
+  cursor: pointer;
 }
 
 .todoapp .todo-list li .toggle {
@@ -232,6 +233,7 @@
   color: #cc9a9a;
   margin-bottom: 11px;
   transition: color 0.2s ease-out;
+  cursor: pointer;
 }
 
 .todoapp .todo-list li .destroy:hover {
@@ -312,6 +314,7 @@
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .todoapp .filters li a:hover {
@@ -320,6 +323,7 @@
 
 .todoapp .filters li a.selected {
   border-color: rgba(175, 47, 47, 0.2);
+  cursor: default;
 }
 
 .todoapp .clear-completed,

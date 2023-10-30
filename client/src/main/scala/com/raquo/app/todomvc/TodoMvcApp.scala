@@ -107,7 +107,10 @@ object TodoMvcApp {
         .mapToValue
         .filter(_.nonEmpty)
         .map(Create(_))
-        .setValue("") --> commandObserver
+        .setValue("") --> commandObserver,
+      // When all we need is to clear an uncontrolled input, we can use setValue("")
+      //  but we still need an observer to create the subscription, so we just use an empty one.
+      onEscapeKeyUp.setValue("") --> Observer.empty
     )
 
   // Render a single item. Note that the result is a single element: not a stream, not some virtual DOM representation.
@@ -122,7 +125,8 @@ object TodoMvcApp {
       onDblClick.filter(_ => !isEditingVar.now()).mapTo(true) --> isEditingVar.writer,
       children <-- isEditingVar.signal.map[List[HtmlElement]] {
         case true =>
-          renderTextUpdateInput(itemId, itemSignal, updateTextObserver) :: Nil
+          val cancelObserver = isEditingVar.writer.contramap[Unit](Unit => false)
+          renderTextUpdateInput(itemId, itemSignal, updateTextObserver, cancelObserver) :: Nil
         case false =>
           List(
             renderCheckboxInput(itemId, itemSignal),
@@ -140,12 +144,14 @@ object TodoMvcApp {
   private def renderTextUpdateInput(
     itemId: Int,
     itemSignal: Signal[TodoItem],
-    updateTextObserver: Observer[UpdateText]
+    updateTextObserver: Observer[UpdateText],
+    cancelObserver: Observer[Unit]
   ) =
     input(
       cls("edit"),
       defaultValue <-- itemSignal.map(_.text),
       onMountFocus,
+      onEscapeKeyUp.mapToUnit --> cancelObserver,
       onEnterPress.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver,
       onBlur.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver
     )
@@ -205,4 +211,8 @@ object TodoMvcApp {
     s"$num ${if (num == 1) singular else plural}"
 
   private val onEnterPress = onKeyPress.filter(_.keyCode == dom.KeyCode.Enter)
+
+  // Non-printable characters don't get a `keypress` event in JS,
+  // so we need to listen to `keydown` or `keyup` instead.
+  private val onEscapeKeyUp = onKeyUp.filter(_.keyCode == dom.KeyCode.Escape)
 }

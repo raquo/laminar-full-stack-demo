@@ -154,6 +154,7 @@ Make sure you're using a good IDE that 1) lets you go-to-definition on every ter
 * Shared data models
 * JSON serialization using [Borer](https://github.com/sirthias/borer) library
 * Backend support for clientside [Waypoint](https://github.com/raquo/Waypoint) URL routing
+* [sbt-buildinfo](https://github.com/sbt/sbt-buildinfo) to get compile-time data from sbt to scala.js
 
 ### [Vite](https://vitejs.dev/) setup
 
