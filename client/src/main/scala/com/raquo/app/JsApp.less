@@ -1,0 +1,51 @@
+.JsApp {
+  margin: 50px auto;
+  max-width: 800px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+
+  > .-content {
+    margin: 40px; // #TODO can padding act like margin, without this extra element?
+
+    h2 {
+      margin-top: 45px;
+      margin-bottom: 0;
+    }
+
+    h3 {
+      margin-top: 35px;
+    }
+
+    .u-bleed {
+      margin-left: -40px;
+      margin-right: -40px;
+    }
+
+    .u-unbleed {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
+  @media (max-width: 800px) {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+
+    > .-content {
+      margin: 0 10px 50px 10px;
+
+      .u-bleed {
+        margin-left: -10px;
+        margin-right: -10px;
+      }
+
+      .u-unbleed {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+}

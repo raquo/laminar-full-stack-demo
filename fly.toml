@@ -1,6 +1,6 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 
-app = "raquo-weather"  #TODO: Change to your own name if you want to deploy your app to fly.io
+app = "laminar-demo"  #TODO: Change to your own name if you want to deploy your app to fly.io
 kill_signal = "SIGINT"
 kill_timeout = 5
 

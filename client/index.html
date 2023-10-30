@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+
+    <!-- on mobile browsers, start with a sane zoom level -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- icon shown in the browser tab ("favicon"). See vite config to learn how it's served in dev and in prod. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+    <!-- Initial title that shown in the browser tab. Waypoint router will update it as you navigate the web app. -->
+    <title>[DEV] Scala.js</title>
+</head>
+<body>
+  <!-- Laminar will put your app inside this div element,
+       as instructed in JsApp.scala -->
+  <div id="root"></div>
+
+  <!-- The script below loads your Scala.js app.
+       Keep it at the bottom of the body element to make sure that the rest
+       of the body has been parsed by the time this script runs. -->
+  <script type="module" src="<%=SCRIPT_URL%>"></script>
+
+</body>
+</html>

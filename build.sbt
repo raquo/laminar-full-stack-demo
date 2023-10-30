@@ -2,16 +2,16 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 import scala.sys.process.Process
 
-ThisBuild / version := "1.0.0"
+ThisBuild / version := "0.1.0"
 
 ThisBuild / scalaVersion := Versions.Scala_3
 
 // Run the frontend development loop (also run vite: `cd frontend; npm run dev`)
-addCommandAlias("ffast", ";~frontend/fastLinkJS")
+addCommandAlias("cup", ";~client/fastLinkJS")
 // Start the backend server, and make sure to stop it afterwards
 addCommandAlias("sup", ";server/reStop ;~server/reStart ;server/reStop")
 // Build frontend for production
-addCommandAlias("fbuild", ";buildFrontend")
+addCommandAlias("cbuild", ";buildClient")
 // Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
 addCommandAlias("jar", ";packageApplication")
 
@@ -54,25 +54,24 @@ lazy val server = project
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
 
-    // #TODO once my backend dependencies stabilize, remove or reduce this block, since we don't use armeria anymore.
-    // Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
-    // https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
-    // #TODO Ask people if this is ok
-    assembly / assemblyMergeStrategy := {
-      case x if x.endsWith("module-info.class") => MergeStrategy.discard
-      case x if x.endsWith("META-INF/io.netty.versions.properties") => MergeStrategy.discard
-      case x if x.endsWith("META-INF/com.linecorp.armeria.versions.properties") => MergeStrategy.discard
-      case x if x.endsWith("META-INF/native/lib/libnetty-unix-common.a") => MergeStrategy.discard
-      case x =>
-        val oldStrategy = (assembly / assemblyMergeStrategy).value
-        oldStrategy(x)
-    }
-
+    //// #TODO once my backend dependencies stabilize, remove or reduce this block, since we don't use armeria anymore.
+    //// Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
+    //// https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
+    //// #TODO Ask people if this is ok
+    //assembly / assemblyMergeStrategy := {
+    //  case x if x.endsWith("module-info.class") => MergeStrategy.discard
+    //  case x if x.endsWith("META-INF/io.netty.versions.properties") => MergeStrategy.discard
+    //  case x if x.endsWith("META-INF/com.linecorp.armeria.versions.properties") => MergeStrategy.discard
+    //  case x if x.endsWith("META-INF/native/lib/libnetty-unix-common.a") => MergeStrategy.discard
+    //  case x =>
+    //    val oldStrategy = (assembly / assemblyMergeStrategy).value
+    //    oldStrategy(x)
+    //}
   )
   .dependsOn(shared.jvm)
 
-lazy val frontend = project
-  .in(file("./frontend"))
+lazy val client = project
+  .in(file("./client"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
     libraryDependencies ++= List(
@@ -100,20 +99,20 @@ lazy val frontend = project
   )
   .dependsOn(shared.js)
 
-val buildFrontend = taskKey[Unit]("Build frontend")
+val buildClient = taskKey[Unit]("Build client (frontend)")
 
-buildFrontend := {
+buildClient := {
   // Generate Scala.js JS output for production
-  (frontend / Compile / fullLinkJS).value
+  (client / Compile / fullLinkJS).value
 
   // Install JS dependencies from package-lock.json
-  val npmCiExitCode = Process("npm ci", cwd = (frontend / baseDirectory).value).!
+  val npmCiExitCode = Process("npm ci", cwd = (client / baseDirectory).value).!
   if (npmCiExitCode > 0) {
     throw new IllegalStateException(s"npm ci failed. See above for reason")
   }
 
   // Build the frontend with vite
-  val buildExitCode = Process("npm run build", cwd = (frontend / baseDirectory).value).!
+  val buildExitCode = Process("npm run build", cwd = (client / baseDirectory).value).!
   if (buildExitCode > 0) {
     throw new IllegalStateException(s"Building frontend failed. See above for reason")
   }
@@ -121,13 +120,13 @@ buildFrontend := {
   // Copy vite output into server resources, where it can be accessed by the server,
   // even after the server is packaged in a fat jar.
   IO.copyDirectory(
-    source = (frontend / baseDirectory).value / "dist",
+    source = (client / baseDirectory).value / "dist",
     target = (server / baseDirectory).value / "src" / "main" / "resources" / "static"
   )
 }
 
 // Always build the frontend first before packaging the application in a fat jar
-(server / assembly) := (server / assembly).dependsOn(buildFrontend).value
+(server / assembly) := (server / assembly).dependsOn(buildClient).value
 
 val packageApplication = taskKey[File]("Package the whole application into a fat jar")
 

@@ -1,0 +1,47 @@
+.SapUI5WebComponentsView {
+
+  // Custom styles for web components.
+  // These are some simple cases, and work fine, but because of shadow DOM isolation,
+  // it's hard to style the insides of Web Components in a way that their author does not allow.
+
+  // Here we override a CSS variable that is used by the UI5 Title component
+  // to set title text color. Css properties are inherited from parent elements, so even though
+  // we're setting this var on our own div, it will propagate down to the web components as well.
+
+  --sapGroup_TitleTextColor: #663300;
+
+  // The entire list of UI5 theming parameters is here:
+  // https://github.com/SAP/ui5-webcomponents-react/blob/main/packages/base/src/styling/ThemingParameters.ts
+  // However, instead of guessing which one of them you need in a particular case, just render your
+  // web component, and then use the browser's style inspector to figure out which CSS var you need
+  // to set. For example, if you select a `<ui-title>` element, you will see that its `color` CSS property
+  // is set to `var(--sapGroup_TitleTextColor)` – that's how we know that we need to set this var
+  // to change the color.
+  // UI5 developers promised to create a publicly available visual tool to help theme your apps,
+  // but we don't have one yet. Currently they only offer such a tool to SAP customers.
+
+  // For more detailed explanation of styling web components, and various options
+  // to achieve it, see https://css-tricks.com/styling-a-web-component/
+
+  ui5-title[level="H1"] {
+    font-family: Georgia, serif;
+    // Can also be achieved this way:
+    //--sapFontHeaderFamily: Georgia, serif;
+  }
+
+  ui5-title[level="H2"] {
+    margin-top: 20px;
+  }
+
+  ui5-button.x-yellow {
+    font-weight: bold;
+    color: black;
+    border: 2px solid red;
+    background: yellow;
+
+    &:hover {
+      background: red;
+      color: white;
+    }
+  }
+}
