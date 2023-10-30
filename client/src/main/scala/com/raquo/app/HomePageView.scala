@@ -1,10 +1,10 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
+import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.weather.Gradient
 import com.raquo.weather.Gradient.Squamish
-import org.scalajs.dom
 
 object HomePageView {
 
@@ -25,6 +25,7 @@ object HomePageView {
   def apply(): HtmlElement = {
     div(
       //cls("HomePageView"),
+      p("Welcome to ", a(href("https://laminar.dev"), "Laminar"), " & ", a(href("https://www.scala-js.org/"), "Scala.js"), " full stack demo. The ", a(href("https://github.com/raquo/laminar-full-stack-demo"), "source code and README"), " is on github."),
       h2("Basic examples"),
       ul(
         listStyles,
@@ -69,7 +70,11 @@ object HomePageView {
         //    caption = Some("UnroutedPage – page with no route")
         //  )
         //}
-      )
+      ),
+      br(),
+      br(),
+      hr(),
+      p(small(s"Built with Laminar v${BuildInfo.laminarVersion}")),
     )
   }
 

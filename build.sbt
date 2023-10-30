@@ -17,6 +17,18 @@ addCommandAlias("jar", ";packageApplication")
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .in(file("./shared"))
+  .enablePlugins(BuildInfoPlugin)
+  .settings(
+    // sbt-BuildInfo plugin can write any data available in sbt at compile time
+    // to a `case class BuildInfo` that it makes available at runtime.
+    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, BuildInfoKey("laminarVersion" -> Versions.Laminar)),
+    // The BuildInfo case class is located in target/scala<version>/src_managed,
+    // and with this setting, you'll need to `import com.raquo.buildinfo.BuildInfo`
+    // to use it.
+    buildInfoPackage := "com.raquo.buildinfo"
+    // Because we add BuildInfo to the `shared` project, this will be available
+    // on both the client and the server, but you can also make it e.g. server-only.
+  )
   .settings(
     libraryDependencies ++= List(
       // JSON codec

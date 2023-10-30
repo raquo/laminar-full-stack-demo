@@ -76,7 +76,7 @@ object JsApp {
     div(
       p("The Waypoint frontend router could not match this URL to any of the routes, so it is rendering the fallback page (NotFoundPage) instead."),
       p("OR – maybe you directly asked Waypoint to render NotFoundPage, e.g. if the URL format was correct but the provided params in the URL were invalid."),
-      p("The important part being, it's not the server giving you a 404. The server loaded index.html and that loaded your frontend code, and that code is what's showing this page.")
+      p("The important part being, it's not the server giving you a 404. The server loaded index.html and that loaded your frontend code, and this frontend code is what's showing this page.")
     )
   }
 }

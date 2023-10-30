@@ -207,7 +207,7 @@ Parent components must not try to override their child components' internals, th
 
 Generally, if the parent component needs to modify the style of the child one, it should inform the child of that need by adding an `x-<variant>` CSS class to it, for example, we could add an `x-compact` class to the Tabs component, but crucially, we put the style declarations that respond to this class inside the component being styled, i.e. in `Tabs.less`, not in the parent component.
 
-We use this `x-<variant>` naming convention whenever we want to change how something renders – the same applies to internal elements, e.g. we add an `x-hasError` class to `-inputRow` elements in `FormStateView` when it has an error, and needs different coloring.
+We use this `x-<variant>` naming convention whenever we want to change how something renders – think `x-selected`, `x-large`, etc. The same applies to internal elements, e.g. we add an `x-hasError` class to `-inputRow` elements in `FormStateView` when it has an error, and needs different coloring.
 
 Lastly, as the `.less` files mirror the `.scala` component files, similar patterns are to be observed there, for example the component's scala file should be responsible for creating all of its internal elements like `-inputRow`.
 
