@@ -6,10 +6,10 @@ import org.scalajs.dom
 object ControlledInputsView {
 
   private val appStyles = List(
-    marginTop("10px"),
-    marginBottom("10px"),
-    paddingTop("20px"),
-    paddingBottom("20px"),
+    marginTop.px(10),
+    marginBottom.px(10),
+    paddingTop.px(20),
+    paddingBottom.px(20),
     cls("u-bleed u-unbleed"),
     backgroundColor("#ffffe0")
   )

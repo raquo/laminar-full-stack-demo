@@ -14,28 +14,14 @@ import com.raquo.utils.JSImportSideEffect
   *
   * This can allow you to implement some shenanigans and abstract over some things.
   */
-abstract class WebComponent(tagName: String) {
-
-  JSImportSideEffect("@shoelace-style/shoelace/dist/themes/light.css")
+abstract class WebComponent(tagName: String) extends CommonTypes {
 
   type Ref <: dom.HTMLElement
 
   type ModFunction = this.type => Mod[ReactiveHtmlElement[Ref]]
 
   type ComponentMod = ModFunction | Mod[ReactiveHtmlElement[Ref]]
-  
-  type HtmlPropOf[V] = keys.HtmlProp[V, V]
 
-  type PropSetter[A] = KeySetter[keys.HtmlProp[A, A], A, ReactiveHtmlElement[Ref]]
-  
-  def stringProp(name: String): HtmlPropOf[String] = htmlProp(name, StringAsIsCodec)
-  
-  def boolProp(name: String): HtmlPropOf[Boolean] = htmlProp(name, BooleanAsIsCodec)
-  
-  def boolAttr(name: String): HtmlAttr[Boolean] = htmlAttr(name, BooleanAsAttrPresenceCodec)
-  
-  def stringAttr(name: String): HtmlAttr[String] = htmlAttr(name, StringAsIsCodec)
-  
   protected def tag: HtmlTag[Ref] = htmlTag(tagName)
   
   /** Instantiate this component using the specified modifiers.

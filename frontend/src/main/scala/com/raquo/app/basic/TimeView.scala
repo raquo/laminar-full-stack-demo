@@ -10,8 +10,8 @@ object TimeView {
   private val appStyles = List(
     marginTop("10px"),
     marginBottom("10px"),
-    paddingTop("20px"),
-    paddingBottom("20px"),
+    paddingTop.px(20), // CSS unit helpers. These work for <-- too, e.g. `paddingTop.px <-- observableOfInt` 
+    paddingBottom.px(20),
     cls("u-bleed u-unbleed"),
     backgroundColor("#ffffe0")
   )

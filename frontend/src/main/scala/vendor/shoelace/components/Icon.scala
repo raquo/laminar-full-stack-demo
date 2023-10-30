@@ -1,34 +1,20 @@
 package vendor.shoelace.components
 
-import com.raquo.laminar.codecs.*
-import com.raquo.laminar.keys.HtmlProp
-import com.raquo.laminar.tags.HtmlTag
+import com.raquo.laminar.api.L
+import com.raquo.laminar.api.L.*
+import com.raquo.laminar.defs.styles.traits as s
 import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
-import vendor.shoelace.{Shoelace, Slot, WebComponent}
-import com.raquo.laminar.api.L.*
-import com.raquo.laminar.api.L
-import com.raquo.laminar.modifiers.KeySetter
-import com.raquo.laminar.nodes.ReactiveHtmlElement
-import com.raquo.utils.Utils.HtmlModifier
-import com.raquo.laminar.defs.styles.{traits => s}
+import vendor.shoelace.WebComponent
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSImport
 
 /** [[https://shoelace.style/components/icon Shoelace docs]] */
 object Icon extends WebComponent("sl-icon") { self =>
 
   JSImportSideEffect("@shoelace-style/shoelace/dist/components/icon/icon.js")
 
-  @js.native
-  trait RawElement extends js.Object {
-
-    /** Gets the associated form, if one exists. */
-    def getForm(): dom.HTMLFormElement | Null
-  }
-
-  type Ref = dom.HTMLButtonElement with RawElement
+  type Ref = dom.HTMLButtonElement
 
 
   // -- Events --
@@ -67,13 +53,16 @@ object Icon extends WebComponent("sl-icon") { self =>
   /** The name of a registered custom icon library. */
   lazy val library: HtmlPropOf[String] = stringProp("library")
 
-  /** Icons are sized relative to the current font size. To change their size, set the font-size property on the icon itself or on a parent element. */
+  /** Icons are sized relative to the current font size.
+    * To change their size, set the font-size property
+    * on the icon itself or on a parent element.
+    */
   lazy val fontSize: StyleProp[String] with s.FontSize = L.fontSize
 
 
   // -- Slots --
 
-  lazy val noSlots: Unit = ()
+  @inline def noSlots: Unit = ()
 
 
   // -- CSS Parts --

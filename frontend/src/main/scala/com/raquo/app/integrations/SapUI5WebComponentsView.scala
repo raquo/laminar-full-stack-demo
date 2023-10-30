@@ -102,7 +102,7 @@ object SapUI5WebComponentsView {
     val countries = List("Canada", "New Zealand", "Australia", "UK")
     MultiComboBox.of(
       _.placeholder := "Choose your countries",
-      _ => width := "300px",
+      _ => width.px := 300,
       _ => countries.zipWithIndex.map((country, index) =>
         MultiComboBox.item(_.text := country, _.selected := (index == 0))
       )
