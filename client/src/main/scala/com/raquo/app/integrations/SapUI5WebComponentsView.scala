@@ -13,7 +13,6 @@ object SapUI5WebComponentsView {
   JSImportSideEffect("@find/**/SapUI5WebComponentsView.less")
 
   def apply(): HtmlElement = {
-
     div(
       cls("SapUI5WebComponentsView"),
       // Most concise syntax using Scala 3 union types.

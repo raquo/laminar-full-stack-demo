@@ -1,0 +1,56 @@
+@import "../../../../../../../style.less";
+
+.CodeSnippet {
+
+  > .-sourceHeader {
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    align-items: center;
+    color: #333;
+    font-size: 0.8em;
+    font-family: monospace;
+    background: #eee;
+
+    &:hover {
+      background: skyblue;
+      cursor: pointer;
+    }
+
+    > .-arrow {
+      display: inline-block;
+      width: 1em;
+      font-size: 1.35em;
+      margin-top: -3px;
+    }
+
+    > .-filename {
+      flex-grow: 1;
+    }
+
+    > .-githubLink {
+      float: right;
+    }
+  }
+
+  > pre {
+    margin-top: 0;
+
+    > code.hljs {
+      .u-unbleed; // get the declarations from .u-unbleed
+
+      font-size: 14px;
+      font-family: monospace;
+      //background: #fafafa;
+    }
+  }
+
+  &:not(:last-child) {
+
+    > pre {
+      margin-bottom: 0;
+    }
+  }
+
+}

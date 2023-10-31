@@ -1,9 +1,11 @@
 package com.raquo.app.form
 
+import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 
+// BEGIN[form-state]
 object FormStateView {
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
@@ -57,14 +59,15 @@ object FormStateView {
             )
           ),
           button(
-            typ("button"), // "submit" is the default butto type in HTML
+            typ("button"), // default button type in HTML is "submit", we don't want it
             "Set SF",
             onClick.mapTo("94110") --> zipWriter
           )
         ),
         
         button(typ("submit"), "Submit")
-      )
+      ),
+      CodeSnippets(_.`form-state`) // Renders the code snippet that you can see online.
     )
   }
 
@@ -82,3 +85,4 @@ object FormStateView {
     )
   }
 }
+// END[form-state]

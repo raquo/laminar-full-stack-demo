@@ -10,8 +10,16 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JSImportSideEffect
 import com.raquo.waypoint.*
 import org.scalajs.dom
+import vendor.highlightjs.hljs
 
 object JsApp {
+
+  // Load languages that we'll need for code snippets in Highlight.js
+  hljs.registerLanguage(_.Scala, _.Scala)
+  hljs.registerLanguage(_.Javascript, _.Javascript)
+  hljs.registerLanguage(_.Less, _.Less)
+  //hljs.registerLanguage(_.Css, _.Css)
+  //hljs.registerLanguage(_.Html, _.Html)
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
   JSImportSideEffect("@find/**/JsApp.less")

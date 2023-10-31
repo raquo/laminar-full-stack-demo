@@ -1,3 +1,8 @@
+// Import the stylesheet where the --bleedDistance variable
+// that we're using is defined. If you have many such
+// variables, you'll want to put them in a separate .less file.
+@import "../../../../../../style.less";
+
 .JsApp {
   margin: 50px auto;
   max-width: 800px;
@@ -6,7 +11,7 @@
   background: white;
 
   > .-content {
-    margin: 40px; // #TODO can padding act like margin, without this extra element?
+    margin: var(--bleedDistance); // #TODO can padding act like margin, without this extra element?
 
     h2 {
       margin-top: 45px;
@@ -15,16 +20,6 @@
 
     h3 {
       margin-top: 35px;
-    }
-
-    .u-bleed {
-      margin-left: -40px;
-      margin-right: -40px;
-    }
-
-    .u-unbleed {
-      padding-left: 40px;
-      padding-right: 40px;
     }
   }
 
@@ -35,17 +30,7 @@
     border: none;
 
     > .-content {
-      margin: 0 10px 50px 10px;
-
-      .u-bleed {
-        margin-left: -10px;
-        margin-right: -10px;
-      }
-
-      .u-unbleed {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
+      margin: 0 var(--bleedDistance) 50px var(--bleedDistance);
     }
   }
 }

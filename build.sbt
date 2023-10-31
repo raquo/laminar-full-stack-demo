@@ -2,26 +2,21 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 import scala.sys.process.Process
 
+name := "Laminar Demo"
+
 ThisBuild / version := "0.1.0"
 
 ThisBuild / scalaVersion := Versions.Scala_3
 
-// Run the frontend development loop (also run vite: `cd frontend; npm run dev`)
-addCommandAlias("cup", ";~client/fastLinkJS")
-// Start the backend server, and make sure to stop it afterwards
-addCommandAlias("sup", ";server/reStop ;~server/reStart ;server/reStop")
-// Build frontend for production
-addCommandAlias("cbuild", ";buildClient")
-// Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
-addCommandAlias("jar", ";packageApplication")
+lazy val precompile = taskKey[Unit]("runs our own pre-compile tasks")
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .in(file("./shared"))
   .enablePlugins(BuildInfoPlugin)
   .settings(
-    // sbt-BuildInfo plugin can write any data available in sbt at compile time
-    // to a `case class BuildInfo` that it makes available at runtime.
-    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, BuildInfoKey("laminarVersion" -> Versions.Laminar)),
+    // sbt-BuildInfo plugin can write any (simple) data available in sbt at
+    // compile time to a `case class BuildInfo` that it makes available at runtime.
+    buildInfoKeys := Seq[BuildInfoKey](scalaVersion, sbtVersion, BuildInfoKey("laminarVersion" -> Versions.Laminar)),
     // The BuildInfo case class is located in target/scala<version>/src_managed,
     // and with this setting, you'll need to `import com.raquo.buildinfo.BuildInfo`
     // to use it.
@@ -96,6 +91,21 @@ lazy val client = project
         // .withModuleSplitStyle(
         //   ModuleSplitStyle.SmallModulesFor(List("com.raquo.app")))
     },
+    // Generated scala.js output will call your main() method to start your app.
+    scalaJSUseMainModuleInitializer := true
+  )
+  .settings(
+    precompile := {
+      CodeSnippetsGenerator.generate(
+        rootPath = java.nio.file.Path.of("."),
+        targetPath = java.nio.file.Path.of("client/src/main/scala/com/raquo/app/codesnippets/generated"),
+        packageName = "com.raquo.app.codesnippets.generated",
+        objectName = "GeneratedSnippets"
+      )
+    },
+    (Compile / compile) := ((Compile / compile) dependsOn precompile).value
+  )
+  .settings(
     // Ignore changes to .less and .css files when watching files with sbt.
     // With the suggested build configuration and usage patterns, these files are
     // not included in the scala.js output, so there is no need for sbt to watch
@@ -105,9 +115,7 @@ lazy val client = project
     // reloading the entire application – much faster and smoother.
     watchSources := watchSources.value.filterNot { source =>
       source.base.getName.endsWith(".less") || source.base.getName.endsWith(".css")
-    },
-    // Generated scala.js output will call your main() method to start your app.
-    scalaJSUseMainModuleInitializer := true
+    }
   )
   .dependsOn(shared.js)
 
@@ -153,3 +161,14 @@ packageApplication := {
   IO.copyFile(fatJar, target)
   target
 }
+
+// -- Aliases
+
+// Run the frontend development loop (also run vite: `cd frontend; npm run dev`)
+addCommandAlias("cup", ";~client/fastLinkJS")
+// Start the backend server, and make sure to stop it afterwards
+addCommandAlias("sup", ";server/reStop ;~server/reStart ;server/reStop")
+// Build frontend for production
+addCommandAlias("cbuild", ";buildClient")
+// Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
+addCommandAlias("jar", ";packageApplication")

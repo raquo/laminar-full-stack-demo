@@ -1,9 +1,11 @@
 package com.raquo.app.todomvc
 
+import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 
+// BEGIN[todomvc]
 object TodoMvcApp {
 
   JSImportSideEffect("@find/**/TodoMvcApp.css")
@@ -16,28 +18,20 @@ object TodoMvcApp {
 
   case class TodoItem(id: Int, text: String, completed: Boolean)
 
-
   sealed abstract class Filter(val name: String, val passes: TodoItem => Boolean)
 
   object ShowAll extends Filter("All", _ => true)
-
   object ShowActive extends Filter("Active", !_.completed)
-
   object ShowCompleted extends Filter("Completed", _.completed)
 
   val filters: List[Filter] = ShowAll :: ShowActive :: ShowCompleted :: Nil
 
-
   sealed trait Command
 
   case class Create(itemText: String) extends Command
-
   case class UpdateText(itemId: Int, text: String) extends Command
-
   case class UpdateCompleted(itemId: Int, completed: Boolean) extends Command
-
   case class Delete(itemId: Int) extends Command
-
   case object DeleteCompleted extends Command
 
 
@@ -47,9 +41,7 @@ object TodoMvcApp {
   // Laminar uses my library Airstream as its reactive layer https://github.com/raquo/Airstream
 
   private val itemsVar = Var(List[TodoItem]())
-
   private val filterVar = Var[Filter](ShowAll)
-
   private var lastId = 1 // just for auto-incrementing IDs
 
   private val commandObserver = Observer[Command] {
@@ -77,24 +69,27 @@ object TodoMvcApp {
       .combineWith(filterVar.signal)
       .mapN(_ filter _.passes)
     div(
-      cls("todoapp-container u-bleed"),
       div(
-        cls("todoapp"),
+        cls("todoapp-container u-bleed"),
         div(
-          cls("header"),
-          h1("todos"),
-          renderNewTodoInput,
-        ),
-        div(
-          hideIfNoItems,
-          cls("main"),
-          ul(
-            cls("todo-list"),
-            children <-- todoItemsSignal.split(_.id)(renderTodoItem)
-          )
-        ),
-        renderStatusBar
-      )
+          cls("todoapp"),
+          div(
+            cls("header"),
+            h1("todos"),
+            renderNewTodoInput,
+          ),
+          div(
+            hideIfNoItems,
+            cls("main"),
+            ul(
+              cls("todo-list"),
+              children <-- todoItemsSignal.split(_.id)(renderTodoItem)
+            )
+          ),
+          renderStatusBar
+        )
+      ),
+      CodeSnippets(_.`todomvc`)
     )
   }
 
@@ -216,3 +211,4 @@ object TodoMvcApp {
   // so we need to listen to `keydown` or `keyup` instead.
   private val onEscapeKeyUp = onKeyUp.filter(_.keyCode == dom.KeyCode.Escape)
 }
+// END[todomvc]

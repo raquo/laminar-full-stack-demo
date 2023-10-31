@@ -35,7 +35,8 @@ button {
   padding: 4px 8px;
 }
 
-code {
+// Inline code only. Don't interfere with highlight.js code blocks!
+code:not(.hljs) {
   display: inline-block;
   margin: -2px 0;
   padding: 2px 4px;
@@ -64,8 +65,27 @@ code {
   border-radius: 4px;
 }
 
+:root {
+  --bleedDistance: 40px;
+}
+
+.u-bleed {
+  margin-left: calc(-1 * var(--bleedDistance));
+  margin-right: calc(-1 * var(--bleedDistance));
+}
+
+.u-unbleed {
+  padding-left: var(--bleedDistance);
+  padding-right: var(--bleedDistance);
+}
+
 // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
 @media (max-width: 800px) {
+
+  :root {
+    --bleedDistance: 10px;
+  }
+
   body {
     background: white;
   }
