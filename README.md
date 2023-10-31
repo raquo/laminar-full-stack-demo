@@ -10,6 +10,11 @@ This repository is an example [Laminar](https://laminar.dev/) [Scala.js](https:/
 More details below.
 
 
+## WIP
+
+### This works locally but isn't quite done yet! I had to publish it a bit early to test some Github integrations. Stay tuned for announcement once v0.1 is complete.
+
+
 ## Live demo
 
 ### 👉 [demo.laminar.dev](https://demo.laminar.dev)
@@ -285,3 +290,5 @@ Thanks to [Antoine](https://github.com/sherpal) for [FlyIOScalaJVMDemo](https://
 ## License
 
 This repo is provided under the MIT license.
+
+The logos and avatars of myself, Laminar, and Laminar sponsors are not covered by the MIT license. No license is granted to you for these assets. That said, you may have certain fair-use rights given to you by law.
