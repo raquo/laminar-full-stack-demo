@@ -42,7 +42,13 @@ object CodeBrowser {
       if (ignoreDirectoryNames.contains(fileName)) {
         Nil
       } else {
-        Files.list(path).iterator().asScala.flatMap(walk).toList
+        var stream: java.util.stream.Stream[Path] = null
+        try {
+          stream = Files.list(path)
+          stream.iterator().asScala.flatMap(walk).toList
+        } finally {
+          if (stream != null) stream.close()
+        }
       }
     } else {
       if (includeFileExtensions.exists(fileName.endsWith(_))) {
@@ -63,7 +69,7 @@ object CodeBrowser {
   }
 
   def extractCodeSnippets(filePath: Path, snippetsByKey: mutable.Map[String, mutable.Buffer[SbtCodeSnippet]]): Unit = {
-    println("> READ > " + filePath)
+    //println("> READ > " + filePath)
     val fileContent = Files.readString(filePath)
     val fileName = filePath.toFile.getName
     val dotExtension = fileName.substring(fileName.lastIndexOf("."))

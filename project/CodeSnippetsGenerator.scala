@@ -77,7 +77,11 @@ object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
   }
 
   def writeToFile(filePath: Path, fileContent: String): File = {
-    print("> WRITE > " + filePath.toString + " (" + fileContent.length + " chars)")
+    // Fun fact: if you print anything from sbt (specifically, from the
+    // client/fastLinkJS task run by scalajs-vite plugin), make sure
+    // to add a trailing newline, otherwise vite will break.
+    // So, println() - good, print() - bad.
+    println("> WRITE > " + filePath.toString + " (" + fileContent.length + " chars)")
     val outputFile = new File(filePath.toString)
     outputFile.getParentFile.mkdirs()
 
