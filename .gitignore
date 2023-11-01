@@ -1,5 +1,5 @@
 /dist/
-/frontend/dist/
+/client/dist/
 
 target/
 node_modules/
