@@ -39,6 +39,7 @@ object NetworkRequestsView {
     // Example based on plain JS version: http://plnkr.co/edit/ycQbBr0vr7ceUP2p6PHy?preview
 
     case class FetchOption(name: String, baseUrl: String, bustCache: Boolean = false) {
+      def id: String = "fetch-" + name
       def url: String = if (bustCache) baseUrl + "?t=" + js.Date.now() else baseUrl
     }
 
@@ -55,23 +56,24 @@ object NetworkRequestsView {
       val eventsVar = Var(List.empty[String])
       val (abortStream, abort) = EventStream.withUnitCallback
 
-      div(
+      form(
         h2("Fetch API tester", titleLink("fetch-tester")),
         options.map { option =>
           div(
             input(
-              idAttr(option.name),
+              idAttr(option.id),
               typ("radio"),
               nameAttr("fetchOption"),
               checked <-- selectedOptionVar.signal.map(_ == option),
               onChange.mapTo(option) --> selectedOptionVar,
             ),
-            label(forId(option.name), " " + option.name)
+            label(forId(option.id), " " + option.name)
           )
         },
         br(),
         div(
           button(
+            typ("button"),
             "Send",
             inContext { thisNode =>
               val clicks = thisNode.events(onClick).sample(selectedOptionVar.signal)
@@ -90,6 +92,7 @@ object NetworkRequestsView {
           ),
           " ",
           button(
+            typ("button"),
             "Abort",
             // Note: using advanced Laminar syntax feature – see https://laminar.dev/documentation#-unit-sinks
             onClick --> abort()
@@ -113,6 +116,7 @@ object NetworkRequestsView {
     // Example based on plain JS version: http://plnkr.co/edit/ycQbBr0vr7ceUP2p6PHy?preview
 
     case class AjaxOption(name: String, baseUrl: String, bustCache: Boolean = false) {
+      def id: String = "ajax-" + name
       def url: String = if (bustCache) baseUrl + "?t=" + js.Date.now() else baseUrl
     }
 
@@ -127,23 +131,24 @@ object NetworkRequestsView {
     private val pendingRequestVar = Var[Option[dom.XMLHttpRequest]](None)
     private val eventsVar = Var(List.empty[String])
 
-    val app: HtmlElement = div(
+    val app: HtmlElement = form(
       h2("Ajax API tester", titleLink("ajax-tester")),
       options.map { option =>
         div(
           input(
             typ("radio"),
-            idAttr(option.name),
+            idAttr(option.id),
             nameAttr("ajaxOption"),
             checked <-- selectedOptionVar.signal.map(_ == option),
             onChange.mapTo(option) --> selectedOptionVar
           ),
-          label(forId(option.name), " " + option.name)
+          label(forId(option.id), " " + option.name)
         )
       },
       br(),
       div(
         button(
+          typ("button"),
           "Send",
           inContext { thisNode =>
             val clickStream = thisNode.events(onClick).sample(selectedOptionVar.signal)
@@ -173,6 +178,7 @@ object NetworkRequestsView {
         ),
         " ",
         button(
+          typ("button"),
           "Abort",
           onClick --> (_ => pendingRequestVar.now().foreach(_.abort()))
         )
