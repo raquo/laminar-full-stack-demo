@@ -80,7 +80,14 @@ object HomePageView {
       br(),
       br(),
       hr(),
-      p(small(s"Built with Laminar v${BuildInfo.laminarVersion}")),
+      p(
+        small(
+          "Find the source code of this demo, installation instructions, documentation, etc. ",
+          a(href("https://github.com/raquo/laminar-full-stack-demo"), "on Github"), ".",
+          br(),
+          s"Built with Laminar v${BuildInfo.laminarVersion}"
+        )
+      )
     )
   }
 
