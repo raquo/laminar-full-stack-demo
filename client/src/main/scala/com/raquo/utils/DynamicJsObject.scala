@@ -3,7 +3,9 @@ package com.raquo.utils
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
 
+// BEGIN[wind-gradient]
 trait DynamicJsObject extends js.Object
+// END[wind-gradient]
 
 /**
   * These updateDynamic helpers provide an easy way to set rarely
@@ -40,7 +42,16 @@ object DynamicJsObject {
   // `"yes"` to js.Any in case of overloads. I'm not sure if it is supposed to, but
   // it would have been nice if that worked. #TODO[Scala]
 
-  extension (obj: js.Object)
+  // BEGIN[wind-gradient]
+  extension (obj: DynamicJsObject)
+
+    def updateDynamic(keyValuePairs: (String, js.Any)*): obj.type = {
+      keyValuePairs.foreach { (key, value) =>
+        obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
+      }
+      obj
+    }
+    // END[wind-gradient]
 
     //def updateDynamic(key: String, value: js.Any): obj.type = {
     //  obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
@@ -51,12 +62,5 @@ object DynamicJsObject {
     //  obj.asInstanceOf[js.Dynamic].updateDynamic(keyValuePair._1)(keyValuePair._2)
     //  obj
     //}
-
-    def updateDynamic(keyValuePairs: (String, js.Any)*): obj.type = {
-      keyValuePairs.foreach { (key, value) =>
-        obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
-      }
-      obj
-    }
 
 }

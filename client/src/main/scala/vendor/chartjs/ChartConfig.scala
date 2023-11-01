@@ -24,6 +24,7 @@ type Number = Double | Float | Int | Short | Byte
 // redundancy is killing me, so I'm not doing it. But if you
 // want more precise types, you can do it.
 
+// BEGIN[wind-gradient]
 /**
   * @param plugins Inline plugins for this chart.
   *                - See [[https://www.chartjs.org/docs/latest/configuration/ Chart.js docs]]
@@ -77,6 +78,7 @@ class ChartDataset(
   var xAxisID: String | Unit = js.undefined,
   var yAxisID: String | Unit = js.undefined,
 ) extends DynamicJsObject
+// END[wind-gradient]
 
 /**
   * @param parsing   How to parse the dataset.

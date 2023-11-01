@@ -10,14 +10,18 @@ object CodeSnippets {
 
   def apply(
     snippets: GeneratedSnippets.type => List[CodeSnippet],
-    startExpanded: Boolean = true
+    caption: String | Unit = (),
+    startExpanded: CodeSnippet => Boolean = _ => true
   ): HtmlElement = {
     val _snippets = snippets(GeneratedSnippets)
     div(
       cls("CodeSnippets"),
-      if (_snippets.length == 1) "Source:" else "Sources:",
+      caption match {
+        case str: String => str
+        case () => if (_snippets.length == 1) "Source:" else "Sources:"
+      },
       _snippets.map { snippet =>
-        CodeSnippet.render(snippet, startExpanded)
+        CodeSnippet.render(snippet, startExpanded(snippet))
       }
     )
   }

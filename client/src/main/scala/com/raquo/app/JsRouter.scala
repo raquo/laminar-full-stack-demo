@@ -51,4 +51,17 @@ object JsRouter extends waypoint.Router[Page](
       --> (_ => pushState(page))
       ).bind(el)
   }
+
+  /** Add this to a h1..h6 titleelement to add a clickable
+    * "#" link that will scroll to that title.
+    * `id` is the fragment that will appear in the URL.
+    */
+  def titleLink(id: String, caption: String = "#"): Modifier.Base = {
+    List[Modifier.Base](
+      // Sets the id attribute of the title element into which we add this link
+      Modifier(parentEl => parentEl.ref.id = id),
+      // Creates a link and inserts it into the title
+      a(cls("u-titleLink"), href(s"#$id"), caption)
+    )
+  }
 }

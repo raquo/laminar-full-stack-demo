@@ -29,6 +29,7 @@ import scala.scalajs.js.annotation.JSImport
 //
 // See https://www.scala-js.org/doc/interoperability/facade-types.html for more details.
 
+// BEGIN[wind-gradient]
 @js.native
 @JSImport("chart.js")
 class Chart(
@@ -48,44 +49,47 @@ object Chart extends js.Object {
   
   def defaults: ChartConfigOptions = js.native
   
-  // Can accept: ..., plugins
+  // Can accept: chart.js controllers, elements, plugins
   def register(components: js.Object*): Unit = js.native
 
   def unregister(components: js.Object*): Unit = js.native
 }
+// END[wind-gradient]
 
 @js.native
-@JSImport("chart.js", "Colors")
+@JSImport("chart.js")
 object Colors extends js.Object
 
 @js.native
-@JSImport("chart.js", "BarController")
+@JSImport("chart.js")
 object BarController extends js.Object
 
+// BEGIN[wind-gradient]
 @js.native
-@JSImport("chart.js", "LineController")
+@JSImport("chart.js")
 object LineController extends js.Object
 
 @js.native
-@JSImport("chart.js", "CategoryScale")
+@JSImport("chart.js")
 object CategoryScale extends js.Object
 
 @js.native
-@JSImport("chart.js", "LinearScale")
+@JSImport("chart.js")
 object LinearScale extends js.Object
+// END[wind-gradient]
 
 @js.native
-@JSImport("chart.js", "BarElement")
+@JSImport("chart.js")
 object BarElement extends js.Object
 
 @js.native
-@JSImport("chart.js", "LineElement")
+@JSImport("chart.js")
 object LineElement extends js.Object
 
 @js.native
-@JSImport("chart.js", "PointElement")
+@JSImport("chart.js")
 object PointElement extends js.Object
 
 @js.native
-@JSImport("chart.js", "Legend")
+@JSImport("chart.js")
 object Legend extends js.Object

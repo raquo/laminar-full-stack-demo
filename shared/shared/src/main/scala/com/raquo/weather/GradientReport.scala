@@ -2,6 +2,7 @@ package com.raquo.weather
 
 import scala.scalajs.js.annotation.JSExportAll
 
+// BEGIN[wind-gradient]
 import io.bullet.borer.*
 import io.bullet.borer.derivation.MapBasedCodecs.*
 
@@ -52,3 +53,4 @@ object GradientReport {
 
   given codec: Codec[GradientReport] = deriveCodec
 }
+// END[wind-gradient]

@@ -34,12 +34,13 @@ object Switch extends WebComponent("sl-switch") { self =>
 
   // -- CSS Custom Properties
 
+  // BEGIN[shoelace/css-custom-properties]
   lazy val width: StyleProp[String] with s.Auto with u.Length[DSP, Int] = lengthAutoStyle("--width")
 
   lazy val height: StyleProp[String] with s.Auto with u.Length[DSP, Int] = lengthAutoStyle("--height")
 
   lazy val thumbSize: StyleProp[String] with s.Auto with u.Length[DSP, Int] = lengthAutoStyle("--thumb-size")
-
+  // END[shoelace/css-custom-properties]
 
   // -- CSS Parts --
 

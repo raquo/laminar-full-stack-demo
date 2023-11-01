@@ -1,8 +1,11 @@
+// BEGIN[shoelace/themes]
 .ShoelaceWebComponentsView {
   // Basic light & dark theme support for these two properties of this non-Shoelace element.
   color: var(--sl-color-neutral-1000);
   background: var(--sl-color-neutral-0);
+  // END[shoelace/themes]
 
+  // BEGIN[shoelace/css-parts]
   // Customization using CSS parts as described in https://shoelace.style/getting-started/customizing#css-parts
   // Except I used LESS nesting syntax, and also colored the icon.
   .tomato-button {
@@ -70,9 +73,10 @@
       outline-offset: 4px;
     }
   }
+  // END[shoelace/css-parts]
 
+  // BEGIN[shoelace/design-tokens]
   .indigoPrimaryColor {
-
     // Any elements that match `.ShoelaceWebComponentsView .indigoPrimaryColor`,
     // and any of their descendants, will have indigo colors as primary colors.
     // Read about CSS custom properties:
@@ -89,4 +93,5 @@
     --sl-color-primary-900: var(--sl-color-indigo-900);
     --sl-color-primary-950: var(--sl-color-indigo-950);
   }
+  // END[shoelace/design-tokens]
 }
