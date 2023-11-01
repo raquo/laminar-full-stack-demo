@@ -35,7 +35,11 @@ object WeatherGradientChart {
                 "weight" -> "bold"
               )
             )
-          )
+          ),
+          // This makes the chart respond to match the size of its
+          // parent container (-graphbox in our case).
+          // See https://www.chartjs.org/docs/latest/configuration/responsive.html
+          maintainAspectRatio = false
         )
       )
     )

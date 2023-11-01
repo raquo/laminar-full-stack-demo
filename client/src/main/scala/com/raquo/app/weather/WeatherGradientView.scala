@@ -119,7 +119,6 @@ object WeatherGradientView {
     val selectedDayVar = Var(Option.empty[String]) // "None" means "Current observations"
     var maybeChart = Option.empty[Chart]
     div(
-      cls("-graphbox"),
       Tabs(
         initialReport.forecastDays,
         maybeForecastDay => {
@@ -131,35 +130,40 @@ object WeatherGradientView {
           )
         }
       ),
-      canvasTag(
-        // This lifecycle block instantiates the chart when this element is mounted,
-        // and frees up its resources when it's unmounted. This way you can navigate
-        // in and out of the graph page without using up more resources than needed.
-        onMountUnmountCallback(
-          mount = ctx => {
-            maybeChart = Some(WeatherGradientChart.makeChart(ctx.thisNode.ref))
-          },
-          unmount = _ => maybeChart.foreach(_.destroy())
-        ),
-        // The callback below is invoked whenever you select a different date, or whenever
-        // we get new data from the server (the latter only happens once in this application).
-        // As you see we are not re-creating the chart here on every update, rather,
-        // we reuse the existing chart, pushing updated config to it. This is much more
-        // efficient and gives users a better experience.
-        //
-        // Note: mounting (see onMountUnmountCallback above) is synchronous, and the network
-        // request to fetch graph data is asynchronous, so the latter is guaranteed to happen
-        // AFTER this mounting callback. In this callback we implicitly rely on this sequence
-        // of events, because if it was the other way round, maybeChart here would be empty,
-        // and this callback wouldn't do anything. You always need to consider such things
-        // when building UI applications, but thankfully JS world is single threaded, so it's
-        // much easier to reason about.
-        selectedDayVar.signal.combineWith(gradientReportS) --> { (selectedDay, report) =>
-          maybeChart.foreach { chart =>
-            WeatherGradientChart.updateChart(chart, selectedDay, report)
+      div(
+        // Don't put anything else in this div except for the canvas tag!
+        // That's a Chart.js requirement for responsive sizing.
+        cls("-graphbox"),
+        canvasTag(
+          // This lifecycle block instantiates the chart when this element is mounted,
+          // and frees up its resources when it's unmounted. This way you can navigate
+          // in and out of the graph page without using up more resources than needed.
+          onMountUnmountCallback(
+            mount = ctx => {
+              maybeChart = Some(WeatherGradientChart.makeChart(ctx.thisNode.ref))
+            },
+            unmount = _ => maybeChart.foreach(_.destroy())
+          ),
+          // The callback below is invoked whenever you select a different date, or whenever
+          // we get new data from the server (the latter only happens once in this application).
+          // As you see we are not re-creating the chart here on every update, rather,
+          // we reuse the existing chart, pushing updated config to it. This is much more
+          // efficient and gives users a better experience.
+          //
+          // Note: mounting (see onMountUnmountCallback above) is synchronous, and the network
+          // request to fetch graph data is asynchronous, so the latter is guaranteed to happen
+          // AFTER this mounting callback. In this callback we implicitly rely on this sequence
+          // of events, because if it was the other way round, maybeChart here would be empty,
+          // and this callback wouldn't do anything. You always need to consider such things
+          // when building UI applications, but thankfully JS world is single threaded, so it's
+          // much easier to reason about.
+          selectedDayVar.signal.combineWith(gradientReportS) --> { (selectedDay, report) =>
+            maybeChart.foreach { chart =>
+              WeatherGradientChart.updateChart(chart, selectedDay, report)
+            }
           }
-        }
-      ),
+        ),
+      )
     )
   }
 

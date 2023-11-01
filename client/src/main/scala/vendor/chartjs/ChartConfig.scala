@@ -104,7 +104,8 @@ class ChartConfigOptions(
   var parsing: js.Dictionary[String] | Boolean | Unit = js.undefined,
   var scales: js.Dictionary[ChartAxis] | Unit = js.undefined,
   var animation: ChartAnimation | Boolean | Unit = js.undefined,
-  var plugins: js.Dictionary[js.Object | Boolean] | Boolean | Unit = js.undefined
+  var plugins: js.Dictionary[js.Object | Boolean] | Boolean | Unit = js.undefined,
+  var maintainAspectRatio: Boolean | Unit = js.undefined
 ) extends DynamicJsObject
 
 /** @param typ      "linear" (?) | "time" | "logarithmic" | "r" etc.

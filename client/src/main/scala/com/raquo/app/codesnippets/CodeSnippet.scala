@@ -39,9 +39,16 @@ object CodeSnippet {
         ),
         a(
           cls("-githubLink"),
+          // We need `stopPropagation` to prevent the link click event from bubbling,
+          // triggering the parent div's onClick above. We give it an empty observer
+          // just to get the subscription going, `stopPropagation` already contains
+          // our desired side effect.
+          // See https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling
+          onClick.stopPropagation --> Observer.empty,
           href(githubUrl(snippet)),
           target("_blank"),
-          "View on Github"
+          span(cls("u-hideOnMobile"), "View on "),
+          "Github"
         )
       ),
       child <-- isExpandedVar.signal.map(if (_) {

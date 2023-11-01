@@ -1,21 +1,29 @@
 .Tabs {
+  --tabBg: #f9f9f9;
+  --tabBorder: 1px solid #ccc;
+  --tabPaddingV: 6px;
+  --tabPaddingH: 10px;
+
+  background: var(--tabBg);
+  border-bottom: var(--tabBorder);
 
   .-tab {
+    display: inline-block;
     margin: 0;
-    padding: 6px 10px;
+    padding: var(--tabPaddingV) var(--tabPaddingH);
     font-size: 1em;
     background: white;
     border: none;
 
     &.x-selected {
-      //background: aqua;
-      border: 1px solid #ccc;
-      border-bottom: 0;
+      margin-bottom: -1px;
+      padding-bottom: calc(var(--tabPaddingV) + 1px);
+      border: var(--tabBorder);
+      border-bottom: none;
     }
 
     &:not(.x-selected) {
-      border-bottom: 1px solid #ccc;
-      background: #f9f9f9;
+      background: var(--tabBg);
 
       &:hover {
         cursor: pointer;
