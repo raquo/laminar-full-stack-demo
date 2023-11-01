@@ -20,8 +20,6 @@ object HomePageView {
 
   private val formPages = List(UncontrolledInputsPage, ControlledInputsPage, FormStatePage)
 
-  private val appPages = List(TodoMvcPage)
-
   def apply(): HtmlElement = {
     div(
       //cls("HomePageView"),
@@ -39,12 +37,12 @@ object HomePageView {
       h2("Apps"),
       ul(
         listStyles,
-        appPages.map(pageLink(_))
+        pageLink(TodoMvcPage, caption = Some("TodoMVC (state management)")),
+        pageLink(WeatherGradientPage(Squamish.id), caption = Some("Wind gradient (chart.js, JSON, backend)"))
       ),
       h2("Integrations"),
       ul(
         listStyles,
-        pageLink(WeatherGradientPage(Squamish.id), caption = Some("Wind gradient (chart.js)")),
         pageLink(UI5WebComponentsPage),
         pageLink(ShoelaceWebComponentsPage),
         li(">>> Fetch Tester"),

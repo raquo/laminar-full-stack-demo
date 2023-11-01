@@ -2,17 +2,21 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 import scala.sys.process.Process
 
-name := "Laminar Demo"
-
 ThisBuild / version := "0.1.0"
 
 ThisBuild / scalaVersion := Versions.Scala_3
 
-lazy val precompile = taskKey[Unit]("runs our own pre-compile tasks")
+lazy val root = project.in(file("."))
+  .aggregate(client, server)
+  .settings(
+    name := "Laminar Demo"
+  )
+  .settings(noPublish)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .in(file("./shared"))
   .enablePlugins(BuildInfoPlugin)
+  .settings(commonSettings)
   .settings(
     // sbt-BuildInfo plugin can write any (simple) data available in sbt at
     // compile time to a `case class BuildInfo` that it makes available at runtime.
@@ -43,6 +47,7 @@ lazy val shared = crossProject(JSPlatform, JVMPlatform)
 
 lazy val server = project
   .in(file("./server"))
+  .settings(commonSettings)
   .settings(
     libraryDependencies ++= List(
       // Effect library providing the IO type, used as a better alternative to scala.Future
@@ -80,6 +85,7 @@ lazy val server = project
 lazy val client = project
   .in(file("./client"))
   .enablePlugins(ScalaJSPlugin)
+  .settings(commonSettings)
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
@@ -118,6 +124,8 @@ lazy val client = project
     }
   )
   .dependsOn(shared.js)
+
+lazy val precompile = taskKey[Unit]("runs our own pre-compile tasks")
 
 val buildClient = taskKey[Unit]("Build client (frontend)")
 
@@ -161,6 +169,17 @@ packageApplication := {
   IO.copyFile(fatJar, target)
   target
 }
+
+lazy val commonSettings = Seq(
+  scalacOptions ++= Seq(
+    "-deprecation"
+  )
+)
+
+lazy val noPublish = Seq(
+  publishLocal / skip := true,
+  publish / skip := true
+)
 
 // -- Aliases
 
