@@ -83,7 +83,7 @@ object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
     // client/fastLinkJS task run by scalajs-vite plugin), make sure
     // to add a trailing newline, otherwise vite will break.
     // So, println() - good, print() - bad.
-    println("> WRITE > " + filePath.toString + " (" + fileContent.length + " chars)")
+    //println("> WRITE > " + filePath.toString + " (" + fileContent.length + " chars)")
     val outputFile = new File(filePath.toString)
     outputFile.getParentFile.mkdirs()
 

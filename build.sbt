@@ -62,23 +62,20 @@ lazy val server = project
       "org.http4s" %% "http4s-ember-client" % Versions.Http4s,
       // XML decoder (to parse weather API XMLs)
       "ru.tinkoff" %% "phobos-core" % Versions.Phobos,
-    ),
+    )
+  )
+  .settings(
     assembly / mainClass := Some("com.raquo.server.Server"),
     assembly / assemblyJarName := "app.jar",
 
-    //// #TODO once my backend dependencies stabilize, remove or reduce this block, since we don't use armeria anymore.
-    //// Get rid of "(server / assembly) deduplicate: different file contents found in the following" errors
-    //// https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
-    //// #TODO Ask people if this is ok
-    //assembly / assemblyMergeStrategy := {
-    //  case x if x.endsWith("module-info.class") => MergeStrategy.discard
-    //  case x if x.endsWith("META-INF/io.netty.versions.properties") => MergeStrategy.discard
-    //  case x if x.endsWith("META-INF/com.linecorp.armeria.versions.properties") => MergeStrategy.discard
-    //  case x if x.endsWith("META-INF/native/lib/libnetty-unix-common.a") => MergeStrategy.discard
-    //  case x =>
-    //    val oldStrategy = (assembly / assemblyMergeStrategy).value
-    //    oldStrategy(x)
-    //}
+    // Gets rid of "(server / assembly) deduplicate: different file contents found in the following" errors
+    // https://stackoverflow.com/questions/54834125/sbt-assembly-deduplicate-module-info-class
+    assembly / assemblyMergeStrategy := {
+      case path if path.endsWith("module-info.class") => MergeStrategy.discard
+      case path =>
+        val oldStrategy = (assembly / assemblyMergeStrategy).value
+        oldStrategy(path)
+    }
   )
   .dependsOn(shared.jvm)
 
