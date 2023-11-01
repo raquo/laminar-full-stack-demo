@@ -40,13 +40,21 @@ object WeatherGradientView {
     // Just a naming convention: if a variable ends in a capital S, it's a Signal or Stream.
     // Helps to differentiate Scala collections from observables, and their mixes:
     // e.g. users: List[user], userS: Signal[User], usersS: Signal[List[User]]
-    // #Note: `def` is important here, but hopefully not for long, looking to fix it in 17.0.0
+    // #Note: `def` is important here, but not for long, looking to fix it in 17.0.0
+    //  https://github.com/raquo/Airstream/issues/111
     def gradientS = pageS.flatMap { p =>
       Gradient.forId(p.gradientId) match {
         case Some(gradient) =>
           EventStream.fromValue(gradient)
         case None =>
-          forcePage(NotFoundPage)
+          js.timers.setTimeout(0) {
+            // #TODO the delay is needed in case when you're serving the production application,
+            //  and the user navigates to a bad gradient wind URL via the address bar (as opposed
+            //  to using waypoint / pushState). Not quire sure why, must be some race condition.
+            //  Ideally Waypoint should have better built-in support for async route validation.
+            //  Actually it would be good to show how to do both sync and async route validation.
+            forcePage(NotFoundPage)
+          }
           EventStream.empty
       }
     }
