@@ -25,7 +25,7 @@ More details below.
 
 ## Fun funding fact
 
-The development of learning materials like this is enabled by [Laminar sponsors](https://github.com/sponsors/raquo).
+The development of learning materials like this is made possible by [Laminar sponsors](https://github.com/sponsors/raquo).
 
 
 ### DIAMOND sponsor:
@@ -87,7 +87,7 @@ sbt
 ~server/reStart
 ```
 
-Once you're familiar with this setup, feel free to use sbt shorthand command aliases that I defined in the `build.sbt` file: `cup` for `~client/fastLinkJS`, and `sup` for `~server/reStart`.
+Once you're familiar with this setup, feel free to use sbt shorthand command aliases that I defined in the `build.sbt` file: `cup` for `~client/fastLinkJS`, and `sup` for `~server/reStart`. Save your fingers / wrists.
 
 
 
@@ -113,7 +113,7 @@ Then run it with
 docker run --rm -p 9000:8080 laminar-demo
 ```
 
-and then go to [`localhost:9000`](http://localhost:9000).
+and then go to [`localhost:9000`](http://localhost:9000). Of course, you'll need to install and launch Docker for all `docker` commands.
 
 
 ### Deploy to fly.io
