@@ -10,6 +10,7 @@ import org.scalajs.dom
 
 import scala.util.{Failure, Success, Try}
 
+// BEGIN[waypoint/router]
 /** See [[https://github.com/raquo/Waypoint Waypoint documentation]] for details on how frontend routing works. */
 object JsRouter extends waypoint.Router[Page](
   routes = routes,
@@ -52,7 +53,7 @@ object JsRouter extends waypoint.Router[Page](
       ).bind(el)
   }
 
-  /** Add this to a h1..h6 titleelement to add a clickable
+  /** Add this to a h1..h6 title element to add a clickable
     * "#" link that will scroll to that title.
     * `id` is the fragment that will appear in the URL.
     */
@@ -65,3 +66,4 @@ object JsRouter extends waypoint.Router[Page](
     )
   }
 }
+// END[waypoint/router]

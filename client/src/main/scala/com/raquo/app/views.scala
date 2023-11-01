@@ -9,6 +9,7 @@ import com.raquo.app.weather.WeatherGradientView
 import com.raquo.app.JsRouter.*
 import com.raquo.waypoint.SplitRender
 
+// BEGIN[waypoint/views]
 val views = SplitRender(JsRouter.currentPageSignal)
   .collectStatic(HomePage)(HomePageView())
   .collectStatic(HelloWorldPage)(HelloWorldView())
@@ -23,8 +24,10 @@ val views = SplitRender(JsRouter.currentPageSignal)
   .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
   .collectStatic(NetworkRequestsPage)(NetworkRequestsView())
   .collectStatic(WaypointRoutingPage)(WaypointRoutingView())
+  .collectStatic(WaypointRoutingPage)(CodeSnippetsView())
   .collectStatic(NotFoundPage)(renderNotFoundPage())
   .signal
+// END[waypoint/views]
 
 // All the other page Views are defined in different files
 // for easier organization, but of course you can just use

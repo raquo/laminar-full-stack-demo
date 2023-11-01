@@ -34,10 +34,13 @@ object JsApp {
         cls := "JsApp",
         div(
           cls := "-content",
+          // BEGIN[waypoint/currentPageSignal/backToHome]
           child.maybe <-- JsRouter.currentPageSignal.map {
             case HomePage => None
             case _ => Some(h3(a(navigateTo(HomePage), "Back to home")))
           },
+          // END[waypoint/currentPageSignal/backToHome]
+
           // #Exercise for advanced readers: JsRouter.currentPageSignal emits
           // very rarely (only when user navigates to another page). However,
           // imagine if it was emitting various pages 1000 times per second.
@@ -48,7 +51,9 @@ object JsApp {
             case page: TitledPage => h1(page.title)
             case _ => emptyNode
           },
+          // BEGIN[waypoint/currentPageSignal/view]
           child <-- views
+          // END[waypoint/currentPageSignal/view]
         )
       )
     }

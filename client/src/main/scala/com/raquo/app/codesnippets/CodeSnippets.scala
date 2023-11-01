@@ -11,14 +11,17 @@ object CodeSnippets {
   def apply(
     snippets: GeneratedSnippets.type => List[CodeSnippet],
     caption: String | Unit = (),
+    asParagraph: Boolean = false,
     startExpanded: CodeSnippet => Boolean = _ => true
   ): HtmlElement = {
     val _snippets = snippets(GeneratedSnippets)
-    div(
+    val tag = if (asParagraph) p else div // Example of using dynamic tag
+    tag(
       cls("CodeSnippets"),
-      caption match {
-        case str: String => str
-        case () => if (_snippets.length == 1) "Source:" else "Sources:"
+      (caption, asParagraph) match {
+        case (str: String, _) => str
+        case ((), true) => emptyNode
+        case ((), false) => if (_snippets.length == 1) "Source:" else "Sources:"
       },
       _snippets.map { snippet =>
         CodeSnippet.render(snippet, startExpanded(snippet))
