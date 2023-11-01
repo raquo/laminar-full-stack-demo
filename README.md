@@ -1,3 +1,5 @@
+![](https://laminar.dev/img/brand/laminar-logo-100px-rounded.png)
+
 # Laminar & Scala.js Full Stack Demo
 
 This repository is an example [Laminar](https://laminar.dev/) [Scala.js](https://www.scala-js.org/) application complete with a [Vite](https://vitejs.dev/) dev server, [http4s](https://http4s.org/) backend, docker deployment of production builds, and many other features. It mainly focuses on the following aspects:
@@ -37,7 +39,7 @@ The development of learning materials like this is enabled by [Laminar sponsors]
 
 [![Yurique](https://laminar.dev/img/sponsors/yurique-50px.jpg?)](https://github.com/yurique) **[Iurii Malchenko](https://github.com/yurique)**
 
-[![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-200px.png)](https://www.aurinko.io/)
+[![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-250px.png)](https://www.aurinko.io/)
 
 [Aurinko](https://aurinko.io/) is an API platform for workplace addons and integrations.
 

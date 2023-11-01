@@ -3,10 +3,13 @@ package com.raquo.app
 import com.raquo.app.JsRouter.*
 import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
+import com.raquo.utils.JSImportSideEffect
 import com.raquo.weather.Gradient
 import com.raquo.weather.Gradient.Squamish
 
 object HomePageView {
+
+  JSImportSideEffect("@find/**/HomePageView.less")
 
   // Shared inline styles. You can also use CSS classes for common styling of course.
   // See https://laminar.dev/documentation#approaches-to-css for a high level summary.
@@ -22,8 +25,12 @@ object HomePageView {
 
   def apply(): HtmlElement = {
     div(
-      //cls("HomePageView"),
-      p("Welcome to ", a(href("https://laminar.dev"), "Laminar"), " & ", a(href("https://www.scala-js.org/"), "Scala.js"), " full stack demo. The ", a(href("https://github.com/raquo/laminar-full-stack-demo"), "source code and README"), " is on github."),
+      cls("HomePageView"),
+      h1(
+        img(cls("-logo"), src("https://laminar.dev/img/brand/laminar-logo-200px-rounded.png")),
+        "Laminar Demo"
+      ),
+      p("Welcome to ", a(href("https://laminar.dev"), "Laminar"), " & ", a(href("https://www.scala-js.org/"), "Scala.js"), " full stack demo. The ", a(href("https://github.com/raquo/laminar-full-stack-demo"), "source code & README"), " are on Github."),
       h2("Basic examples"),
       ul(
         listStyles,
@@ -45,8 +52,9 @@ object HomePageView {
         listStyles,
         pageLink(UI5WebComponentsPage),
         pageLink(ShoelaceWebComponentsPage),
-        pageLink(NetworkRequestsPage),
-        pageLink(WaypointRoutingPage)
+        pageLink(NetworkRequestsPage, caption = Some("Network requests (Fetch & Ajax)")),
+        pageLink(WaypointRoutingPage),
+        pageLink(CodeSnippetsPage, caption = Some("Code snippets (highlight.js + compile-time data)"))
       ),
       h2("Broken links for testing"),
       ul(
