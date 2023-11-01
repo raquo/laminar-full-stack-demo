@@ -179,6 +179,12 @@ Make sure you're using a good IDE that 1) lets you go-to-definition on every ter
 
 * [http4s](https://http4s.org/) serving SPA routes, API routes, static assets, and a 404 fallback route
 * Fetching and parsing XML weather data from Environment Canada API
+
+
+### Sbt setup
+
+* Generating complex Scala.js code with compile-time data
+* Passing simple compile-time data to Scala.js using [sbt-buildinfo](https://github.com/sbt/sbt-buildinfo)
 * Hot server reload using [sbt-revolver](https://github.com/spray/sbt-revolver)
 
 
@@ -189,7 +195,7 @@ Make sure you're using a good IDE that 1) lets you go-to-definition on every ter
 
 
 
-## Patterns
+## Documentation
 
 ### Suggested CSS styling strategy
 

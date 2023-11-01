@@ -7,15 +7,12 @@ import com.raquo.app.jsonApiDecoder
 import com.raquo.app.pages.WeatherGradientPage
 import com.raquo.data.ApiResponse
 import com.raquo.laminar.api.L.*
-import com.raquo.utils.{DynamicJsObject, JSImportSideEffect}
+import com.raquo.utils.JSImportSideEffect
 import com.raquo.utils.Url.*
-import com.raquo.utils.Utils.*
 import com.raquo.weather.{Gradient, GradientReport}
-import org.scalajs.dom
 import vendor.chartjs.*
 
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters.*
 
 // BEGIN[wind-gradient]
 object WeatherGradientView {
@@ -78,7 +75,7 @@ object WeatherGradientView {
       renderError(apiResponseS),
       child <-- gradientReportStream.toWeakSignal.splitOption(
         (initialReport, reportSignal) => renderChart(initialReport, reportSignal),
-        ifEmpty = div("Loading data...")
+        ifEmpty = div(cls("-loading"), "Fetching data...")
       ),
       CodeSnippets(
         _.`wind-gradient`.sortBy(_.fileName != "WeatherGradientView.scala"),

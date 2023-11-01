@@ -7,6 +7,7 @@ import com.raquo.utils.JSImportSideEffect
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
+// BEGIN[codesnippets/highlight.js]
 /** This is a simple but ergonomic wrapper for the Highlight.js library.
   * The actual JS interface is in `object raw`, but we make it a bit nicer to use.
   */
@@ -24,22 +25,15 @@ object hljs {
   object raw extends js.Object {
 
     trait HighlightOptions extends js.Object {
-
       val language: LanguageName
-
       val ignoreIllegals: Boolean | Unit = js.undefined
     }
 
     @js.native
     trait HighlightResult extends js.Object {
-
       /** Raw input code that was formatted */
       val code: String
-
-      val illegal: Boolean
-
       val language: LanguageName
-
       /** HTML string with the formatted code */
       val value: String
     }
@@ -47,11 +41,6 @@ object hljs {
     def highlight(code: String, options: HighlightOptions): HighlightResult = js.native
 
     def registerLanguage(name: LanguageName, language: Language): Unit = js.native
-
-    def unregisterLanguage(name: LanguageName): Unit = js.native
-
-    def listLanguages(): js.Array[LanguageName] = js.native
-
   }
 
   // I like contextual APIs like this. Does not need extra imports,
@@ -77,15 +66,11 @@ object hljs {
   }
 
   object LanguageName {
-
     val Scala: LanguageName = "scala".asInstanceOf[LanguageName]
-
     val Javascript: LanguageName = "javascript".asInstanceOf[LanguageName]
-
     val Less: LanguageName = "less".asInstanceOf[LanguageName]
-
     val Css: LanguageName = "css".asInstanceOf[LanguageName]
-
     val Html: LanguageName = "xml".asInstanceOf[LanguageName]
   }
 }
+// END[codesnippets/highlight.js]

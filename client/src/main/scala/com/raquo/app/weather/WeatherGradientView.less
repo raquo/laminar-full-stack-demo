@@ -1,17 +1,29 @@
 // BEGIN[wind-gradient]
 .WeatherGradientView {
 
+  --chartHeight: 400px;
+
+  @media(max-width: 800px) {
+    --chartHeight: min(100vh, 100vw);
+  }
+
   .Tabs {
     margin: 20px 0;
   }
 
+  .-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--chartHeight);
+    background: #f5f5f5;
+    color: #333;
+    font-size: 0.9em;
+  }
+
   .-graphbox {
     position: relative;
-    height: 400px;
-
-    @media(max-width: 800px) {
-      min-height: min(100vh, 100vw);
-    }
+    height: var(--chartHeight);
   }
 }
 // END[wind-gradient]

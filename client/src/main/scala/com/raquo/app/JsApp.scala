@@ -8,12 +8,12 @@ import vendor.highlightjs.hljs
 
 object JsApp {
 
+  // BEGIN[codesnippets/highlight.js]
   // Load languages that we'll need for code snippets in Highlight.js
   hljs.registerLanguage(_.Scala, _.Scala)
   hljs.registerLanguage(_.Javascript, _.Javascript)
   hljs.registerLanguage(_.Less, _.Less)
-  //hljs.registerLanguage(_.Css, _.Css)
-  //hljs.registerLanguage(_.Html, _.Html)
+  // END[codesnippets/highlight.js]
 
   // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
   JSImportSideEffect("@find/**/JsApp.less")

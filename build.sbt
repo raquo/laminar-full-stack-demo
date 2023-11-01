@@ -100,6 +100,7 @@ lazy val client = project
     // Generated scala.js output will call your main() method to start your app.
     scalaJSUseMainModuleInitializer := true
   )
+  // BEGIN[codesnippets/precompile]
   .settings(
     precompile := {
       CodeSnippetsGenerator.generate(
@@ -111,6 +112,7 @@ lazy val client = project
     },
     (Compile / compile) := ((Compile / compile) dependsOn precompile).value
   )
+  // END[codesnippets/precompile]
   .settings(
     // Ignore changes to .less and .css files when watching files with sbt.
     // With the suggested build configuration and usage patterns, these files are
@@ -125,7 +127,9 @@ lazy val client = project
   )
   .dependsOn(shared.js)
 
+// BEGIN[codesnippets/precompile]
 lazy val precompile = taskKey[Unit]("runs our own pre-compile tasks")
+// END[codesnippets/precompile]
 
 val buildClient = taskKey[Unit]("Build client (frontend)")
 

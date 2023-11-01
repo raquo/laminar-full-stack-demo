@@ -1,3 +1,4 @@
+// BEGIN[compile-time-build.sbt]
 // #Note this is /project/build.sbt, it is used to build the build
 //  Back out of this inception, see /build.sbt for the main build config.
 
@@ -11,3 +12,4 @@ lazy val root = (project in file("."))
       "com.raquo" %% "domtypes" % "17.1.0"
     )
   )
+// END[compile-time-build.sbt]

@@ -3,6 +3,7 @@ import java.nio.file.*
 import com.raquo.domtypes.codegen.generators.SourceGenerator
 import com.raquo.domtypes.codegen.CodeFormatting
 
+// BEGIN[codesnippets/generator]
 object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
 
   private var maybeLastSnippets: Option[Map[String, List[SbtCodeSnippet]]] = None
@@ -69,12 +70,13 @@ object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
       repr(snippet.fileName),
       repr(snippet.fileLanguage) + ".asInstanceOf[LanguageName]",
       snippet.startLineNumber, // #TODO Add repr method for int in SDT
-      snippet.endLineNumber, // #TODO Add repr method for int in SDT
+      snippet.endLineNumber,
       repr(snippet.key),
       snippet.lines.map(repr(_)).mkString("List(", ", ", ")"),
     )
     fields.mkString(s"CodeSnippet(", ", ", ")")
   }
+  // END[codesnippets/generator]
 
   def writeToFile(filePath: Path, fileContent: String): File = {
     // Fun fact: if you print anything from sbt (specifically, from the

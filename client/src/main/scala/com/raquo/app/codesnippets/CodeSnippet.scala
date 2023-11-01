@@ -7,6 +7,7 @@ import vendor.highlightjs.hljs
 
 import scala.scalajs.js
 
+// BEGIN[codesnippets/object]
 case class CodeSnippet(
   filePath: String,
   fileName: String,
@@ -20,7 +21,6 @@ case class CodeSnippet(
 object CodeSnippet {
 
   JSImportSideEffect("@find/**/CodeSnippet.less")
-
 
   def render(snippet: CodeSnippet, startExpanded: Boolean = true): HtmlElement = {
     val isExpandedVar = Var(startExpanded)
@@ -74,3 +74,4 @@ object CodeSnippet {
     "https://github.com/raquo/laminar-full-stack-demo/blob/master/" + snippet.filePath + "#" + lineNumbers(snippet)
   }
 }
+// END[codesnippets/object]

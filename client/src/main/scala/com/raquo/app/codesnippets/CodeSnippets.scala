@@ -4,6 +4,7 @@ import com.raquo.app.codesnippets.generated.GeneratedSnippets
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JSImportSideEffect
 
+// BEGIN[codesnippets/object]
 object CodeSnippets {
 
   JSImportSideEffect("@find/**/CodeSnippets.less")
@@ -28,5 +29,5 @@ object CodeSnippets {
       }
     )
   }
-
 }
+// END[codesnippets/object]

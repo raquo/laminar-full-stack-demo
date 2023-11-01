@@ -18,7 +18,6 @@ object CodeBrowser {
 
   /** We will ignore any directory named exactly like this (names only, paths not supported) */
   final val ignoreDirectoryNames = Set(
-    "project",
     "target",
     "node_modules",
     "dist",

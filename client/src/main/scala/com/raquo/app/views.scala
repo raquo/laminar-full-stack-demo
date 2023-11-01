@@ -24,7 +24,7 @@ val views = SplitRender(JsRouter.currentPageSignal)
   .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
   .collectStatic(NetworkRequestsPage)(NetworkRequestsView())
   .collectStatic(WaypointRoutingPage)(WaypointRoutingView())
-  .collectStatic(WaypointRoutingPage)(CodeSnippetsView())
+  .collectStatic(CodeSnippetsPage)(CodeSnippetsView())
   .collectStatic(NotFoundPage)(renderNotFoundPage())
   .signal
 // END[waypoint/views]
