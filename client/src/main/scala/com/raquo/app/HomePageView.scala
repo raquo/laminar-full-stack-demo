@@ -45,8 +45,8 @@ object HomePageView {
         listStyles,
         pageLink(UI5WebComponentsPage),
         pageLink(ShoelaceWebComponentsPage),
-        li(">>> Fetch Tester"),
-        li(">>> SVG files, inline, etc.")
+        pageLink(NetworkRequestsPage),
+        pageLink(WaypointRoutingPage)
       ),
       h2("Broken links for testing"),
       ul(

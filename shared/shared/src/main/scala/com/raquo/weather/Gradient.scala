@@ -4,6 +4,7 @@ import CityStation.*
 
 import scala.scalajs.js.annotation.JSExportAll
 
+// BEGIN[wind-gradient]
 @JSExportAll
 enum Gradient(
   val id: String,
@@ -41,3 +42,4 @@ object Gradient {
     forId(gradientId).getOrElse(throw new Exception(s"Unknown gradient id: `${gradientId}`"))
   }
 }
+// END[wind-gradient]
