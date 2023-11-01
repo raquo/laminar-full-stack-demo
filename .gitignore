@@ -1,5 +1,6 @@
 /dist/
 /client/dist/
+/client/public/assets/shoelace/assets/icons/
 
 target/
 node_modules/
