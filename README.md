@@ -44,8 +44,24 @@ The development of learning materials like this is made possible by [Laminar spo
 [Aurinko](https://aurinko.io/) is an API platform for workplace addons and integrations.
 
 
+## Table of Contents
 
-## Dev setup
+* [Development Setup](#development-setup)
+* [Production Setup](#production-setup)
+  * [Deploy to Fly.io](#deploy-to-flyio)
+* [How To Use This Repo](#how-to-use-this-repo)
+* [Features](#features)
+* [Documentation](#documentation)
+  * [Suggested CSS Styling Strategy](#suggested-css-styling-strategy)
+  * [Scala 3](#scala-3)
+* [Not Included](#not-included)
+  * [ScalablyTypes](#scalablytyped)
+  * [Your Favourite Backend Web Framework](#your-favourite-backend-web-framework)
+  * [Injecting A Scala.js App Into Server-Generated HTML](#injecting-a-scalajs-app-into-server-generated-html)
+  * [Not Tested On Windows](#not-tested-on-windows)
+* [Wishlist](#wishlist)
+
+## Development Setup
 
 To run this project, you will need to have installed:
 
@@ -91,7 +107,7 @@ Once you're familiar with this setup, feel free to use sbt shorthand command ali
 
 
 
-## Prod setup
+## Production Setup
 
 You can package the whole application into a fat jar with
 
@@ -116,7 +132,7 @@ docker run --rm -p 9000:8080 laminar-demo
 and then go to [`localhost:9000`](http://localhost:9000). Of course, you'll need to install and launch Docker for all `docker` commands.
 
 
-### Deploy to fly.io
+### Deploy to Fly.io
 
 The project contains a `fly.toml` file originally generated via `fly launch` command.
 
@@ -128,7 +144,7 @@ You can see more complete instructions [here](https://fly.io/docs/languages-and-
 
 
 
-## How to use this repo
+## How To Use This Repo
 
 Install it and run it locally in dev mode as shown above. Then, explore the source code. I left a lot of prose comments explaining some of the patterns that I've used, and I was trying to use a variety of patterns just to show them off.
 
@@ -266,26 +282,38 @@ I prefer this approach because I will be reading the JS library's docs anyway, a
 
 I also prefer this approach because the resulting code – including the imports – looks more similar to the library's native JS code, and so figuring out why something doesn't work is easier (because any help you'll find will be in JS, needing a translation to Scala.js).
 
-If you want to give ScalablyTyped a shot, [installing it](https://scalablytyped.org/docs/plugin-no-bundler) is pretty easy, but make sure to read everything under the [Usage](https://scalablytyped.org/docs/usage) so that you understand where you need to import the various types from. To speed things up, you should also configure `stIgnore` to avoid generating Scala types for JS dependencies that you will not be using from ScalablyTypes (at the very least that's UI5, Shoelace, and bootstrap icons in this repo).
+If you want to give ScalablyTyped a shot, [installing it](https://scalablytyped.org/docs/plugin-no-bundler) is pretty easy, but make sure to read everything under [Usage](https://scalablytyped.org/docs/usage) so that you understand where you need to import the various types from. To speed things up, you should also configure `stIgnore` to avoid generating Scala types for JS dependencies that you will not be using from ScalablyTypes (at the very least that's UI5, Shoelace, and bootstrap icons in this repo).
 
 As your first exercise, you can try reimplementing my Chart.js integration using ScalablyTyped. There are old commits in this repo with my attempts if you need a reference, although they're not complete. The [official Scala.js tutorial](https://github.com/sjrd/scalajs-sbt-vite-laminar-chartjs-example/) uses ScalablyTyped for Chart.js, although as of this writing, they're using an older version of Chart.js than what I'm using here, and the types have shifted around since then.
 
 
-### Your favourite backend web framework
+### Your Favourite Backend Web Framework
 
-This repo focuses on the frontend, and the interop between frontend and backend. In this regard, the various backend frameworks aren't all that different. You should be able to swap out the http4s implementation for something else, just take care to set up the routes and JSON codecs similarly to how we do this with http4s.
+This repo focuses on the frontend, and the interop between frontend and backend. In this regard, the various backend frameworks aren't all that different. You should be able to swap out the http4s implementation for something else, just take care to set up the routes and JSON codecs similarly to how we do this with http4s, to maintain compatibility with our frontend.
 
-Some of the old commits in this repo were using [Armeria](https://github.com/line/armeria) and [Javalin](https://javalin.io/), although I can't vouch for the quality of my implementations, since I've never used those frameworks before or since.
+Some of the old commits in this repo were using [Armeria](https://github.com/line/armeria) and [Javalin](https://javalin.io/), although I can't vouch for the quality of my implementations, since I've never used those frameworks before or since (my implementations weren't complete, either).
 
 
-### Injecting a Scala.js app into server-returned HTML
+### Injecting A Scala.js App Into Server-Generated HTML
 
 This repo focuses on the single page application (SPA) architecture (backend is just an API server, the HTML is all built on the frontend). If you would like to contribute an example of the server returning content in HTML, and loading the client scala.js app from _that_, talk to me about it on Laminar discord. It would be nice to show how to do this alongside the SPA architecture.
 
 
-### Not tested on Windows
+### Not Tested On Windows
 
 I haven't tested this on Windows. I think it should work, but if you run into any Windows-specific problems, or if any setup instructions don't make sense for Windows, please let me know.
+
+
+## Wishlist
+
+I would like to:
+* Expand this demo to include a cookbook of good Laminar patterns
+* Showcase more Scala.js patterns, e.g. interop of Datetime types between frontend and backend
+* Create integrations for more advanced browser features like Websockets
+* Make good quality bindings for Shoelace web components
+* Etc. etc. etc.
+
+All of that would be very nice, and would help the Laminar & Scala.js ecosystems a lot, I think. I'm not sure when I will ever get to doing all that, but if you want to speed it up, [you know what to do](https://github.com/sponsors/raquo/)! :). This repo itself was possible largely thanks to [HeartAI](https://heartai.net/)'s recent boost in their Laminar sponsorship. Things like that move the needle.
 
 
 ## Author
@@ -299,4 +327,4 @@ Thanks to [Antoine](https://github.com/sherpal) for [FlyIOScalaJVMDemo](https://
 
 This repo is provided under the MIT license.
 
-The logos and avatars of myself, Laminar, and Laminar sponsors are not covered by the MIT license. No license is granted to you for these assets. That said, you may have certain fair-use rights given to you by law.
+The logos and avatars of myself, Laminar, and Laminar sponsors are not covered by the MIT license. No license is granted to you for these assets. However, you may still have "fair use" rights, as stipulated by law.
