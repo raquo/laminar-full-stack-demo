@@ -12,7 +12,7 @@ kill_timeout = 5
   internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
-  auto_stop_machines = true
+  auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 0
 
@@ -26,7 +26,7 @@ kill_timeout = 5
     handlers = ["tls", "http"]
 
   [[services.http_checks]]
-    grace_period = "20s"
+    grace_period = "30s"
     interval = "30s"
     method = "get"
     timeout = "10s"

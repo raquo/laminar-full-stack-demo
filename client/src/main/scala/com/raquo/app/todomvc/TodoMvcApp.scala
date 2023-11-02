@@ -145,7 +145,6 @@ object TodoMvcApp {
     input(
       cls("edit"),
       defaultValue <-- itemSignal.map(_.text),
-      onMountFocus,
       onEscapeKeyUp.mapToUnit --> cancelObserver,
       onEnterPress.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver,
       onBlur.mapToValue.map(UpdateText(itemId, _)) --> updateTextObserver
