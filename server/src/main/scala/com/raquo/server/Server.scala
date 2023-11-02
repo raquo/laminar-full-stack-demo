@@ -44,8 +44,8 @@ object Server extends IOApp {
           TemporaryRedirect(headers.Location(uri"/"))
 
         case GET -> Root / "ping" =>
-          println(">>> PONG println")
-          logger.info(">>> PONG logger") >> Ok(s"Pong")
+          //println(">>> PONG println")
+          /*logger.info(">>> PONG") >>*/ Ok(s"Pong")
 
         case GET -> Root / "hello" / name =>
           Ok(s"Hello, $name.")

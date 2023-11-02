@@ -9,6 +9,7 @@ import vendor.shoelace.{CommonKeys, HasGetForm, WebComponent}
 
 import scala.scalajs.js
 
+// BEGIN[shoelace/components]
 /** [[https://shoelace.style/components/switch Shoelace docs]] */
 object Switch extends WebComponent("sl-switch") { self =>
 
@@ -60,3 +61,4 @@ object Switch extends WebComponent("sl-switch") { self =>
   }
 
 }
+// END[shoelace/components]

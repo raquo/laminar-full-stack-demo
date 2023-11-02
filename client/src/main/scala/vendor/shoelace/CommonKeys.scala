@@ -5,6 +5,7 @@ import com.raquo.laminar.keys.{EventProp, HtmlProp} // #TODO sort out prop impor
 import com.raquo.laminar.codecs.*
 import org.scalajs.dom
 
+// BEGIN[shoelace/components]
 /** Typical events / properties / etc. defined on Shoelace web components.
   * We selectively export them from this object into individual components
   * that define them.
@@ -49,5 +50,5 @@ object CommonKeys extends CommonTypes {
 
     lazy val danger: PropSetterOf[String] = variant("danger")
   }
-
 }
+// END[shoelace/components]

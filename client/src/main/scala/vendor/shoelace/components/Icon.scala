@@ -9,6 +9,7 @@ import vendor.shoelace.WebComponent
 
 import scala.scalajs.js
 
+// BEGIN[shoelace/components]
 /** [[https://shoelace.style/components/icon Shoelace docs]] */
 object Icon extends WebComponent("sl-icon") { self =>
 
@@ -77,3 +78,4 @@ object Icon extends WebComponent("sl-icon") { self =>
   }
 
 }
+// END[shoelace/components]

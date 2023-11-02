@@ -12,15 +12,11 @@ This repository is an example [Laminar](https://laminar.dev/) [Scala.js](https:/
 More details below.
 
 
-## WIP
-
-### This works locally but isn't quite done yet! I had to publish it a bit early to test some Github integrations. Stay tuned for announcement once v0.1 is complete.
-
-
 ## Live demo
 
 ### 👉 [demo.laminar.dev](https://demo.laminar.dev)
 
+It's hosted on Fly.io for free, so the server may take a few seconds to boot up if it hasn't been used recently.
 
 
 ## Fun funding fact
@@ -172,14 +168,14 @@ Make sure you're using a good IDE that 1) lets you go-to-definition on every ter
 
 * Styling with scoped CSS using [LESS](https://lesscss.org/)
 * Manually crafted facades for JS libraries (chart.js)
-* Importing JS Web Components
+* Importing JS Web Components (SAP UI5, Shoelace)
 * Including arbitrary JS files and CSS resources
 
 ### Scala.js <> JVM interop
 
 * Cross-build multi-project sbt setup (client + server + shared)
 * Shared data models
-* JSON serialization using [Borer](https://github.com/sirthias/borer) library
+* JSON serialization using [Borer](https://github.com/sirthias/borer) JSON library
 * Backend support for clientside [Waypoint](https://github.com/raquo/Waypoint) URL routing
 * [sbt-buildinfo](https://github.com/sbt/sbt-buildinfo) to get compile-time data from sbt to scala.js
 

@@ -36,6 +36,20 @@ object ShoelaceWebComponentsView {
       h1("Shoelace Web Components"),
       p(a(href("https://shoelace.style/"), "Shoelace"), " is a well made library of modern looking Web Components. Unlike SAP UI5, we don't yet have Scala.js bindings for this library. I have created bindings for several Shoelace components shown here just for this demo project, and so far I like it more than UI5. If there's enough demand, I can make bindings for all of Shoelace components, but I don't know when I will have the time."),
 
+      CodeSnippets(
+        _.`shoelace/components`.sortBy {
+          case s if s.fileName.endsWith("Button.scala") => 1
+          case s if s.fileName.endsWith("Icon.scala") => 2
+          case s if s.fileName.endsWith("Switch.scala") => 3
+          case s if s.fileName.endsWith("WebComponent.scala") => 4
+          case s if s.fileName.endsWith("CommonTypes.scala") => 5
+          case _ => 10
+        },
+        caption = "Source code of my Shoelace interfaces used below, for reference:",
+        asParagraph = true,
+        startExpanded = _ => false
+      ),
+
       h2(titleLink("buttons-icons"), "Buttons and Icons"),
       p(
         // BEGIN[shoelace/buttons-and-icons]
