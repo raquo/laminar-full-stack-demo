@@ -11,6 +11,7 @@ import org.scalajs.dom
 import scala.util.{Failure, Success, Try}
 
 // BEGIN[waypoint/router]
+
 /** See [[https://github.com/raquo/Waypoint Waypoint documentation]] for details on how frontend routing works. */
 object JsRouter extends waypoint.Router[Page](
   routes = routes,
@@ -46,11 +47,16 @@ object JsRouter extends waypoint.Router[Page](
     //  - Do nothing, browser will open the URL in new tab / window / etc. depending on the modifier key
     // Otherwise:
     //  - Perform regular pushState transition
-    (onClick
+    //  - Scroll to top of page
+
+    val onRegularClick = onClick
       .filter(ev => !(isLinkElement && (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.altKey)))
       .preventDefault
-      --> (_ => pushState(page))
-      ).bind(el)
+
+    (onRegularClick --> { _ =>
+      pushState(page)
+      dom.window.scrollTo(0, 0) // Scroll to top of page when navigating
+    }).bind(el)
   }
 
   /** Add this to a h1..h6 title element to add a clickable
