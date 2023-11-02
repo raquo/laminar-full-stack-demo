@@ -137,7 +137,7 @@ object GeneratedSnippets {
   )
   
   val `waypoint/currentPageSignal/backToHome` = List(
-    CodeSnippet("./client/src/main/scala/com/raquo/app/JsApp.scala", "JsApp.scala", "scala".asInstanceOf[LanguageName], 38, 41, "waypoint/currentPageSignal/backToHome", List("child.maybe <-- JsRouter.currentPageSignal.map {", "  case HomePage => None", "  case _ => Some(h3(a(navigateTo(HomePage), \"Back to home\")))", "},")),
+    CodeSnippet("./client/src/main/scala/com/raquo/app/JsApp.scala", "JsApp.scala", "scala".asInstanceOf[LanguageName], 38, 41, "waypoint/currentPageSignal/backToHome", List("child.maybe <-- JsRouter.currentPageSignal.map {", "  case HomePage => None", "  case _ => Some(h3(cls(\"-backToHome\"), a(navigateTo(HomePage), \"Back to home\")))", "},")),
   )
   
   val `waypoint/currentPageSignal/view` = List(

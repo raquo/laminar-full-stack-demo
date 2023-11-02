@@ -37,7 +37,7 @@ object JsApp {
           // BEGIN[waypoint/currentPageSignal/backToHome]
           child.maybe <-- JsRouter.currentPageSignal.map {
             case HomePage => None
-            case _ => Some(h3(a(navigateTo(HomePage), "Back to home")))
+            case _ => Some(h3(cls("-backToHome"), a(navigateTo(HomePage), "Back to home")))
           },
           // END[waypoint/currentPageSignal/backToHome]
 

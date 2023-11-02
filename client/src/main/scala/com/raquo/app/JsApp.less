@@ -5,7 +5,7 @@
 
 .JsApp {
   display: flow-root; // prevent margin collapse
-  margin: 50px auto;
+  margin: 60px auto;
   max-width: 800px;
   border-radius: 10px;
   background: white;
@@ -22,6 +22,10 @@
     h3 {
       scroll-margin-top: 45px;
       margin-top: 45px;
+
+      &.-backToHome {
+        margin-top: var(--bleedDistance);
+      }
     }
   }
 
