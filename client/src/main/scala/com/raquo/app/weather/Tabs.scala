@@ -17,7 +17,8 @@ object Tabs {
       (None :: forecastDays.map(Some(_))).map { maybeForecastDay =>
         button(
           cls("-tab"),
-          maybeForecastDay.getOrElse("Now"),
+          span(cls("u-hideOnMobile"), maybeForecastDay.getOrElse("Now")),
+          span(cls("u-hideOnDesktop"), maybeForecastDay.map(_.substring(0, 3)).getOrElse("Now")),
           mods.map(_.apply(maybeForecastDay))
         )
       }
