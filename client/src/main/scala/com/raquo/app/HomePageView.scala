@@ -6,6 +6,7 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.JSImportSideEffect
 import com.raquo.weather.Gradient
 import com.raquo.weather.Gradient.Squamish
+import org.scalajs.dom
 
 object HomePageView {
 
@@ -85,7 +86,14 @@ object HomePageView {
           "Find the source code of this demo, installation instructions, documentation, etc. ",
           a(href("https://github.com/raquo/laminar-full-stack-demo"), "on Github"), ".",
           br(),
-          s"Built with Laminar v${BuildInfo.laminarVersion}"
+          s"Built with Laminar v${BuildInfo.laminarVersion}.",
+          if (dom.window.location.host.endsWith("fly.dev") || dom.window.location.host.endsWith("laminar.dev")) {
+            List[Modifier.Base](
+              " Hosted on ", a(href("https://fly.io"), "Fly.io"), "."
+            )
+          } else {
+            emptyNode
+          }
         )
       )
     )

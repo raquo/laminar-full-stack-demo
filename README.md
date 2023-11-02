@@ -69,7 +69,9 @@ To run this project, you will need to have installed:
 - JDK (latest LTS, e.g. v17)
 - sbt (latest 1.x)
 
-Note: you don't need to install Scala yourself: sbt manages all Scala dependencies according to our `build.sbt` file, including the Scala compiler itself. The version of sbt which is actually used in your project is defined in the `build.properties` file.
+Note: There are essentially two versions of sbt: the version used in the project, and the version of the sbt script that you've installed back in the day when you first started using sbt on your computer. The project sbt version defined in our `build.properties` file, but the script sbt version does not get auto-updated, so it could be very old. If it's 0.13.x, you can face weird build errors. Check using `sbt --version`, and go install the latest sbt 1.x if you see script version 0.13.x.
+
+Note: you don't need to install Scala yourself: sbt manages all Scala dependencies according to our `build.sbt` file, including the Scala compiler itself.
 
 The first time only, to install JS dependencies, run this in your terminal:
 
@@ -134,13 +136,15 @@ and then go to [`localhost:9000`](http://localhost:9000). Of course, you'll need
 
 ### Deploy to Fly.io
 
-The project contains a `fly.toml` file originally generated via `fly launch` command.
+The project contains a `fly.toml` file originally generated via the `fly launch` command.
 
-You can apply it to your account via `fly deploy` and then see that it's live with `fly open`. (If not logged in already, you need to authenticate with `fly auth login`.)
+You can apply it to your account via `fly deploy -ha=false` and then see that it's live with `fly open`. (If not logged in already, you need to authenticate with `fly auth login`.)
 
 You need to have [flyctl](https://fly.io/docs/hands-on/install-flyctl/) installed for this to work.
 
 You can see more complete instructions [here](https://fly.io/docs/languages-and-frameworks/dockerfile/).
+
+This demo app is actually deployed on a free Fly.io container ([laminar-demo.fly.dev](https://laminar-demo.fly.dev)), and I also set up a custom domain using [these instructions](https://fly.io/blog/how-to-custom-domains-with-fly/), so that it's available on [demo.laminar.dev](https://demo.laminar.dev).
 
 
 

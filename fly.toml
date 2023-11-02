@@ -26,11 +26,11 @@ kill_timeout = 5
     handlers = ["tls", "http"]
 
   [[services.http_checks]]
-    grace_period = "10s"
+    grace_period = "20s"
     interval = "30s"
     method = "get"
-    timeout = "5s"
-    path = "/api/ping"
+    timeout = "10s"
+    path = "/ping"
 
 #  [[statics]]
 #    guest_path = "/server/src/main/resources/static/assets"

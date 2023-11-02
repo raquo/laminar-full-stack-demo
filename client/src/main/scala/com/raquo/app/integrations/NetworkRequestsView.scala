@@ -44,11 +44,11 @@ object NetworkRequestsView {
     }
 
     private val options = List(
-      FetchOption("Valid Fetch request", "http://api.zippopotam.us/us/90210"),
+      FetchOption("Valid Fetch request", "https://api.zippopotam.us/us/90210"),
       FetchOption("Download 10MB file (gives you time to abort)", "https://cachefly.cachefly.net/10mb.test", bustCache = true),
       FetchOption("Download 100MB file (gives you time to abort)", "https://cachefly.cachefly.net/100mb.test", bustCache = true),
-      FetchOption("URL that will fail due to invalid domain", "http://api.zippopotam.uxx/us/90210"),
-      FetchOption("URL that will fail due to CORS restriction", "http://unsplash.com/photos/KDYcgCEoFcY/download?force=true")
+      FetchOption("URL that will fail due to invalid domain", "https://api.zippopotam.uxx/us/90210"),
+      FetchOption("URL that will fail due to CORS restriction", "https://unsplash.com/photos/KDYcgCEoFcY/download?force=true")
     )
 
     def apply(): HtmlElement = {
