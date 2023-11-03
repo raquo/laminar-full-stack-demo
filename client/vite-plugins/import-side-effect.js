@@ -8,10 +8,11 @@ import MagicString from "magic-string";
  * `import "stylesheet.css"`
  *
  * To get this code, call JsImportSideEffect("stylesheet.css") in your code.
- * This requires the JsImportSideEffect.scala interface file, and the JSGlobal
+ * You need the JsImportSideEffect.scala interface file, and the JSGlobal
  * name in that file must match the `importFnName` option passed to this plugin.
  *
- * This is needed for Vite to process CSS imports from Scala.js files properly.
+ * This is needed for Vite to process CSS imports from Scala.js files properly –
+ * without warnings, and without double-loading the CSS.
  *
  * Scala.js itself does something like `import * as unused from "stylesheet.css"`,
  * which is technically equivalent to `import "stylesheet.css"`, but Vite treats
@@ -19,12 +20,12 @@ import MagicString from "magic-string";
  * warning.
  *
  * This plugin works in the following manner:
- * - JsImportSideEffect("stylesheet.css") emits `foo("stylesheet.css")` JS code
- * - This plugin replaces all instances of `foo(` in your JS files with `import (`,
- *   so that you have `import ("stylesheet.css")` in your code, which is equivalent
- *   to import "stylesheet.css".
- * - Therefore, the `foo` name must be a unique string in your codebase,
- *   and must match the `importFnName` option that you provide to this plugin.
+ * - JsImportSideEffect("stylesheet.css") emits `importFnName("stylesheet.css")` JS code
+ * - This plugin finds all instances of `importFnName("bar")` in your JS files, comments them
+ *   out, and inserts `import "bar";` statements at the top of the file.
+ * - Therefore, the `importFnName` name must be a unique string in your codebase,
+ *   and the `importFnName` option that you provide to this plugin must match the
+ *   JSGlobal name of JsImportSideEffect.
  *
  * See:
  * - https://discord.com/channels/632150470000902164/635668814956068864/1161984220814643241
@@ -54,18 +55,38 @@ export default function importSideEffectPlugin (options) {
       if (moduleId.endsWith(".js") && !moduleId.includes("node_modules")) {
         // console.log(`>> import-side-effect processing module ${id}...`)
         const str = new MagicString(code);
-        const pattern = new RegExp(options.importFnName + "\\(", 'g');
-        const replacement = 'import (';
+        const pattern = new RegExp(`${options.importFnName}\\("([^"]+)"\\)`, 'g');
+        const sideEffectImports = []
 
-        let hasReplacements = false;
         let match = null;
         while ((match = pattern.exec(code)) !== null) {
           // console.log(">>    replacing!")
-          hasReplacements = true;
-          str.overwrite(match.index, match.index + match[0].length, replacement);
+          sideEffectImports.push(match[1])
+          str.appendLeft(match.index, "// ") // comment out the invocation of our non-existent function.
         }
 
-        if (hasReplacements) {
+        if (sideEffectImports.length > 0) {
+
+          // Kind of fragile, because I don't really know what the modules can possibly look like in all cases.
+          let insertAtIndex = 0
+          if (code.startsWith("'use strict';\n")) {
+            insertAtIndex = code.indexOf("\n") // second line
+          }
+
+          const importStatements = [
+            "// -- Begin imports via import-side-effect --"
+          ]
+          sideEffectImports.forEach(importModuleName => {
+            importStatements.push(`import "${importModuleName}";`)
+          })
+          importStatements.push(
+            "// -- End imports via import-side-effect --"
+          )
+
+          // Imports must be at the top level in the module.
+          // Note: We're inserting these side effecting imports before any other imports inserted by Scala.js.
+          str.appendLeft(insertAtIndex, importStatements.join("\n"))
+
           return {
             code: str.toString(),
             map: str.generateMap(options.sourceMapOptions)
