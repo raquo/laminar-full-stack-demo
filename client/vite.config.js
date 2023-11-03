@@ -51,7 +51,7 @@ export default defineConfig(
         outDir: "dist",
         assetsDir: "assets", // path relative to outDir
         // outDir: "../server/src/main/resources/static", // #TODO can we do this directly?
-        cssCodeSplit: false,  // false = Output entire CSS as a separate file
+        cssCodeSplit: false,  // false = Load all CSS upfront
         rollupOptions: {
           plugins: [rollupPluginSourcemaps()],
         },

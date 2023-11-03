@@ -101,7 +101,11 @@ sbt
 ~server/reStart
 ```
 
+Now you have Vite dev server serving your frontend and hot-reloading your frontend assets, and sbt-revolver hot-reloading your server when you make changes to your code.
+
 Once you're familiar with this setup, feel free to use sbt shorthand command aliases that I defined in the `build.sbt` file: `cup` for `~client/fastLinkJS`, and `sup` for `~server/reStart`. Save your fingers / wrists.
+
+In production, there is no Vite dev server, so to test your site in an environment that matches real life more closely, yet without needing to package it into a jar or deploy it to Docker, you can run `buildClient` in sbt, and start the server with `~server/reStart`. Your site will start on localhost:9000 with frontend assets built for production, without any Vite stuff like hot reload on the frontend. This workflow is too slow for frontend development, generally you should use Vite dev server, and only call `buildClient` when you need a sanity check for a particular issue or a Vite config change, or before deploying.
 
 
 
