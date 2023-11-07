@@ -23,7 +23,7 @@ export default function injectHtmlVarsPlugin(data) {
             if (data.hasOwnProperty(p1)) {
               return data[p1]
             } else {
-              throw new Error(`Error: Your HTML file contains <%=${p1}%>, but you did not provide a value for '${p1}' to the local-inject-html-vars vite plugin.`)
+              throw new Error(`injectHtmlVarsPlugin: Error: Your HTML file contains <%=${p1}%>, but you did not provide a value for '${p1}' to the local-inject-html-vars vite plugin.`)
             }
           }
         );

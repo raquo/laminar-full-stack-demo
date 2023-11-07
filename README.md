@@ -187,7 +187,9 @@ Make sure you're using a good IDE that 1) lets you go-to-definition on every ter
 
 * Special Scala.js vite plugins to work with per-component CSS / LESS files
   * Import JS / CSS / LESS file assets for their side effects without Vite warnings
-  * Import files from relative paths (or an approximation of that)  
+    * [@raquo/vite-plugin-import-side-effect](https://github.com/raquo/vite-plugin-import-side-effect)
+  * Import files from relative paths (or an approximation of that)
+    * [@raquo/vite-plugin-glob-resolver](https://github.com/raquo/vite-plugin-glob-resolver)
 * Minification and code transformations preserving source maps
   * To view source maps, run `npm run build`, then `npm run sourcemap-report`. You must install `source-map-explorer` globally first: `npm i -g source-map-explorer`.
 * Proxying api calls to your backend

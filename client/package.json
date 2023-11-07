@@ -11,6 +11,8 @@
     "sourcemap-report": "node sourcemap-report.js"
   },
   "devDependencies": {
+    "@raquo/vite-plugin-glob-resolver": "^0.1.0",
+    "@raquo/vite-plugin-import-side-effect": "^0.1.0",
     "@scala-js/vite-plugin-scalajs": "^1.0.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "glob": "^10.3.10",
