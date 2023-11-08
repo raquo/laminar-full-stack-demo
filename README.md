@@ -136,6 +136,8 @@ and then go to [`localhost:9000`](http://localhost:9000). Of course, you'll need
 
 ### Deploy to Fly.io
 
+(First, you need to package the application into a fat jar, as explained above, using `sbt packageApplication`.)
+
 The project contains a `fly.toml` file originally generated via the `fly launch` command.
 
 You can apply it to your account via `fly deploy -ha=false` and then see that it's live with `fly open`. (If not logged in already, you need to authenticate with `fly auth login`.)
@@ -248,7 +250,7 @@ We use this `x-<variant>` naming convention whenever we want to change how somet
 Lastly, as the `.less` files mirror the `.scala` component files, similar patterns are to be observed there, for example the component's scala file should be responsible for creating all of its internal elements like `-inputRow`.
 
 You can develop this pattern further as you wish. This baseline gives us:
-- Modular CSS / LESS files that can be loaded on-demand (using our `JSImportSideEffect` helper), conveniently co-located near the component's `.scala` files
+- Modular CSS / LESS files that can be loaded on-demand (using our vite plugins), conveniently co-located near the component's `.scala` files
 - Reduced leakage of CSS rules from parent components to child components
 - Easy to read component `.less` files with clear structure and limited scope
 
@@ -316,7 +318,7 @@ I would like to:
 * Expand this demo to include a cookbook of good Laminar patterns
 * Showcase more Scala.js patterns, e.g. interop of Datetime types between frontend and backend
 * Create integrations for more advanced browser features like Websockets
-* Make good quality bindings for Shoelace web components
+* Make good quality bindings for Shoelace web components ([WIP](https://github.com/raquo/laminar-shoelace-components))
 * Etc. etc. etc.
 
 All of that would be very nice, and would help the Laminar & Scala.js ecosystems a lot, I think. I'm not sure when I will ever get to doing all that, but if you want to speed it up, [you know what to do](https://github.com/sponsors/raquo/)! :). This repo itself was possible largely thanks to [HeartAI](https://heartai.net/)'s recent boost in their Laminar sponsorship. Things like that move the needle.
@@ -334,3 +336,5 @@ Thanks to [Antoine](https://github.com/sherpal) for [FlyIOScalaJVMDemo](https://
 This repo is provided under the MIT license.
 
 The logos and avatars of myself, Laminar, and Laminar sponsors are not covered by the MIT license. No license is granted to you for these assets. However, you may still have "fair use" rights, as stipulated by law.
+
+The rocketship favicon file `favicon-32x32.png` file was generated from [Twitter Twemoji](https://github.com/twitter/twemoji/blob/master/assets/svg/1f680.svg), under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) license.
