@@ -2,12 +2,18 @@ package com.raquo.app.codesnippets
 
 import com.raquo.app.codesnippets.generated.GeneratedSnippets
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[codesnippets/object]
 object CodeSnippets {
 
-  JSImportSideEffect("@find/**/CodeSnippets.less")
+  @JSImport("@find/**/CodeSnippets.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   def apply(
     snippets: GeneratedSnippets.type => List[CodeSnippet],

@@ -1,11 +1,11 @@
 package com.raquo.app.codesnippets
 
-import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 import vendor.highlightjs.hljs
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[codesnippets/object]
 case class CodeSnippet(
@@ -20,7 +20,10 @@ case class CodeSnippet(
 
 object CodeSnippet {
 
-  JSImportSideEffect("@find/**/CodeSnippet.less")
+  @JSImport("@find/**/CodeSnippet.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   def render(snippet: CodeSnippet, startExpanded: Boolean = true): HtmlElement = {
     val isExpandedVar = Var(startExpanded)

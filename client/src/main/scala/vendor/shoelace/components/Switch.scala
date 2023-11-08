@@ -3,17 +3,18 @@ package vendor.shoelace.components
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.*
 import com.raquo.laminar.defs.styles.{traits as s, units as u}
-import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 import vendor.shoelace.{CommonKeys, HasGetForm, WebComponent}
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[shoelace/components]
 /** [[https://shoelace.style/components/switch Shoelace docs]] */
 object Switch extends WebComponent("sl-switch") { self =>
 
-  JSImportSideEffect("@shoelace-style/shoelace/dist/components/switch/switch.js")
+  @JSImport("@shoelace-style/shoelace/dist/components/switch/switch.js", JSImport.Namespace)
+  @js.native protected object RawImport extends js.Object
 
   type Ref = dom.HTMLInputElement with HasGetForm
 

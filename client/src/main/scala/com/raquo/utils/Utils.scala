@@ -4,7 +4,14 @@ import com.raquo.laminar.api.L.{*, given}
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import org.scalajs.dom
 
+import scala.scalajs.js
+
 object Utils {
+
+  /** Marks the otherwise-unused import as "used" in Scala.js,
+    * preventing dead code elimination.
+    */
+  def useImport(importedObject: js.Any): Unit = ()
 
   // #TODO: Change the HtmlMod type in Laminar to accept a type param?
 

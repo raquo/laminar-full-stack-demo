@@ -2,12 +2,12 @@ package vendor.shoelace
 
 import com.raquo.airstream.core.Transaction
 import com.raquo.laminar.api.L.*
-import com.raquo.laminar.codecs.*
-import com.raquo.laminar.keys
-import com.raquo.laminar.modifiers.KeySetter
-import org.scalajs.dom
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import com.raquo.laminar.tags.HtmlTag
+import com.raquo.utils.Utils.useImport
+import org.scalajs.dom
+
+import scala.scalajs.js
 
 // BEGIN[shoelace/components]
 /** Base trait for all web components. */
@@ -20,6 +20,10 @@ trait WebComponent(tagName: String) extends CommonTypes {
   type ModFunction = this.type => Mod[El]
 
   type ComponentMod = ModFunction | Mod[El]
+
+  protected val RawImport: js.Any
+
+  useImport(RawImport)
 
   protected def tag: HtmlTag[Ref] = htmlTag(tagName)
   

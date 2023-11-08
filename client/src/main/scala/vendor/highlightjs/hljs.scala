@@ -2,7 +2,7 @@ package vendor.highlightjs
 
 import com.raquo.laminar.DomApi
 import com.raquo.laminar.api.L.{code as codeTag, *}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -13,7 +13,10 @@ import scala.scalajs.js.annotation.JSImport
   */
 object hljs {
 
-  JSImportSideEffect("highlight.js/styles/dark.min.css")
+  @JSImport("highlight.js/styles/dark.min.css")
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   /** Marker trait (compatible with Scala 2), those are actually just strings */
   @js.native

@@ -22,6 +22,7 @@ export default defineConfig(
           projectID: "client" // scala.js project name in build.sbt
         }),
         globResolverPlugin({
+          // See https://github.com/raquo/vite-plugin-glob-resolver
           cwd: __dirname,
           ignore: [
             'node_modules/**',
@@ -30,10 +31,12 @@ export default defineConfig(
         }),
         importSideEffectPlugin({
           // See https://github.com/raquo/vite-plugin-import-side-effect
-          importFnName: "importSideEffect_3DfPjKW0ZYyY"
+          defNames: ['importStyle'],
+          rewriteModuleIds: ['**/*.less', '**/*.css'],
+          // verbose: true
         }),
         injectHtmlVarsPlugin({
-          SCRIPT_URL: "./index.js"
+          SCRIPT_URL: './index.js'
         }),
         rollupCopyPlugin({
           copyOnce: true,

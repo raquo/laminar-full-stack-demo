@@ -3,17 +3,20 @@ package vendor.shoelace.components
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.*
 import com.raquo.laminar.defs.styles.traits as s
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 import org.scalajs.dom
 import vendor.shoelace.WebComponent
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
+
 
 // BEGIN[shoelace/components]
 /** [[https://shoelace.style/components/icon Shoelace docs]] */
 object Icon extends WebComponent("sl-icon") { self =>
 
-  JSImportSideEffect("@shoelace-style/shoelace/dist/components/icon/icon.js")
+  @JSImport("@shoelace-style/shoelace/dist/components/icon/icon.js", JSImport.Namespace)
+  @js.native protected object RawImport extends js.Any
 
   type Ref = dom.HTMLButtonElement
 

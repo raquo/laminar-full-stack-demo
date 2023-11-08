@@ -2,14 +2,22 @@ package com.raquo.app.form
 
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[form-state]
 object FormStateView {
 
-  // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JSImportSideEffect("@find/**/FormStateView.less")
+  // Find and import the LESS (CSS) file for this component.
+  // See https://github.com/raquo/vite-plugin-glob-resolver
+  // !! This is using non-standard compact syntax to import CSS
+  // See https://github.com/raquo/vite-plugin-import-side-effect#compact-syntax
+  @JSImport("@find/**/FormStateView.less")
+  @js.native private def importStyle(): Unit = js.native
+
+  importStyle()
 
   private val stateVar = Var(FormState())
 

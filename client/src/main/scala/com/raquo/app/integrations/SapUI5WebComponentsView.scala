@@ -6,14 +6,18 @@ import com.raquo.app.JsRouter.{navigateTo, titleLink}
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.app.pages.ShoelaceWebComponentsPage
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 import org.scalajs.dom
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 object SapUI5WebComponentsView {
 
-  JSImportSideEffect("@find/**/SapUI5WebComponentsView.less")
+  @JSImport("@find/**/SapUI5WebComponentsView.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   def apply(): HtmlElement = {
     div(

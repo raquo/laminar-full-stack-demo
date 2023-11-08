@@ -1,12 +1,20 @@
 package com.raquo.app.weather
 
 import com.raquo.laminar.api.L.*
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 object Tabs {
 
-  // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JSImportSideEffect("@find/**/Tabs.less")
+  // Find and import the LESS (CSS) file for this component.
+  // See https://github.com/raquo/vite-plugin-glob-resolver
+  // See https://github.com/raquo/vite-plugin-import-side-effect
+  @JSImport("@find/**/Tabs.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   def apply(
     forecastDays: List[String],

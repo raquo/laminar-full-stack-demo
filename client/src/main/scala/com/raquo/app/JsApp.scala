@@ -2,9 +2,11 @@ package com.raquo.app
 
 import com.raquo.app.JsRouter.*
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 import vendor.highlightjs.hljs
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 object JsApp {
 
@@ -15,8 +17,14 @@ object JsApp {
   hljs.registerLanguage(_.Less, _.Less)
   // END[codesnippets/highlight.js]
 
-  // Find and import the LESS (CSS) file for this component. See globResolverPlugin and importSideEffectPlugin
-  JSImportSideEffect("@find/**/JsApp.less")
+  // Find and import the LESS (CSS) file for this component.
+  // See https://github.com/raquo/vite-plugin-glob-resolver
+  // !! This is using non-standard compact syntax to import CSS
+  // See https://github.com/raquo/vite-plugin-import-side-effect#compact-syntax
+  @JSImport("@find/**/JsApp.less")
+  @js.native private def importStyle(): Unit = js.native
+
+  importStyle()
 
   // This method is the entry point of your JS app.
   // It is recognized by its name and type signature,

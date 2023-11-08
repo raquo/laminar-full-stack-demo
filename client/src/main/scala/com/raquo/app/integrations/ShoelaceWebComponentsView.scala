@@ -3,20 +3,33 @@ package com.raquo.app.integrations
 import com.raquo.app.JsRouter.titleLink
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 import org.scalajs.dom
 import vendor.shoelace.Shoelace
 import vendor.shoelace.components.{Button, Icon, Switch}
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
+
 object ShoelaceWebComponentsView {
 
-  JSImportSideEffect("@find/**/ShoelaceWebComponentsView.less")
+  @JSImport("@find/**/ShoelaceWebComponentsView.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   // Load Shoelace themes. Light one is the default, but we make a button to switch them.
   // See their contents at https://github.com/shoelace-style/shoelace/blob/current/src/themes/light.css
   // BEGIN[shoelace/themes]
-  JSImportSideEffect("@shoelace-style/shoelace/dist/themes/light.css")
-  JSImportSideEffect("@shoelace-style/shoelace/dist/themes/dark.css")
+  @JSImport("@shoelace-style/shoelace/dist/themes/light.css", "importStyle")
+  @js.native private def importLightTheme(): Unit = js.native
+
+  importLightTheme()
+
+  @JSImport("@shoelace-style/shoelace/dist/themes/dark.css", "importStyle")
+  @js.native private def importDarkTheme(): Unit = js.native
+
+  importDarkTheme()
   // END[shoelace/themes]
 
   // This path is determined by `dest` config of `rollupCopyPlugin` in vite.config.js

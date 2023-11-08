@@ -3,14 +3,23 @@ package com.raquo.app
 import com.raquo.app.JsRouter.*
 import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
-import com.raquo.utils.JSImportSideEffect
+import com.raquo.utils.Utils.useImport
 import com.raquo.weather.Gradient
 import com.raquo.weather.Gradient.Squamish
 import org.scalajs.dom
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
+
 object HomePageView {
 
-  JSImportSideEffect("@find/**/HomePageView.less")
+  // Find and import the LESS (CSS) file for this component.
+  // See https://github.com/raquo/vite-plugin-glob-resolver
+  // See https://github.com/raquo/vite-plugin-import-side-effect
+  @JSImport("@find/**/HomePageView.less", JSImport.Namespace)
+  @js.native private object Stylesheet extends js.Object
+
+  useImport(Stylesheet)
 
   // Shared inline styles. You can also use CSS classes for common styling of course.
   // See https://laminar.dev/documentation#approaches-to-css for a high level summary.

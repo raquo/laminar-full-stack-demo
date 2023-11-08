@@ -2,19 +2,18 @@ package vendor.shoelace.components
 
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.*
-import com.raquo.laminar.codecs.*
-import com.raquo.laminar.keys.HtmlProp
-import com.raquo.utils.JSImportSideEffect
 import org.scalajs.dom
 import vendor.shoelace.{CommonKeys, HasGetForm, Slot, WebComponent}
 
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[shoelace/components]
 /** [[https://shoelace.style/components/button Shoelace docs]] */
 object Button extends WebComponent("sl-button") { self =>
 
-  JSImportSideEffect("@shoelace-style/shoelace/dist/components/button/button.js")
+  @JSImport("@shoelace-style/shoelace/dist/components/button/button.js", JSImport.Namespace)
+  @js.native protected object RawImport extends js.Object
 
   type Ref = dom.HTMLButtonElement with HasGetForm
 
