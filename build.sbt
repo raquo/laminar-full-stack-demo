@@ -173,7 +173,9 @@ packageApplication := {
 
 lazy val commonSettings = Seq(
   scalacOptions ++= Seq(
-    "-deprecation"
+    "-deprecation",
+    //"-feature",
+    "-language:implicitConversions"
   )
 )
 

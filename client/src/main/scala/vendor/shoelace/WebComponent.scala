@@ -41,7 +41,7 @@ trait WebComponent(tagName: String) extends CommonTypes {
     Transaction.onStart.shared {
       mods.foreach {
         case mod: Mod[_ >: El]                        => mod(el)
-        case modFn: Function[_ >: this.type, _ <: El] => modFn(this)(el)
+        case modFn: Function[_ >: this.type, _ <: Mod[El]] => modFn(this)(el)
       }
     }
     el
