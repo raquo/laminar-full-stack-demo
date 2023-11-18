@@ -140,7 +140,7 @@ and then go to [`localhost:9000`](http://localhost:9000). Of course, you'll need
 
 The project contains a `fly.toml` file originally generated via the `fly launch` command.
 
-You can apply it to your account via `fly deploy -ha=false` and then see that it's live with `fly open`. (If not logged in already, you need to authenticate with `fly auth login`.)
+You can apply it to your account via `fly deploy --ha=false` and then see that it's live with `fly open`. (If not logged in already, you need to authenticate with `fly auth login`.)
 
 You need to have [flyctl](https://fly.io/docs/hands-on/install-flyctl/) installed for this to work.
 
