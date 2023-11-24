@@ -1,7 +1,7 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
-import com.raquo.buildinfo.BuildInfo
+//import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.Utils.useImport
 import com.raquo.weather.Gradient
@@ -95,7 +95,7 @@ object HomePageView {
           "Find the source code of this demo, installation instructions, documentation, etc. ",
           a(href("https://github.com/raquo/laminar-full-stack-demo"), "on Github"), ".",
           br(),
-          s"Built with Laminar v${BuildInfo.laminarVersion}.",
+          //s"Built with Laminar v${BuildInfo.laminarVersion}.",
           if (dom.window.location.host.endsWith("fly.dev") || dom.window.location.host.endsWith("laminar.dev")) {
             List[Modifier.Base](
               " Hosted on ", a(href("https://fly.io"), "Fly.io"), "."
