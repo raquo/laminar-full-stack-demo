@@ -35,6 +35,7 @@ object HomePageView {
 
   def apply(): HtmlElement = {
     div(
+      Foo.x,
       cls("HomePageView"),
       h1(
         img(cls("-logo"), src("https://laminar.dev/img/brand/laminar-logo-200px-rounded.png")),
