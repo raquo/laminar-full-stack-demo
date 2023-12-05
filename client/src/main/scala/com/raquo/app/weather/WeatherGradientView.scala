@@ -46,9 +46,7 @@ object WeatherGradientView {
     // Just a naming convention: if a variable ends in a capital S, it's a Signal or Stream.
     // Helps to differentiate Scala collections from observables, and their mixes:
     // e.g. users: List[user], userS: Signal[User], usersS: Signal[List[User]]
-    // #Note: `def` is important here, but not for long, looking to fix it in 17.0.0
-    //  https://github.com/raquo/Airstream/issues/111
-    def gradientS = pageS.flatMap { p =>
+    val gradientS = pageS.flatMapSwitch { p =>
       Gradient.forId(p.gradientId) match {
         case Some(gradient) =>
           EventStream.fromValue(gradient)
@@ -65,7 +63,7 @@ object WeatherGradientView {
       }
     }
 
-    val apiResponseS = gradientS.flatMap { gradient =>
+    val apiResponseS = gradientS.flatMapSwitch { gradient =>
       FetchStream
         .withDecoder(jsonApiDecoder[GradientReport])
         .get(absRoot / "api" / "weather" / "gradient" / gradient.id)
@@ -135,7 +133,7 @@ object WeatherGradientView {
         maybeForecastDay => {
           List(
             // Setting class name dynamically
-            cls.toggle("x-selected") <-- selectedDayVar.signal.map(_ == maybeForecastDay),
+            cls("x-selected") <-- selectedDayVar.signal.map(_ == maybeForecastDay),
             // When this tab button is clicked, send the corresponding day into the var
             onClick.mapTo(maybeForecastDay) --> selectedDayVar
           )

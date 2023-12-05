@@ -2,8 +2,9 @@ package vendor.shoelace.components
 
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L.*
+import com.raquo.laminar.nodes.Slot
 import org.scalajs.dom
-import vendor.shoelace.{CommonKeys, HasGetForm, Slot, WebComponent}
+import vendor.shoelace.{CommonKeys, HasGetForm, WebComponent}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport

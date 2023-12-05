@@ -1,12 +1,14 @@
 package com.raquo.app.integrations
 
+import com.raquo.airstream.core.Transaction
 import com.raquo.app.JsRouter.titleLink
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
+import com.raquo.laminar.codecs.StringAsIsCodec
+import com.raquo.laminar.shoelace.sl
 import com.raquo.utils.Utils.useImport
 import org.scalajs.dom
 import vendor.shoelace.Shoelace
-import vendor.shoelace.components.{Button, Icon, Switch}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -63,40 +65,73 @@ object ShoelaceWebComponentsView {
         startExpanded = _ => false
       ),
 
-      h2(titleLink("buttons-icons"), "Buttons and Icons"),
+      h2("Controlled inputs", titleLink("controlled-inputs")),
+      p("Laminar supports ", a("controlled inputs", href("https://laminar.dev/documentation#controlled-inputs")), " on Web Components."),
+      {
+        // BEGIN[shoelace/controlled-inputs]
+        val zipVar = Var("")
+        def isValidInput(str: String): Boolean = str.length <= 5 && str.forall(_.isDigit) 
+        p(
+          display.flex,
+          alignItems.end,
+          styleProp("gap")("20px"),
+          sl.Input.of(
+            _.label("Enter 5 digit zip code:"),
+            _ => width.px(200),
+            _.controlled(
+              _.value <-- zipVar,
+              _.onInput.mapToValue.filter(isValidInput) --> zipVar,
+            )
+          ),
+          sl.Button.of(
+            _.variant.warning,
+            _.on(onClick).mapTo("91403") --> zipVar,
+            _ => "Set to SF"
+          ),
+          div("zipVar content: ", text <-- zipVar)
+        )
+        // END[shoelace/controlled-inputs]
+      },
+      CodeSnippets(_.`shoelace/controlled-inputs`),
+
+      h2("Buttons and Icons", titleLink("buttons-icons")),
       p(
         // BEGIN[shoelace/buttons-and-icons]
-        Button.of(
+        sl.Button.of(
           _.variant.primary,
           _.size.large,
           _ => "Settings",
           _ => onClick --> { _ => dom.window.alert("Clicked") },
           _.slots.prefix(
-            Icon.of(
+            sl.Icon.of(
               _.name("gear-fill"),
-              _.fontSize.em(1.3), // this is how you set icon size in shoelace
+              _ => fontSize.em(1.3), // this is how you set icon size in shoelace
             )
+          ),
+          _.slots.suffix(
+            child <-- EventStream.periodic(3000, resetOnStop = false).map(n => span(" " + n % 10))
           )
         ),
         " ",
-        Button.of(
+        sl.Button.of(
           _ => "Reload",
           _ => onClick --> { _ => dom.window.alert("Clicked") },
           _.slots.prefix(
-            Icon.of(_.name("arrow-counterclockwise"))
+            sl.Icon.of(_.name("arrow-counterclockwise"))
           )
         ),
         " ",
-        Button.of(
+        sl.Button.of(
           _.variant.success,
           _ => "User",
           _ => onClick --> { _ => dom.window.alert("Clicked") },
           _.slots.suffix(
-            Icon.of(_.name("person-fill"))
+            sl.Icon.of(_.name("person-fill"))
           )
         )
         // END[shoelace/buttons-and-icons]
       ),
+      p("This example also demonstrates the usage of named slots."),
       p("Icons and their names are from ", a(href("https://icons.getbootstrap.com"), "Bootstrap Icons"), " by default. To find available icons, create a search engine bookmark in your browser with keyword ", code("bs"), " and URL ", code("https://icons.getbootstrap.com/?q=%s"), ", then you'll be able to type e.g. \"bs user\" in your address bar, and see all relevant icons and their names."),
       CodeSnippets(_.`shoelace/buttons-and-icons`),
 
@@ -104,19 +139,19 @@ object ShoelaceWebComponentsView {
 
       p("These methods and examples largely follow ", a(href("https://shoelace.style/getting-started/customizing"), "Shoelace customization docs"), "."),
 
-      h2(titleLink("themes"), "Using themes"),
+      h2("Using themes", titleLink("themes")),
       // BEGIN[shoelace/themes]
       cls <-- isDarkVar.signal.map(if (_) "sl-theme-dark" else "sl-theme-light"),
       // END[shoelace/themes]
       // BEGIN[shoelace/themes]
-      Button.of(
+      sl.Button.of(
         _.variant.primary,
         _ => child.text <-- isDarkVar.signal.map(if (_) "Use light theme" else "Use dark theme"),
         _ => onClick.mapTo(!isDarkVar.now()) --> isDarkVar,
         _.slots.prefix(
-          Icon.of(
+          sl.Icon.of(
             _.name <-- isDarkVar.signal.map(if (_) "brightness-high-fill" else "moon-stars-fill"),
-            _.fontSize.em(1.3), // this is how you set icon size in shoelace
+            _ => fontSize.em(1.3), // this is how you set icon size in shoelace
           )
         )
       ),
@@ -125,11 +160,11 @@ object ShoelaceWebComponentsView {
       p("See ", a(href("https://shoelace.style/getting-started/themes"), "Shoelace theme docs"), " for instructions on using themes, creating your own themes, and loading multiple themes in the same app."),
       CodeSnippets(_.`shoelace/themes`),
 
-      h2(titleLink("design-tokens"), "Using design tokens"),
+      h2("Using design tokens", titleLink("design-tokens")),
       // BEGIN[shoelace/design-tokens]
       p(
         cls("indigoPrimaryColor"), // you could also apply this class directly to the button.
-        Button.of(
+        sl.Button.of(
           _.variant.primary,
           _ => "Primary indigo",
           _ => onClick --> { _ => dom.window.alert("Clicked") }
@@ -139,19 +174,19 @@ object ShoelaceWebComponentsView {
       p("Shoelace theme defines \"design tokens\", which are just CSS custom properties. These properties are inherited, so you can override those either globally or only in a certain CSS scope. The button above is rendered using \"primary\" style, but we overrode the primary colors to be indigo instead of the default sky blue."),
       CodeSnippets(_.`shoelace/design-tokens`),
 
-      h2(titleLink("css-parts"), "Using CSS parts"),
+      h2("Using CSS parts", titleLink("css-parts")),
       p(
         // BEGIN[shoelace/css-parts]
-        Button.of(
+        sl.Button.of(
           _ => cls("tomato-button"),
           _ => "Tasteful tomato button",
           _ => onClick --> { _ => dom.window.alert("Clicked") },
           _.slots.prefix(
-            Icon.of(_.name("check-circle-fill"))
+            sl.Icon.of(_.name("check-circle-fill"))
           )
         ),
         " ",
-        Button.of(
+        sl.Button.of(
           _ => cls("pink"),
           _ => "Crazy pink button",
           _ => onClick --> { _ => dom.window.alert("Clicked") }
@@ -160,15 +195,15 @@ object ShoelaceWebComponentsView {
         CodeSnippets(_.`shoelace/css-parts`)
       ),
 
-      h2(titleLink("css-custom-properties"), "Using CSS custom properties"),
+      h2("Using CSS custom properties", titleLink("css-custom-properties")),
       p(
         // #TODO[IJ] Why isn't the right `Switch` offered for import here? File a bug report after publishing the repo.
         // BEGIN[shoelace/css-custom-properties]
-        Switch.of(),
+        sl.Switch.of(),
         " ",
-        Switch.of(
-          _.width.px(100),
-          _.height.px(10),
+        sl.Switch.of(
+          _ => width.px(100),
+          _ => height.px(10),
           _.thumbSize.px(14)
         ),
         // END[shoelace/css-custom-properties]

@@ -55,7 +55,7 @@ object TimeView {
 
     val maybeAlertStream = EventStream.merge(
       clickBus.events.mapTo(Some(span("Just clicked!"))),
-      clickBus.events.flatMap { _ =>
+      clickBus.events.flatMapSwitch { _ =>
         EventStream.fromValue(None, emitOnce = true).delay(500)
       }
     )

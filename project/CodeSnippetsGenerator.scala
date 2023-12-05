@@ -1,7 +1,8 @@
-import java.io.{File, FileOutputStream, PrintStream}
-import java.nio.file.*
-import com.raquo.domtypes.codegen.generators.SourceGenerator
 import com.raquo.domtypes.codegen.CodeFormatting
+import com.raquo.domtypes.codegen.generators.SourceGenerator
+
+import java.io.{File, FileOutputStream, PrintStream}
+import java.nio.file.Path
 
 // BEGIN[codesnippets/generator]
 object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
@@ -72,7 +73,7 @@ object CodeSnippetsGenerator extends SourceGenerator(CodeFormatting()) {
       snippet.startLineNumber, // #TODO Add repr method for int in SDT
       snippet.endLineNumber,
       repr(snippet.key),
-      snippet.lines.map(repr(_)).mkString("List(", ", ", ")"),
+      snippet.lines.map(repr).mkString("List(", ", ", ")"),
     )
     fields.mkString(s"CodeSnippet(", ", ", ")")
   }

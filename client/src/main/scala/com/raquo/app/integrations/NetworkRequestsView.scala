@@ -77,7 +77,7 @@ object NetworkRequestsView {
             "Send",
             inContext { thisNode =>
               val clicks = thisNode.events(onClick).sample(selectedOptionVar.signal)
-              val responses = clicks.flatMap { opt =>
+              val responses = clicks.flatMapSwitch { opt =>
                 FetchStream.get(url = opt.url, _.abortStream(abortStream))
                   .map(resp => if (resp.length >= 1000) resp.substring(0, 1000) else resp)
                   .map("Response (first 1000 chars): " + _)
@@ -152,7 +152,7 @@ object NetworkRequestsView {
           "Send",
           inContext { thisNode =>
             val clickStream = thisNode.events(onClick).sample(selectedOptionVar.signal)
-            val responseStream = clickStream.flatMap { opt =>
+            val responseStream = clickStream.flatMapSwitch { opt =>
               AjaxStream
                 .get(
                   url = opt.url,

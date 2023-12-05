@@ -87,7 +87,7 @@ object FormStateView {
     val errorSignal = stateVar.signal.map(_.displayError(error))
     div(
       cls("-inputRow"),
-      cls.toggle("x-hasError") <-- errorSignal.map(_.nonEmpty),
+      cls("x-hasError") <-- errorSignal.map(_.nonEmpty),
       mods,
       child.maybe <-- errorSignal.map(_.map(err => div(cls("-error"), err)))
     )

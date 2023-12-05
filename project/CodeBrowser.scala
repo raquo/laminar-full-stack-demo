@@ -1,4 +1,4 @@
-import java.nio.file.*
+import java.nio.file.{Files, Path}
 import scala.collection.JavaConverters.*
 import scala.collection.mutable
 
@@ -50,7 +50,7 @@ object CodeBrowser {
         }
       }
     } else {
-      if (includeFileExtensions.exists(fileName.endsWith(_))) {
+      if (includeFileExtensions.exists(fileName.endsWith)) {
         List(path)
       } else {
         Nil

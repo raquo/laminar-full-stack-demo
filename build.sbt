@@ -11,6 +11,7 @@ lazy val root = project.in(file("."))
   .settings(
     name := "Laminar Demo"
   )
+  .settings(commonSettings)
   .settings(noPublish)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
@@ -86,6 +87,7 @@ lazy val client = project
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
+      "com.raquo" %%% "laminar-shoelace" % Versions.LaminarShoelace,
       "com.raquo" %%% "waypoint" % Versions.Waypoint,
       "be.doeraene" %%% "web-components-ui5" % Versions.UI5
     ),
@@ -176,8 +178,8 @@ lazy val commonSettings = Seq(
     "-deprecation",
     //"-feature",
     "-language:implicitConversions"
-  )
-)
+  ),
+) ++ intellijTargetSettings
 
 lazy val noPublish = Seq(
   publishLocal / skip := true,
@@ -194,3 +196,14 @@ addCommandAlias("sup", ";server/reStop ;~server/reStart ;server/reStop")
 addCommandAlias("cbuild", ";buildClient")
 // Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
 addCommandAlias("jar", ";packageApplication")
+
+// -- IntelliJ workaround
+
+// https://youtrack.jetbrains.com/issue/SCL-21839/Intellij-refactor-causes-external-incremental-sbt-compilation-to-fail-consistently
+val intellijTargetSettings = {
+  if (System.getenv("IDEA_INITIAL_DIRECTORY") ne null)
+    Seq(
+      target := baseDirectory.value / "target-idea"
+    )
+  else Seq.empty
+}

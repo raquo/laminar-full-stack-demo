@@ -9,7 +9,7 @@ object WaypointRoutingView {
     div(
       h1("Waypoint URL Routing"),
       p("As you navigate this whole \"Laminar Demo\" app, notice that the URL updates to reflect the page you're on. However, navigation happens instantly, without reloading the entire web page from the server. This is client-side URL routing, part of what is known as \"single page application\" (SPA) architecture."),
-      p("To achieve this, we use ", a(href("https://github.com/raquo/Waypoint"), "Waypoint"), " my router for Laminar. Yurique's ", a(href("https://github.com/tulz-app/frontroute"), "Frontroute"), "is another alternative, but here I will explain how this demo app uses Waypoint."),
+      p("To achieve this, we use ", a(href("https://github.com/raquo/Waypoint"), "Waypoint"), ", my router for Laminar. Yurique's ", a(href("https://github.com/tulz-app/frontroute"), "Frontroute"), "is another alternative, but here I will explain how this demo app uses Waypoint."),
       p("Before reading further, please read the short ", a(href("https://github.com/raquo/Waypoint#routing-basics"), "Routing Basics"), " section of Waypoint docs to understand Waypoint's terminology."),
       hr(),
       p("So, first, we define the pages. Waypoint wants you to have a common Page trait, with individual pages expressed in an ADT hierarchy. And yes, intermediate and marker traits are supported."),
