@@ -26,7 +26,8 @@ export default defineConfig(
           cwd: __dirname,
           ignore: [
             'node_modules/**',
-            'target/**'
+            'target/**',
+            'target-idea/**'
           ]
         }),
         importSideEffectPlugin({
