@@ -22,6 +22,12 @@ object SapUI5WebComponentsView {
   def apply(): HtmlElement = {
     div(
       cls("SapUI5WebComponentsView"),
+
+      p("All of the below are SAP UI5 components – titles, date picker, combo boxes, buttons. Some of them are custom-styled using different methods."),
+      p(a("SAP UI5", href("https://sap.github.io/ui5-webcomponents/playground/")), " is a pretty decent library of web components. We use it via ", a("LaminarSAPUI5Bindings", href("https://github.com/sherpal/LaminarSAPUI5Bindings")), " – good, manually crafted UI5 bindings designed specifically for Laminar. ", a("See live demo", href("https://sherpal.github.io/laminar-ui5-demo/"))),
+      p("SAP UI5 works well, but is not very customizable visually. They have some themes that let you change the general appearance, but they don't seem to use CSS parts for most of their components, so injecting custom styles into their components requires some hacks (not shown here)."),
+      p("See also: ", a(navigateTo(ShoelaceWebComponentsPage), "Shoelace Web Components"), "."),
+
       // Most concise syntax using Scala 3 union types.
       // Not supported in Scala 2. Not supported by IntelliJ yet.
       // https://github.com/sherpal/LaminarSAPUI5Bindings#remark-for-scala-213-users
@@ -59,14 +65,7 @@ object SapUI5WebComponentsView {
         _ => titleLink("buttons")
       ),
       div(renderButtons()),
-      CodeSnippets(_.`ui5/renderButtons`),
-
-      br(),
-
-      p("All of the above are SAP UI5 components – titles, date picker, combo boxes, buttons. Some of them are custom-styled using different methods."),
-      p(a("SAP UI5", href("https://sap.github.io/ui5-webcomponents/playground/")), " is a pretty decent library of web components. We use it via ", a("LaminarSAPUI5Bindings", href("https://github.com/sherpal/LaminarSAPUI5Bindings")), " – good, manually crafted UI5 bindings designed specifically for Laminar. ", a("See live demo", href("https://sherpal.github.io/laminar-ui5-demo/"))),
-      p("You can use other web components by creating bindings for them. It's not too much effort – the pattern is very simple, if you have documentation listing the methods and the properties of your components, it's trivial. You can do it incrementally too, define components and their properties as you start using them."),
-      p("See also: ", a(navigateTo(ShoelaceWebComponentsPage), "Shoelace Web Components"), ".")
+      CodeSnippets(_.`ui5/renderButtons`)
     )
   }
 
