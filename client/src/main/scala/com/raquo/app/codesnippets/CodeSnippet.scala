@@ -54,12 +54,9 @@ object CodeSnippet {
           "Github"
         )
       ),
-      child <-- isExpandedVar.signal.map(if (_) {
-        hljs.highlight(
-          code = snippet.lines.mkString("\n"),
-          language = snippet.fileLanguage
-        )
-      } else emptyNode)
+      child(
+        hljs.highlight(code = snippet.lines.mkString("\n"), snippet.fileLanguage)
+      ) <-- isExpandedVar.signal
     )
   }
 

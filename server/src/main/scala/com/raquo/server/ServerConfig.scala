@@ -9,7 +9,7 @@ object ServerConfig {
 
   val isProd: Boolean = {
     Option(java.lang.System.getProperty("isProd")).map { isProdStr =>
-      Try(isProdStr.toBoolean).getOrElse(throw new Exception(s"Bad isProd option: `${isProdStr}`. Expecting a scala boolean."))
+      Try(isProdStr.toBoolean).getOrElse(throw new Exception(s"Bad isProd option: `${isProdStr}`. Expecting `true` or `false`."))
     }.getOrElse(false)
   }
 

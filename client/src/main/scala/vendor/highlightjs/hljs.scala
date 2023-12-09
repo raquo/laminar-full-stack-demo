@@ -47,7 +47,7 @@ object hljs {
   }
 
   // I like contextual APIs like this. Does not need extra imports,
-  // and autocomplete tells you what's available.
+  // and IDE autocomplete tells you what's available.
   def registerLanguage(
     name: LanguageName.type => LanguageName,
     language: Language.type => Language

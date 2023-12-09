@@ -96,13 +96,13 @@ object HomePageView {
           a(href("https://github.com/raquo/laminar-full-stack-demo"), "on Github"), ".",
           br(),
           s"Built with Laminar v${BuildInfo.laminarVersion}.",
-          if (dom.window.location.host.endsWith("fly.dev") || dom.window.location.host.endsWith("laminar.dev")) {
-            List[Modifier.Base](
-              " Hosted on ", a(href("https://fly.io"), "Fly.io"), "."
-            )
-          } else {
-            emptyNode
-          }
+          when(
+            dom.window.location.host.endsWith("fly.dev") || dom.window.location.host.endsWith("laminar.dev")
+          )(
+            " Hosted on ",
+            a(href("https://fly.io"), "Fly.io"),
+            "."
+          )
         )
       )
     )
