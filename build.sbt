@@ -197,7 +197,30 @@ addCommandAlias("cbuild", ";buildClient")
 // Package the application into a jar. Run the jar with: `java -jar dist/app.jar`
 addCommandAlias("jar", ";packageApplication")
 
-// -- IntelliJ workaround
+// -- IntelliJ workarounds
+
+// https://youtrack.jetbrains.com/issue/SCL-21917/Trivial-changes-to-build.sbt-cause-IDEA-to-forget-excluded-directories
+// https://github.com/JetBrains/sbt-ide-settings
+SettingKey[Seq[File]]("ide-excluded-directories").withRank(KeyRanks.Invisible) := Seq(
+  file(".idea"),
+  file("project/project/target"),
+  file("target"),
+  file("target-idea"),
+  file("client/target"),
+  file("client/target-idea"),
+  file("server/target"),
+  file("server/target-idea"),
+  file("shared/js/target"),
+  file("shared/js/target-idea"),
+  file("shared/jvm/target"),
+  file("shared/jvm/target-idea"),
+  file("shared/shared/target"),
+  file("dist"),
+  file("client/dist"),
+  file("client/public/assets/shoelace"),
+  file("client/src/main/scala/com/raquo/app/codesnippets/generated"), // Not 100% sure if it's good UX to exclude this
+  file("server/src/main/resources/static"),
+)
 
 // https://youtrack.jetbrains.com/issue/SCL-21839/Intellij-refactor-causes-external-incremental-sbt-compilation-to-fail-consistently
 val intellijTargetSettings = {
