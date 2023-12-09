@@ -12,7 +12,7 @@ object Versions {
 
   val Laminar = "17.0.0-M2"
 
-  val LaminarShoelace = "0.1.0-M1"
+  val LaminarShoelace = "0.1.0-M2"
 
   val Waypoint = "8.0.0-M1"
 
