@@ -17,21 +17,21 @@
     "glob": "^10.3.10",
     "http-proxy": "^1.18.1",
     "less": "^4.2.0",
-    "magic-string": "^0.30.5",
+    "magic-string": "^0.30.7",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "terser": "^5.20.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.1.0"
+    "terser": "^5.28.1",
+    "typescript": "^5.3.3",
+    "vite": "5.1.4"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "~2.11.2",
+    "@shoelace-style/shoelace": "^2.14.0",
     "@ui5/webcomponents": "~1.17.0",
     "@ui5/webcomponents-base": "~1.17.0",
     "@ui5/webcomponents-fiori": "~1.17.0",
     "@ui5/webcomponents-icons": "~1.17.0",
-    "bootstrap-icons": "^1.11.1",
-    "chart.js": "^4.4.0",
+    "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "highlight.js": "^11.9.0"
   }

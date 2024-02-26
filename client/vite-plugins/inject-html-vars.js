@@ -15,8 +15,8 @@ export default function injectHtmlVarsPlugin(data) {
   return {
     name: 'inject-html-vars',
     transformIndexHtml: {
-      enforce: 'pre',
-      transform: html => {
+      order: 'pre',
+      handler: html => {
         return html.replace(
           /<%=\s*(\w+)\s*%>/gi,
           (match, p1) => {
