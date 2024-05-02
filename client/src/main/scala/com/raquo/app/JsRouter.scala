@@ -27,7 +27,9 @@ object JsRouter extends waypoint.Router[Page](
   // Instead of importing `JsRouter.*` and `pages.*` in your code,
   // you can just import `JsRouter.*` and have both available,
   // since you will be using them together anyway. Neat, eh?
-  export com.raquo.app.pages.*
+  // #TODO[Scala] Disabled due to Scala Bug https://github.com/scala/scala3/issues/18216#issuecomment-1863659868
+  //  - For now, `import com.raquo.app.pages.*` in your code instead
+  // export com.raquo.app.pages.*
 
   // Note: this returns a modifier that you need to hang off a Laminar element,
   // e.g. `a(navigateTo(HomePage), "Back to Home")`

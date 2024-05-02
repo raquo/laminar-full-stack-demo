@@ -1,6 +1,7 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
+import com.raquo.app.pages.*
 import com.raquo.buildinfo.BuildInfo
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.Utils.useImport

@@ -1,12 +1,13 @@
 package com.raquo.app
 
-import com.raquo.laminar.api.L.{*, given}
+import com.raquo.app.JsRouter.*
 import com.raquo.app.basic.*
 import com.raquo.app.form.*
 import com.raquo.app.integrations.*
+import com.raquo.app.pages.*
 import com.raquo.app.todomvc.TodoMvcApp
 import com.raquo.app.weather.WeatherGradientView
-import com.raquo.app.JsRouter.*
+import com.raquo.laminar.api.L.{*, given}
 import com.raquo.waypoint.SplitRender
 
 // BEGIN[waypoint/views]

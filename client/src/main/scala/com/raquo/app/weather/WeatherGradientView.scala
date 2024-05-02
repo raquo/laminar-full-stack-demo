@@ -4,7 +4,7 @@ import com.raquo.airstream.core.Observable
 import com.raquo.app.JsRouter.*
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.app.jsonApiDecoder
-import com.raquo.app.pages.WeatherGradientPage
+import com.raquo.app.pages.*
 import com.raquo.data.ApiResponse
 import com.raquo.laminar.api.L.*
 import com.raquo.utils.Url.*

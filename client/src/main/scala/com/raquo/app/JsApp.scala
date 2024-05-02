@@ -1,6 +1,7 @@
 package com.raquo.app
 
 import com.raquo.app.JsRouter.*
+import com.raquo.app.pages.*
 import com.raquo.laminar.api.L.{*, given}
 import org.scalajs.dom
 import vendor.highlightjs.hljs
