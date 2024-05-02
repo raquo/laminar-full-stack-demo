@@ -26,7 +26,7 @@ object Versions {
 
   val Log4Cats = "2.6.0"
 
-  val Logback = "1.4.11"
+  val Logback = "1.4.12"
 
   val Phobos = "0.21.0"
 
