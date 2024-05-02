@@ -70,7 +70,7 @@ object ShoelaceWebComponentsView {
       {
         // BEGIN[shoelace/controlled-inputs]
         val zipVar = Var("")
-        def isValidInput(str: String): Boolean = str.length <= 5 && str.forall(_.isDigit) 
+        def isValidInput(str: String): Boolean = str.length <= 5 && str.forall(_.isDigit)
         p(
           display.flex,
           alignItems.end,

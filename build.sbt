@@ -15,7 +15,7 @@ lazy val root = project.in(file("."))
   .settings(noPublish)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
-  .in(file("./shared"))
+  .in(file("."))
   .enablePlugins(BuildInfoPlugin)
   .settings(commonSettings)
   .settings(
@@ -87,6 +87,7 @@ lazy val client = project
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
+      // "com.raquo" %%% "airstream" % "17.0.0-M2-SNAPSHOT",
       "com.raquo" %%% "laminar-shoelace" % Versions.LaminarShoelace,
       "com.raquo" %%% "waypoint" % Versions.Waypoint,
       "be.doeraene" %%% "web-components-ui5" % Versions.UI5

@@ -1,6 +1,6 @@
 object Versions {
 
-  val Scala_3 = "3.3.1"
+  val Scala_3 = "3.3.3"
 
   // -- Shared --
 
@@ -10,11 +10,11 @@ object Versions {
 
   // -- Frontend --
 
-  val Laminar = "17.0.0-M2"
+  val Laminar = "17.0.0-RC1"
 
-  val LaminarShoelace = "0.1.0-M2"
+  val LaminarShoelace = "0.1.0-M3"
 
-  val Waypoint = "8.0.0-M1"
+  val Waypoint = "8.0.0-RC1"
 
   val UI5 = "1.17.1"
 

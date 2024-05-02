@@ -72,7 +72,7 @@ object FormStateView {
             onClick.mapTo("94110") --> zipWriter
           )
         ),
-        
+
         button(typ("submit"), "Submit")
       ),
       CodeSnippets(_.`form-state`) // Renders the code snippet that you can see online.
