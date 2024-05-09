@@ -34,7 +34,7 @@ object CodeSnippet {
         onClick.mapTo(!isExpandedVar.now()) --> isExpandedVar,
         span(
           cls("-arrow"),
-          child.text <-- isExpandedVar.signal.map(if (_) "▼" else "▶")
+          text <-- isExpandedVar.signal.map(if (_) "▼" else "▶")
         ),
         span(
           cls("-filename"),

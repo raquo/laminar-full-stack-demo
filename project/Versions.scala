@@ -1,20 +1,20 @@
 object Versions {
 
-  val Scala_3 = "3.3.3"
+  val Scala_3 = "3.3.1"
 
   // -- Shared --
 
   val JsoniterScala = "2.24.0"
 
-  val Borer = "1.10.3"
+  val Borer = "1.14.0"
 
   // -- Frontend --
 
-  val Laminar = "17.0.0-RC1"
+  val Laminar = "17.0.0"
 
-  val LaminarShoelace = "0.1.0-M3"
+  val LaminarShoelace = "0.1.0"
 
-  val Waypoint = "8.0.0-RC1"
+  val Waypoint = "8.0.0"
 
   val UI5 = "1.17.1"
 
@@ -24,7 +24,7 @@ object Versions {
 
   val Http4s = "0.23.23"
 
-  val Log4Cats = "2.6.0"
+  val Log4Cats = "2.7.0"
 
   val Logback = "1.4.12"
 

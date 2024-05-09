@@ -103,7 +103,7 @@ object SapUI5WebComponentsView {
     div(
       Label(
         "Currently selected: ",
-        child.text <-- selectedDateVar.signal
+        text <-- selectedDateVar.signal
       ),
       br(),
       DatePicker.of(
@@ -122,7 +122,7 @@ object SapUI5WebComponentsView {
       div(
         Label(
           "Currently selected: ",
-          child.text <-- selectedCountriesVar.signal.map(_.mkString(", "))
+          text <-- selectedCountriesVar.signal.map(_.mkString(", "))
         )
       ),
       MultiComboBox.of(

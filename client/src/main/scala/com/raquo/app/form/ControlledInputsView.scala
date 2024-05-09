@@ -47,7 +47,7 @@ object ControlledInputsView {
       ),
       p(
         "Your zip code: ",
-        child.text <-- zipVar
+        text <-- zipVar
       ),
       // Using the form element's onSubmit in this example,
       // but you could also respond on button click if you

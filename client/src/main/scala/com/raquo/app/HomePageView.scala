@@ -41,7 +41,7 @@ object HomePageView {
         img(cls("-logo"), src("https://laminar.dev/img/brand/laminar-logo-200px-rounded.png")),
         "Laminar Demo"
       ),
-      p("Welcome to ", a(href("https://laminar.dev"), "Laminar"), " & ", a(href("https://www.scala-js.org/"), "Scala.js"), " full stack demo. The ", a(href("https://github.com/raquo/laminar-full-stack-demo"), "source code & README"), " are on Github."),
+      p("Welcome to ", a(href("https://laminar.dev"), "Laminar"), " & ", a(href("https://www.scala-js.org/"), "Scala.js"), " full stack demo. The ", a(href("https://github.com/raquo/laminar-full-stack-demo"), "README"), " is on Github."),
       h2("Basic examples"),
       ul(
         listStyles,

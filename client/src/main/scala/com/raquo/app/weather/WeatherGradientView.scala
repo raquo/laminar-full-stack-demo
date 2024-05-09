@@ -81,7 +81,7 @@ object WeatherGradientView {
       // `cls` is alias for `className` – this HTML DOM property sets CSS class name on this element
       cls("WeatherGradientView"),
       h1(
-        child.text <-- gradientS.map(_.name + " gradient")
+        text <-- gradientS.map(_.name + " gradient")
       ),
       renderOtherGradients(gradientS),
       renderError(apiResponseS),

@@ -39,11 +39,11 @@ object TimeView {
       appStyles,
       div(
         "Tick #: ",
-        child.text <-- tickStream.map(_.toString)
+        text <-- tickStream.map(_.toString)
       ),
       div(
         "Random #: ",
-        child.text <-- tickStream.mapTo(scala.util.Random.nextInt() % 100)
+        text <-- tickStream.mapTo(scala.util.Random.nextInt() % 100)
       )
     )
     // END[time/basic]

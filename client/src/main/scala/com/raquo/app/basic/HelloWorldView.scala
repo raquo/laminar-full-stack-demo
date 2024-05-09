@@ -29,7 +29,7 @@ object HelloWorldView {
       ),
       p(
         "Hello, ",
-        child.text <-- nameVar.signal.map(_.toUpperCase)
+        text <-- nameVar.signal.map(_.toUpperCase)
       )
     )
     // END[hello world]

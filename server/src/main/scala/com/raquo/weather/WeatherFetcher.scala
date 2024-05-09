@@ -74,7 +74,7 @@ class WeatherFetcher(httpClient: Client[IO]) {
               case Some(error) => error
               case None =>
                 val successResponses = cityStationResponses.collect {
-                  case success: ApiResponse.Result[(String, CityStationReportXml)@unchecked] => success.result
+                  case success: ApiResponse.Result[(String, CityStationReportXml) @unchecked] => success.result
                 }
                 ApiResponse.Result(
                   cityStationReportsToGradientReport(gradient, successResponses.toMap)

@@ -146,7 +146,7 @@ object ShoelaceWebComponentsView {
       // BEGIN[shoelace/themes]
       sl.Button.of(
         _.variant.primary,
-        _ => child.text <-- isDarkVar.signal.map(if (_) "Use light theme" else "Use dark theme"),
+        _ => text <-- isDarkVar.signal.map(if (_) "Use light theme" else "Use dark theme"),
         _ => onClick.mapTo(!isDarkVar.now()) --> isDarkVar,
         _.slots.prefix(
           sl.Icon.of(

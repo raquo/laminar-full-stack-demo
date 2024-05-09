@@ -34,11 +34,11 @@ object CounterView {
       ),
       p(
         label + ": ",
-        b(child.text <-- countSignal),
+        b(text <-- countSignal),
         " ",
         // Two different ways to get stepVar's value:
         button("–", onClick.mapTo(-1 * stepVar.now()) --> diffBus),
-        button("+", onClick.compose(_.sample(stepVar.signal)) --> diffBus)
+        button("+", onClick(_.sample(stepVar.signal)) --> diffBus)
       )
     )
   }
