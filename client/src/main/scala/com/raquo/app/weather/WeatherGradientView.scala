@@ -45,7 +45,7 @@ object WeatherGradientView {
 
     // Just a naming convention: if a variable ends in a capital S, it's a Signal or Stream.
     // Helps to differentiate Scala collections from observables, and their mixes:
-    // e.g. users: List[user], userS: Signal[User], usersS: Signal[List[User]]
+    // e.g. users: List[User], userS: Signal[User], usersS: Signal[List[User]]
     val gradientS = pageS.flatMapSwitch { p =>
       Gradient.forId(p.gradientId) match {
         case Some(gradient) =>

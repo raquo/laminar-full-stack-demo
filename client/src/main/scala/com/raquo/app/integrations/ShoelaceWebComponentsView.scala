@@ -48,8 +48,9 @@ object ShoelaceWebComponentsView {
       cls("ShoelaceWebComponentsView"),
 
       h1("Shoelace Web Components"),
-      p(a(href("https://shoelace.style/"), "Shoelace"), " is a well made library of modern looking Web Components. Unlike SAP UI5, we don't yet have Scala.js bindings for this library. I have created bindings for several Shoelace components shown here just for this demo project, and so far I like it more than UI5. If there's enough demand, I can make bindings for all of Shoelace components, but I don't know when I will have the time."),
-      p(b("WIP / TODO: "), "The examples here are being transitioned from ad-hoc implementations to using my new ", a(href("https://github.com/raquo/laminar-shoelace-components"), "Laminar-Shoelace"), " library. I need to update my CodeSnippets to work with external files loadable via URLs."),
+      p(a(href("https://shoelace.style/"), "Shoelace"), " is a well made library of modern looking Web Components."),
+      p(a(href("https://github.com/raquo/laminar-shoelace-components"), "Laminar Shoelace bindings"), " are currently in their early stages, but they're quite usable enough to render most Shoelace components, including everything below!"),
+      p(b("TODO: "), "CodeSnippets in this demo should support loading files from external URLs, otherwise I can't show implementation of web components"),
 
       // CodeSnippets(
       //   _.`shoelace/components`.sortBy {

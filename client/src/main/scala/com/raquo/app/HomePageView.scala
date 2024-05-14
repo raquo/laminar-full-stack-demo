@@ -61,8 +61,8 @@ object HomePageView {
       h2("Integrations"),
       ul(
         listStyles,
-        pageLink(UI5WebComponentsPage),
         pageLink(ShoelaceWebComponentsPage),
+        pageLink(UI5WebComponentsPage),
         pageLink(NetworkRequestsPage, caption = Some("Network requests (Fetch & Ajax)")),
         pageLink(WaypointRoutingPage),
         pageLink(CodeSnippetsPage, caption = Some("Code snippets (highlight.js + compile-time data)"))
