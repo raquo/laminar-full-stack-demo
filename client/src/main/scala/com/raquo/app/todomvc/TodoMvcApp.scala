@@ -78,14 +78,14 @@ object TodoMvcApp {
     div(
       div(
         cls("todoapp-container u-bleed"),
-        div(
+        sectionTag(
           cls("todoapp"),
-          div(
+          headerTag(
             cls("header"),
             h1("todos"),
             renderNewTodoInput,
           ),
-          div(
+          sectionTag(
             hideIfNoItems,
             cls("main"),
             ul(
@@ -125,12 +125,13 @@ object TodoMvcApp {
     li(
       cls <-- itemSignal.map(item => Map("completed" -> item.completed)),
       onDblClick.filter(_ => !isEditingVar.now()).mapTo(true) --> isEditingVar.writer,
-      children <-- isEditingVar.signal.map[List[HtmlElement]] {
+      child <-- isEditingVar.signal.map[HtmlElement] {
         case true =>
           val cancelObserver = isEditingVar.writer.contramap[Unit](Unit => false)
-          renderTextUpdateInput(itemId, itemSignal, updateTextObserver, cancelObserver) :: Nil
+          renderTextUpdateInput(itemId, itemSignal, updateTextObserver, cancelObserver)
         case false =>
-          List(
+          div(
+            cls("view"),
             renderCheckboxInput(itemId, itemSignal),
             label(text <-- itemSignal.map(_.text)),
             button(
