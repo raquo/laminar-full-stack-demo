@@ -3,7 +3,10 @@ package com.raquo.app.todomvc
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.utils.Utils.useImport
+import io.bullet.borer.derivation.MapBasedCodecs.*
+import io.bullet.borer.{Codec, Json}
 import org.scalajs.dom
+import org.scalajs.dom.window
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -23,6 +26,7 @@ object TodoMvcApp {
   // --- 1. Models ---
 
   case class TodoItem(id: Int, text: String, completed: Boolean)
+  given Codec[TodoItem] = deriveCodec[TodoItem]
 
   sealed abstract class Filter(val name: String, val passes: TodoItem => Boolean)
 
@@ -46,13 +50,20 @@ object TodoMvcApp {
 
   // Var-s are reactive state variables suitable for both local state and redux-like global stores.
   // Laminar uses my library Airstream as its reactive layer https://github.com/raquo/Airstream
+  private val ls = window.localStorage.getItem("todos-laminar")
+  private val initItems: List[TodoItem] = if(ls == null)
+    List.empty[TodoItem]
+  else
+    Json.decode(ls.getBytes("UTF8")).to[List[TodoItem]].value
 
-  private val itemsVar = Var(List[TodoItem]())
+  private val itemsVar = Var(initItems)
   private val filterVar = Var[Filter](ShowAll)
   private val toggleAllVar = Var[Boolean](false)
   private var lastId = 1 // just for auto-incrementing IDs
 
   private def updateToggleAll() = toggleAllVar.update(_ => itemsVar.now().nonEmpty && itemsVar.now().forall(_.completed))
+
+  private val localStorageObserver = Observer[List[TodoItem]](onNext = items => window.localStorage.setItem("todos-laminar", Json.encode(items).toUtf8String))
 
   private val commandObserver = Observer[Command] {
     case Create(itemText) =>
@@ -93,6 +104,7 @@ object TodoMvcApp {
       .combineWith(filterVar.signal)
       .mapN(_ filter _.passes)
     div(
+      itemsVar --> localStorageObserver,
       div(
         cls("todoapp-container u-bleed"),
         sectionTag(
