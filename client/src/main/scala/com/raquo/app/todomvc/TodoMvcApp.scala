@@ -50,28 +50,26 @@ object TodoMvcApp {
 
   // Var-s are reactive state variables suitable for both local state and redux-like global stores.
   // Laminar uses my library Airstream as its reactive layer https://github.com/raquo/Airstream
-  private val ls = window.localStorage.getItem("todos-laminar")
+  private val localStorageKey = "todos-laminar"
+  private val ls = window.localStorage.getItem(localStorageKey)
   private val initItems: List[TodoItem] = if(ls == null)
     List.empty[TodoItem]
   else
     Json.decode(ls.getBytes("UTF8")).to[List[TodoItem]].value
+  private val localStorageWriter = Observer[List[TodoItem]](onNext = items => dom.window.localStorage.setItem(localStorageKey, Json.encode(items).toUtf8String))
 
   private val itemsVar = Var(initItems)
   private val filterVar = Var[Filter](ShowAll)
   private val toggleAllVar = Var[Boolean](false)
-  private var lastId = 1 // just for auto-incrementing IDs
+  private var lastId = if(initItems.isEmpty) 1 else initItems.map(_.id).max // just for auto-incrementing IDs
 
-  private def updateToggleAll() = toggleAllVar.update(_ => itemsVar.now().nonEmpty && itemsVar.now().forall(_.completed))
-
-  private val localStorageObserver = Observer[List[TodoItem]](onNext = items => window.localStorage.setItem("todos-laminar", Json.encode(items).toUtf8String))
-
+  private  def allItemsCompleted(items: List[TodoItem]) = items.nonEmpty && items.forall(_.completed)
   private val commandObserver = Observer[Command] {
     case Create(itemText) =>
       lastId += 1
       if (filterVar.now() == ShowCompleted)
         filterVar.set(ShowAll)
       itemsVar.update(_ :+ TodoItem(id = lastId, text = itemText, completed = false))
-      updateToggleAll()
     case UpdateText(itemId, text) =>
       val trimmedText = text.trim()
       if (trimmedText == "") {
@@ -79,20 +77,15 @@ object TodoMvcApp {
       } else {
         itemsVar.update(_.map(item => if (item.id == itemId) item.copy(text = trimmedText) else item))
       }
-      updateToggleAll()
     case UpdateCompleted(itemId, completed) =>
       itemsVar.update(_.map(item => if (item.id == itemId) item.copy(completed = completed) else item))
-      updateToggleAll()
     case Delete(itemId) =>
       itemsVar.update(_.filterNot(_.id == itemId))
-      updateToggleAll()
     case DeleteCompleted =>
       itemsVar.update(_.filterNot(_.completed))
       filterVar.set(ShowAll)
-      updateToggleAll()
     case ToggleAll =>
-      toggleAllVar.update(!_)
-      itemsVar.update(_.map(_.copy(completed = toggleAllVar.now())))
+      itemsVar.update(items => items.map(_.copy(completed = !allItemsCompleted(items))))
   }
 
 
@@ -104,7 +97,7 @@ object TodoMvcApp {
       .combineWith(filterVar.signal)
       .mapN(_ filter _.passes)
     div(
-      itemsVar --> localStorageObserver,
+      itemsVar --> localStorageWriter,
       div(
         cls("todoapp-container u-bleed"),
         sectionTag(
@@ -150,7 +143,7 @@ object TodoMvcApp {
       cls("toggle-all"),
       idAttr("toggle-all"),
       typ("checkbox"),
-      checked <-- toggleAllVar,
+      checked <-- itemsVar.signal.map(allItemsCompleted),
       onChange.map(_ => ToggleAll) --> commandObserver
     ),
     label(
