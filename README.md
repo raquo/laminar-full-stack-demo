@@ -29,15 +29,27 @@ The development of learning materials like this is made possible by [Laminar spo
 [![HeartAI.net](https://laminar.dev/img/sponsors/heartai-300px.png)](https://www.heartai.net/)
 
 [HeartAI](https://www.heartai.net/) is a data and analytics platform for digital health and clinical care.
-
+<br />
+<br />
 
 ### GOLD Sponsors:
 
-[![Yurique](https://laminar.dev/img/sponsors/yurique-50px.jpg?)](https://github.com/yurique) **[Iurii Malchenko](https://github.com/yurique)**
+<br />
 
-[![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-250px.png)](https://www.aurinko.io/)
-
-[Aurinko](https://aurinko.io/) is an API platform for workplace addons and integrations.
+[![Yurique](https://laminar.dev/img/sponsors/yurique-80px.jpg?)](https://github.com/yurique)<br />
+**[Iurii Malchenko](https://github.com/yurique)**
+<br />
+<br />
+<br />
+[![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-250px.png)](https://www.aurinko.io/)<br />
+**[Aurinko](https://aurinko.io/)** is an API platform for workplace addons and integrations.
+<br />
+<br />
+<br />
+<a href="https://tawasal.ae"><img src="https://laminar.dev/img/sponsors/tawasal.svg" width="80"></a><br />
+<b><a href="https://tawasal.ae">Tawasal</a></b> is a secure multi-purpose messenger and superapp, offering free voice, text, video conferencing and lifestyle services.
+<br />
+<br />
 
 
 ## Table of Contents
