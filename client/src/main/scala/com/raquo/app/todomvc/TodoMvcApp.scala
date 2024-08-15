@@ -6,7 +6,6 @@ import com.raquo.utils.Utils.useImport
 import io.bullet.borer.derivation.MapBasedCodecs.*
 import io.bullet.borer.{Codec, Json}
 import org.scalajs.dom
-import org.scalajs.dom.window
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -26,12 +25,15 @@ object TodoMvcApp {
   // --- 1. Models ---
 
   case class TodoItem(id: Int, text: String, completed: Boolean)
+
   given Codec[TodoItem] = deriveCodec[TodoItem]
 
   sealed abstract class Filter(val name: String, val passes: TodoItem => Boolean)
 
   object ShowAll extends Filter("All", _ => true)
+
   object ShowActive extends Filter("Active", !_.completed)
+
   object ShowCompleted extends Filter("Completed", _.completed)
 
   val filters: List[Filter] = ShowAll :: ShowActive :: ShowCompleted :: Nil
@@ -39,10 +41,15 @@ object TodoMvcApp {
   sealed trait Command
 
   case class Create(itemText: String) extends Command
+
   case class UpdateText(itemId: Int, text: String) extends Command
+
   case class UpdateCompleted(itemId: Int, completed: Boolean) extends Command
+
   case class Delete(itemId: Int) extends Command
+
   case object DeleteCompleted extends Command
+
   case object ToggleAll extends Command
 
 
@@ -51,25 +58,33 @@ object TodoMvcApp {
   // Var-s are reactive state variables suitable for both local state and redux-like global stores.
   // Laminar uses my library Airstream as its reactive layer https://github.com/raquo/Airstream
   private val localStorageKey = "todos-laminar"
-  private val ls = window.localStorage.getItem(localStorageKey)
-  private val initItems: List[TodoItem] = if(ls == null)
-    List.empty[TodoItem]
-  else
-    Json.decode(ls.getBytes("UTF8")).to[List[TodoItem]].value
-  private val localStorageWriter = Observer[List[TodoItem]](onNext = items => dom.window.localStorage.setItem(localStorageKey, Json.encode(items).toUtf8String))
 
-  private val itemsVar = Var(initItems)
+  private val initialItems: List[TodoItem] = {
+    val lsJsonStr = dom.window.localStorage.getItem(localStorageKey)
+    if (lsJsonStr == null) {
+      List.empty[TodoItem]
+    } else {
+      Json.decode(lsJsonStr.getBytes("UTF8")).to[List[TodoItem]].value
+    }
+  }
+
+  private val localStorageWriter = Observer[List[TodoItem]] { items =>
+    dom.window.localStorage.setItem(localStorageKey, Json.encode(items).toUtf8String)
+  }
+
+  private val itemsVar = Var(initialItems)
+
   private val filterVar = Var[Filter](ShowAll)
-  private val toggleAllVar = Var[Boolean](false)
-  private var lastId = if(initItems.isEmpty) 1 else initItems.map(_.id).max // just for auto-incrementing IDs
 
-  private  def allItemsCompleted(items: List[TodoItem]) = items.nonEmpty && items.forall(_.completed)
+  // Auto-incrementing IDs, starting with 1
+  private var lastItemId = initialItems.map(_.id).maxOption.getOrElse(1)
+
   private val commandObserver = Observer[Command] {
     case Create(itemText) =>
-      lastId += 1
+      lastItemId += 1
       if (filterVar.now() == ShowCompleted)
         filterVar.set(ShowAll)
-      itemsVar.update(_ :+ TodoItem(id = lastId, text = itemText, completed = false))
+      itemsVar.update(_ :+ TodoItem(id = lastItemId, text = itemText, completed = false))
     case UpdateText(itemId, text) =>
       val trimmedText = text.trim()
       if (trimmedText == "") {
@@ -95,7 +110,7 @@ object TodoMvcApp {
     val todoItemsSignal = itemsVar
       .signal
       .combineWith(filterVar.signal)
-      .mapN(_ filter _.passes)
+      .mapN { (items, filter) => items.filter(filter.passes) }
     div(
       itemsVar --> localStorageWriter,
       div(
@@ -245,6 +260,9 @@ object TodoMvcApp {
     display <-- itemsVar.signal.map { items =>
       if (items.nonEmpty) "" else "none"
     }
+
+  private def allItemsCompleted(items: List[TodoItem]): Boolean =
+    items.nonEmpty && items.forall(_.completed)
 
 
   // --- Generic helpers ---
