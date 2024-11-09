@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev-debug": "vite --debug",
     "build": "vite build",
+    "build-debug": "vite build --debug",
     "preview": "vite preview",
     "sourcemap-report": "node sourcemap-report.js"
   },

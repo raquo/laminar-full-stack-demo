@@ -12,7 +12,7 @@ import childProcess from "child_process"
 // -- PARAMS --
 
 const directory = path.join("dist", "assets")
-const filePattern = /^index-[a-z0-9]+\.js$/
+const filePattern = /^index-[a-z0-9_]+\.js$/i
 
 // -- HELPERS --
 
