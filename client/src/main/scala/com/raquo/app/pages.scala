@@ -39,6 +39,8 @@ object pages {
   case object ShoelaceWebComponentsPage extends Page("Shoelace Web Components")
 
   case object NetworkRequestsPage extends Page("Network Requests")
+  
+  case object LocalStoragePage extends Page("Local Storage & Session Storage")
 
   case object WaypointRoutingPage extends Page("Waypoint URL Routing")
 

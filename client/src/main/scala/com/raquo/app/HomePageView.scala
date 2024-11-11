@@ -64,6 +64,7 @@ object HomePageView {
         pageLink(ShoelaceWebComponentsPage),
         pageLink(UI5WebComponentsPage),
         pageLink(NetworkRequestsPage, caption = Some("Network requests (Fetch & Ajax)")),
+        pageLink(LocalStoragePage),
         pageLink(WaypointRoutingPage),
         pageLink(CodeSnippetsPage, caption = Some("Code snippets (highlight.js + compile-time data)"))
       ),

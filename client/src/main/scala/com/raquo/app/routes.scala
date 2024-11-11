@@ -30,6 +30,7 @@ val routes = List(
   Route.static(UI5WebComponentsPage, appRoot / "integrations" / "web-components" / "sap-ui5" / endOfSegments),
   Route.static(ShoelaceWebComponentsPage, appRoot / "integrations" / "web-components" / "shoelace" / endOfSegments),
   Route.static(NetworkRequestsPage, appRoot / "integrations" / "network-requests" / endOfSegments),
+  Route.static(LocalStoragePage, appRoot / "integrations" / "localstorage" / endOfSegments),
   Route.static(WaypointRoutingPage, appRoot / "integrations" / "waypoint-url-routing" / endOfSegments),
   Route.static(CodeSnippetsPage, appRoot / "integrations" / "code-snippets" / endOfSegments),
   Route[WeatherGradientPage, String](
