@@ -10,26 +10,55 @@ import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.waypoint.SplitRender
 
+import com.raquo.airstream.split.SplitMatchOneMacros.*
+
 // BEGIN[waypoint/views]
-val views = SplitRender(JsRouter.currentPageSignal)
-  .collectStatic(HomePage)(HomePageView())
-  .collectStatic(HelloWorldPage)(HelloWorldView())
-  .collectStatic(CounterPage)(CounterView())
-  .collectStatic(TimePage)(TimeView())
-  .collectStatic(UncontrolledInputsPage)(UncontrolledInputsView())
-  .collectStatic(ControlledInputsPage)(ControlledInputsView())
-  .collectStatic(FormStatePage)(FormStateView())
-  .collectStatic(TodoMvcPage)(TodoMvcApp.node)
-  .collectSignal[WeatherGradientPage](WeatherGradientView(_))
-  .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())
-  .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
-  .collectStatic(NetworkRequestsPage)(NetworkRequestsView())
-  .collectStatic(LocalStoragePage)(LocalStorageView())
-  .collectStatic(WaypointRoutingPage)(WaypointRoutingView())
-  .collectStatic(CodeSnippetsPage)(CodeSnippetsView())
-  .collectStatic(NotFoundPage)(renderNotFoundPage())
-  .signal
+val views: Signal[HtmlElement] =
+  JsRouter.currentPageSignal
+    .splitMatchOne
+    .handleValue(HomePage)(HomePageView())
+    .handleValue(HelloWorldPage)(HelloWorldView())
+    .handleValue(CounterPage)(CounterView())
+    .handleValue(TimePage)(TimeView())
+    .handleValue(UncontrolledInputsPage)(UncontrolledInputsView())
+    .handleValue(ControlledInputsPage)(ControlledInputsView())
+    .handleValue(FormStatePage)(FormStateView())
+    .handleValue(TodoMvcPage)(TodoMvcApp.node)
+    .handleCase { case p: WeatherGradientPage => p } { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
+    .handleType[WeatherGradientPage] { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
+    .handleValue(UI5WebComponentsPage)(SapUI5WebComponentsView())
+    .handleValue(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
+    .handleValue(NetworkRequestsPage)(NetworkRequestsView())
+    .handleValue(WaypointRoutingPage)(WaypointRoutingView())
+    .handleValue(LocalStoragePage)(LocalStorageView())
+    .handleValue(CodeSnippetsPage)(CodeSnippetsView())
+    .handleValue(NotFoundPage)(renderNotFoundPage())
+    // .handleType[UnroutedPage] { (_, _) => ??? } // commented out to demonstrate what happens if you forget to specify a route
+    .toSignal
 // END[waypoint/views]
+
+// Old / Scala 2 way of doing the same, for reference:
+// BEGIN[waypoint/views-old]
+lazy val altViews =
+  SplitRender(JsRouter.currentPageSignal)
+    .collectStatic(HomePage)(HomePageView())
+    .collectStatic(HelloWorldPage)(HelloWorldView())
+    .collectStatic(CounterPage)(CounterView())
+    .collectStatic(TimePage)(TimeView())
+    .collectStatic(UncontrolledInputsPage)(UncontrolledInputsView())
+    .collectStatic(ControlledInputsPage)(ControlledInputsView())
+    .collectStatic(FormStatePage)(FormStateView())
+    .collectStatic(TodoMvcPage)(TodoMvcApp.node)
+    .collectSignal[WeatherGradientPage](WeatherGradientView(_))
+    .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())
+    .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
+    .collectStatic(NetworkRequestsPage)(NetworkRequestsView())
+    .collectStatic(LocalStoragePage)(LocalStorageView())
+    .collectStatic(WaypointRoutingPage)(WaypointRoutingView())
+    .collectStatic(CodeSnippetsPage)(CodeSnippetsView())
+    .collectStatic(NotFoundPage)(renderNotFoundPage())
+    .signal
+// END[waypoint/views-old]
 
 // All the other page Views are defined in different files
 // for easier organization, but of course you can just use
