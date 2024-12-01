@@ -180,7 +180,7 @@ lazy val commonSettings = Seq(
     //"-feature",
     "-language:implicitConversions"
   ),
-) ++ intellijTargetSettings
+)
 
 lazy val noPublish = Seq(
   publishLocal / skip := true,
@@ -206,27 +206,13 @@ SettingKey[Seq[File]]("ide-excluded-directories").withRank(KeyRanks.Invisible) :
   file(".idea"),
   file("project/project/target"),
   file("target"),
-  file("target-idea"),
   file("client/target"),
-  file("client/target-idea"),
   file("server/target"),
-  file("server/target-idea"),
   file("shared/js/target"),
-  file("shared/js/target-idea"),
   file("shared/jvm/target"),
-  file("shared/jvm/target-idea"),
   file("shared/shared/target"),
   file("dist"),
   file("client/dist"),
   file("client/public/assets/shoelace"),
   file("server/src/main/resources/static"),
 )
-
-// https://youtrack.jetbrains.com/issue/SCL-21839/Intellij-refactor-causes-external-incremental-sbt-compilation-to-fail-consistently
-val intellijTargetSettings = {
-  if (System.getenv("IDEA_INITIAL_DIRECTORY") ne null)
-    Seq(
-      target := baseDirectory.value / "target-idea"
-    )
-  else Seq.empty
-}
