@@ -219,7 +219,6 @@ SettingKey[Seq[File]]("ide-excluded-directories").withRank(KeyRanks.Invisible) :
   file("dist"),
   file("client/dist"),
   file("client/public/assets/shoelace"),
-  file("client/src/main/scala/com/raquo/app/codesnippets/generated"), // Not 100% sure if it's good UX to exclude this
   file("server/src/main/resources/static"),
 )
 
