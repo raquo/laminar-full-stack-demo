@@ -181,7 +181,7 @@ object WeatherGradientView {
   // Your render functions don't need to return just elements, for example
   // this one returns a Modifier that inserts a dynamic child node wherever
   // it's put.
-  private def renderError(apiResponseS: EventStream[ApiResponse[_]]): Mod[Element] = {
+  private def renderError(apiResponseS: EventStream[ApiResponse[?]]): Mod[Element] = {
     val maybeApiErrorS = apiResponseS.collect {
       case ApiResponse.Error(msg, _) => Some(msg)
       case _ => None

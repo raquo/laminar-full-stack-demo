@@ -65,7 +65,7 @@ class ChartDataset(
   var label: String,
   @JSName("type")
   var typ: String | Unit = js.undefined,
-  var data: js.Array[_],
+  var data: js.Array[?],
   var backgroundColor: String | Unit = js.undefined,
   var borderColor: String | Unit = js.undefined,
   var pointBackgroundColor: String | Unit = js.undefined,

@@ -1,6 +1,6 @@
 object Versions {
 
-  val Scala_3 = "3.3.4"
+  val Scala_3 = "3.5.2"
 
   // -- Shared --
 
