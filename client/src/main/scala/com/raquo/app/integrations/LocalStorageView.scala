@@ -69,7 +69,7 @@ object LocalStorageView {
       div(
         h2("LocalStorage", titleLink("localstorage")),
         p("If local storage is working, the values in these inputs should sync immediately between multiple tabs. Closing the tabs or even the browser completely, then navigating to the same URL afresh should also show retain the text."),
-        availabilityChecker("LocalStorage", WebStorageVar.localStorageIsAvailable),
+        availabilityChecker("LocalStorage", WebStorageVar.isLocalStorageAvailable),
         h3("Simple string"),
         p(
           label("Synced text: ", marginRight.px(8)),
@@ -139,7 +139,7 @@ object LocalStorageView {
         flexDirection.column,
         h2("SessionStorage", titleLink("sessionstorage")),
         p("If you go to any other URL in this tab, then come back using the browser's back button, reload the page, close the tab, then un-close / recover it (cmd+shift+T in most browsers) – the comment below should persist through all that, as that is all within one page session."),
-        availabilityChecker("SessionStorage", WebStorageVar.sessionStorageIsAvailable),
+        availabilityChecker("SessionStorage", WebStorageVar.isSessionStorageAvailable),
         h3("Comment saved in this page session"),
         textArea(
           inputStyles,
@@ -174,7 +174,7 @@ object LocalStorageView {
               }
               .startWith("Check again")
         },
-        onClick.mapTo(WebStorageVar.localStorageIsAvailable()) --> storageAvailableVar,
+        onClick.mapTo(WebStorageVar.isLocalStorageAvailable()) --> storageAvailableVar,
       )
     )
   }

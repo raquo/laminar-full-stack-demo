@@ -10,8 +10,6 @@ import com.raquo.app.weather.WeatherGradientView
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.waypoint.SplitRender
 
-import com.raquo.airstream.split.SplitMatchOneMacros.*
-
 // BEGIN[waypoint/views]
 val views: Signal[HtmlElement] =
   JsRouter.currentPageSignal
