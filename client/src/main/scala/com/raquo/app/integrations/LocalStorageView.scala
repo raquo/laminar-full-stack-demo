@@ -6,7 +6,6 @@ import com.raquo.app.JsRouter.*
 import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.app.pages.*
 import com.raquo.laminar.api.L.*
-import com.raquo.laminar.api.features.unitArrows
 import com.raquo.utils.JsonUtils.*
 import com.raquo.weather.Gradient
 import io.bullet.borer.derivation.MapBasedCodecs.*

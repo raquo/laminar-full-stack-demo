@@ -8,6 +8,7 @@ import com.raquo.waypoint
 import io.bullet.borer.*
 import org.scalajs.dom
 
+import scala.scalajs.js
 import scala.util.{Failure, Success, Try}
 
 // BEGIN[waypoint/router]
@@ -19,9 +20,6 @@ object JsRouter extends waypoint.Router[Page](
   serializePage = page => Json.encode(page).toUtf8String, // serialize page data for storage in History API log
   deserializePage = pageStr => Json.decodeString(pageStr).to[Page].value, // deserialize the above
   routeFallback = _ => pages.NotFoundPage
-)(
-  popStateEvents = windowEvents(_.onPopState), // this is how Waypoint avoids an explicit dependency on Laminar
-  owner = unsafeWindowOwner // this router will live as long as the window
 ) {
 
   // Instead of importing `JsRouter.*` and `pages.*` in your code,
@@ -31,35 +29,10 @@ object JsRouter extends waypoint.Router[Page](
   //  - For now, `import com.raquo.app.pages.*` in your code instead
   // export com.raquo.app.pages.*
 
-  // Note: this returns a modifier that you need to hang off a Laminar element,
-  // e.g. `a(navigateTo(HomePage), "Back to Home")`
-  // See https://github.com/raquo/Waypoint docs for why this modifier is useful in general.
-  // Note: for fragment ('#') URLs this isn't actually needed.
-  def navigateTo(page: Page): Binder[HtmlElement] = Binder { el =>
-    val isLinkElement = el.ref.isInstanceOf[dom.html.Anchor]
-
-    if (isLinkElement) {
-      Try(absoluteUrlForPage(page)) match {
-        case Success(url) => el.amend(href(url))
-        case Failure(err) => dom.console.error(err)
-      }
-    }
-
-    // If element is a link and user is holding a modifier while clicking:
-    //  - Do nothing, browser will open the URL in new tab / window / etc. depending on the modifier key
-    // Otherwise:
-    //  - Perform regular pushState transition
-    //  - Scroll to top of page
-
-    val onRegularClick = onClick
-      .filter(ev => !(isLinkElement && (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.altKey)))
-      .preventDefault
-
-    (onRegularClick --> { _ =>
-      pushState(page)
-      dom.window.scrollTo(0, 0) // Scroll to top of page when navigating
-    }).bind(el)
-  }
+  currentPageSignal.foreach { page =>
+    // Reset scroll position (see Waypoint docs for caveats / more details)
+    dom.window.scrollTo(x = 0, y = 0)
+  }(owner)
 
   /** Add this to a h1..h6 title element to add a clickable
     * "#" link that will scroll to that title.

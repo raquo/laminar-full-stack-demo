@@ -32,10 +32,10 @@ val views: Signal[HtmlElement] =
     .handleValue(CodeSnippetsPage)(CodeSnippetsView())
     .handleValue(NotFoundPage)(renderNotFoundPage())
     // .handleType[UnroutedPage] { (_, _) => ??? } // commented out to demonstrate what happens if you forget to specify a route
-    .toSignal
+    .toSignal // Yes, "match may not be exhaustive" is expected here. See above.
 // END[waypoint/views]
 
-// Old / Scala 2 way of doing the same, for reference:
+// Old / Scala 2 way of doing the same. This is unused, only for reference:
 // BEGIN[waypoint/views-old]
 lazy val altViews =
   SplitRender(JsRouter.currentPageSignal)
