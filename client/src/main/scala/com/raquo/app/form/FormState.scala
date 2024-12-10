@@ -27,4 +27,8 @@ case class FormState(
   def displayError(error: FormState => Option[String]): Option[String] = {
     error(this).filter(_ => showErrors)
   }
+
+  override def toString: String = {
+    s"FormState(city = \"${city}\", zip = \"$zip\", showErrors = $showErrors)"
+  }
 }

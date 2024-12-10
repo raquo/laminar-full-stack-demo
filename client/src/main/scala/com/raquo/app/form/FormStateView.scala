@@ -21,9 +21,9 @@ object FormStateView {
 
   private val stateVar = Var(FormState())
 
-  private val zipWriter = stateVar.updater[String]((state, zip) => state.copy(zip = zip))
+  private val zipVar = stateVar.zoomLazy(_.zip)((state, zip) => state.copy(zip = zip))
 
-  private val descriptionWriter = stateVar.updater[String]((state, desc) => state.copy(city = desc))
+  private val cityVar = stateVar.zoomLazy(_.city)((state, desc) => state.copy(city = desc))
 
   private val submitter = Observer[FormState] { state =>
     if (state.hasErrors) {
@@ -45,14 +45,14 @@ object FormStateView {
           label("City: "),
           input(
             controlled(
-              value <-- stateVar.signal.map(_.city),
-              onInput.mapToValue --> descriptionWriter
+              value <-- cityVar,
+              onInput.mapToValue --> cityVar
             )
           ),
           button(
             typ("button"), // "submit" is the default in HTML
             "Clear",
-            onClick.mapTo("") --> descriptionWriter
+            onClick.mapTo("") --> cityVar
           )
         ),
 
@@ -62,18 +62,26 @@ object FormStateView {
             cls("-zipCodeInput"),
             placeholder("12345"),
             controlled(
-              value <-- stateVar.signal.map(_.zip),
-              onInput.mapToValue.filter(_.forall(Character.isDigit)) --> zipWriter
+              value <-- zipVar,
+              onInput.mapToValue.filter(_.forall(Character.isDigit)) --> zipVar
             )
           ),
           button(
             typ("button"), // default button type in HTML is "submit", we don't want it
             "Set SF",
-            onClick.mapTo("94110") --> zipWriter
+            onClick.mapTo("94110") --> zipVar
           )
         ),
 
-        button(typ("submit"), "Submit")
+        p(button(typ("submit"), "Submit")),
+
+        div(
+          fontSize.percent(90),
+          color("#777"),
+          div("stateVar = ", text <-- stateVar.signal.map(_.toString)),
+          div("cityVar = ", "\"", text <-- cityVar.signal, "\""),
+          div("zipVar = ", "\"", text <-- zipVar.signal, "\""),
+        )
       ),
       CodeSnippets(_.`form-state`) // Renders the code snippet that you can see online.
     )

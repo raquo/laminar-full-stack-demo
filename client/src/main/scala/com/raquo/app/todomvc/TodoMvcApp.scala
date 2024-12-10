@@ -104,7 +104,7 @@ object TodoMvcApp {
     input(
       cls("new-todo"),
       placeholder("What needs to be done?"),
-      autoFocus(true),
+      onMountFocus,
       onEnterPress
         .mapToValue
         .filter(_.nonEmpty)
