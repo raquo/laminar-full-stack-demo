@@ -34,10 +34,16 @@ The development of learning materials like this is made possible by [Laminar spo
 ### GOLD Sponsors:
 
 [![Yurique](https://laminar.dev/img/sponsors/yurique-50px.jpg?)](https://github.com/yurique) **[Iurii Malchenko](https://github.com/yurique)**
-
+<br />
+<br />
 [![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-250px.png)](https://www.aurinko.io/)
-
+<br />
+<br />
 [Aurinko](https://aurinko.io/) is an API platform for workplace addons and integrations.
+<br />
+<br />
+<a href="https://tawasal.ae"><img src="https://laminar.dev/img/sponsors/tawasal.svg" width="80"></a><br />
+<b><a href="https://tawasal.ae">Tawasal</a></b> is a secure multi-purpose messenger and superapp, offering free voice, text, video conferencing and lifestyle services.
 
 
 ## Table of Contents
