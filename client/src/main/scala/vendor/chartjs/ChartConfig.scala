@@ -38,7 +38,6 @@ class ChartConfig(
   var plugins: js.Dictionary[js.Object] = js.Dictionary()
 ) extends DynamicJsObject
 
-
 /**
   * @param labels X axis labels
   */
@@ -46,7 +45,6 @@ class ChartData(
   var labels: js.Array[String] | Unit = js.undefined,
   var datasets: js.Array[ChartDataset] | Unit = js.undefined
 ) extends DynamicJsObject
-
 
 /**
   * @param label   Caption for this dataset

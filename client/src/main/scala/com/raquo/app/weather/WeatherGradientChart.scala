@@ -98,9 +98,11 @@ object WeatherGradientChart {
       "datalabels" -> js.Dynamic.literal(
         "align" -> "top",
         "color" -> "#000080",
-        "formatter" -> (((value: Double, ctx: js.Dynamic) => {
-          Math.round(value).toString + "°"
-        }): js.Function2[Double, js.Dynamic, Any])
+        "formatter" -> ((
+          (value: Double, ctx: js.Dynamic) => {
+            Math.round(value).toString + "°"
+          }
+        ): js.Function2[Double, js.Dynamic, Any])
       )
     )
   }
@@ -168,7 +170,7 @@ object WeatherGradientChart {
       max = range.map(_._2).orUndefined
     ).updateDynamic(
       "ticks" -> js.Dictionary(
-        //"count" -> 7,
+        // "count" -> 7,
         "stepSize" -> stepSize
       ),
       "grid" -> js.Dictionary(

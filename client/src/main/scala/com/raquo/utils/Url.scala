@@ -26,7 +26,7 @@ import scala.scalajs.js
 class Url(str: String) {
 
   /** Add trailing slash */
-  def `/`: Url = /("")
+  def `/`: Url = / ("")
 
   /** Add path segment */
   def /(segment: String): Url = {

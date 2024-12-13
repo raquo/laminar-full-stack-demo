@@ -36,7 +36,7 @@ class Chart(
   val canvas: dom.HTMLCanvasElement | dom.CanvasRenderingContext2D,
   val config: ChartConfig
 ) extends js.Object {
-  
+
   /** Call this after mutating chart config, for it to take effect. */
   def update(): Unit = js.native
 
@@ -46,9 +46,9 @@ class Chart(
 @js.native
 @JSImport("chart.js")
 object Chart extends js.Object {
-  
+
   def defaults: ChartConfigOptions = js.native
-  
+
   // Can accept: chart.js controllers, elements, plugins
   def register(components: js.Object*): Unit = js.native
 

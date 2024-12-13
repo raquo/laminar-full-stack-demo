@@ -14,21 +14,21 @@ import scala.scalajs.js.annotation.JSImport
 
 object ShoelaceWebComponentsView {
 
-  @JSImport("@find/**/ShoelaceWebComponentsView.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/ShoelaceWebComponentsView.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 
   // Load Shoelace themes. Light one is the default, but we make a button to switch them.
   // See their contents at https://github.com/shoelace-style/shoelace/blob/current/src/themes/light.css
   // BEGIN[shoelace/themes]
-  @JSImport("@shoelace-style/shoelace/dist/themes/light.css", "importStyle")
-  @js.native private def importLightTheme(): Unit = js.native
+  @js.native @JSImport("@shoelace-style/shoelace/dist/themes/light.css", "importStyle")
+  private def importLightTheme(): Unit = js.native
 
   importLightTheme()
 
-  @JSImport("@shoelace-style/shoelace/dist/themes/dark.css", "importStyle")
-  @js.native private def importDarkTheme(): Unit = js.native
+  @js.native @JSImport("@shoelace-style/shoelace/dist/themes/dark.css", "importStyle")
+  private def importDarkTheme(): Unit = js.native
 
   importDarkTheme()
   // END[shoelace/themes]
@@ -46,7 +46,7 @@ object ShoelaceWebComponentsView {
 
     div(
       cls("ShoelaceWebComponentsView"),
-
+      //
       h1("Shoelace Web Components"),
       p(a(href("https://shoelace.style/"), "Shoelace"), " is a well made library of modern looking Web Components."),
       p(a(href("https://github.com/raquo/laminar-shoelace-components"), "Laminar Shoelace bindings"), " are currently in their early stages, but they're quite usable enough to render most Shoelace components, including everything below!"),
@@ -67,7 +67,7 @@ object ShoelaceWebComponentsView {
       // ),
 
       h2("Controlled inputs", titleLink("controlled-inputs")),
-      p("Laminar supports ", a("controlled inputs", href("https://laminar.dev/documentation#controlled-inputs")), " on Web Components."),
+      p("Laminar supports ", a("controlled inputs", href("https://laminar.dev/documentation#controlled-inputs")), " on Web Components."), //
       {
         // BEGIN[shoelace/controlled-inputs]
         val zipVar = Var("")
@@ -94,7 +94,7 @@ object ShoelaceWebComponentsView {
         // END[shoelace/controlled-inputs]
       },
       CodeSnippets(_.`shoelace/controlled-inputs`),
-
+      //
       h2("Buttons and Icons", titleLink("buttons-icons")),
       p(
         // BEGIN[shoelace/buttons-and-icons]
@@ -135,11 +135,11 @@ object ShoelaceWebComponentsView {
       p("This example also demonstrates the usage of named slots."),
       p("Icons and their names are from ", a(href("https://icons.getbootstrap.com"), "Bootstrap Icons"), " by default. To find available icons, create a search engine bookmark in your browser with keyword ", code("bs"), " and URL ", code("https://icons.getbootstrap.com/?q=%s"), ", then you'll be able to type e.g. \"bs user\" in your address bar, and see all relevant icons and their names."),
       CodeSnippets(_.`shoelace/buttons-and-icons`),
-
+      //
       h1("Customization"),
-
+      //
       p("These methods and examples largely follow ", a(href("https://shoelace.style/getting-started/customizing"), "Shoelace customization docs"), "."),
-
+      //
       h2("Using themes", titleLink("themes")),
       // BEGIN[shoelace/themes]
       cls <-- isDarkVar.signal.map(if (_) "sl-theme-dark" else "sl-theme-light"),
@@ -160,7 +160,7 @@ object ShoelaceWebComponentsView {
       p("The button above switches this page between light and dark themes. The themes style the Shoelace components that we render here, but I also set the color and background color of this page by referring to the CSS vars that the active theme sets."),
       p("See ", a(href("https://shoelace.style/getting-started/themes"), "Shoelace theme docs"), " for instructions on using themes, creating your own themes, and loading multiple themes in the same app."),
       CodeSnippets(_.`shoelace/themes`),
-
+      //
       h2("Using design tokens", titleLink("design-tokens")),
       // BEGIN[shoelace/design-tokens]
       p(
@@ -174,7 +174,7 @@ object ShoelaceWebComponentsView {
       // END[shoelace/design-tokens]
       p("Shoelace theme defines \"design tokens\", which are just CSS custom properties. These properties are inherited, so you can override those either globally or only in a certain CSS scope. The button above is rendered using \"primary\" style, but we overrode the primary colors to be indigo instead of the default sky blue."),
       CodeSnippets(_.`shoelace/design-tokens`),
-
+      //
       h2("Using CSS parts", titleLink("css-parts")),
       p(
         // BEGIN[shoelace/css-parts]
@@ -195,7 +195,7 @@ object ShoelaceWebComponentsView {
         // END[shoelace/css-parts]
         CodeSnippets(_.`shoelace/css-parts`)
       ),
-
+      //
       h2("Using CSS custom properties", titleLink("css-custom-properties")),
       p(
         // #TODO[IJ] Why isn't the right `Switch` offered for import here? File a bug report after publishing the repo.

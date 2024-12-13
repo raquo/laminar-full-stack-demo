@@ -11,14 +11,13 @@ import scala.scalajs.js.annotation.JSImport
 // BEGIN[todomvc]
 object TodoMvcApp {
 
-  @JSImport("@find/**/TodoMvcApp.css")
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/TodoMvcApp.css")
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 
   // This implementation is very loosely based on Outwatch TodoMVC, for comparison see
   // https://github.com/clovellytech/outwatch-examples/tree/master/todomvc/src/main/scala/todomvc
-
 
   // --- 1. Models ---
 
@@ -39,7 +38,6 @@ object TodoMvcApp {
   case class UpdateCompleted(itemId: Int, completed: Boolean) extends Command
   case class Delete(itemId: Int) extends Command
   case object DeleteCompleted extends Command
-
 
   // --- 2. State ---
 
@@ -66,7 +64,6 @@ object TodoMvcApp {
       itemsVar.update(_.filterNot(_.completed))
       filterVar.set(ShowAll)
   }
-
 
   // --- 3. Views ---
 
@@ -182,13 +179,16 @@ object TodoMvcApp {
         filters.map(filter => li(renderFilterButton(filter)))
       ),
       child.maybe <-- itemsVar.signal.map { items =>
-        if (items.exists(ShowCompleted.passes)) Some(
-          button(
-            cls("clear-completed"),
-            "Clear completed",
-            onClick.map(_ => DeleteCompleted) --> commandObserver
+        if (items.exists(ShowCompleted.passes))
+          Some(
+            button(
+              cls("clear-completed"),
+              "Clear completed",
+              onClick.map(_ => DeleteCompleted) --> commandObserver
+            )
           )
-        ) else None
+        else
+          None
       }
     )
 
@@ -204,7 +204,6 @@ object TodoMvcApp {
     display <-- itemsVar.signal.map { items =>
       if (items.nonEmpty) "" else "none"
     }
-
 
   // --- Generic helpers ---
 

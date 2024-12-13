@@ -17,8 +17,8 @@ object HomePageView {
   // Find and import the LESS (CSS) file for this component.
   // See https://github.com/raquo/vite-plugin-glob-resolver
   // See https://github.com/raquo/vite-plugin-import-side-effect
-  @JSImport("@find/**/HomePageView.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/HomePageView.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 
@@ -81,13 +81,13 @@ object HomePageView {
         // a URL for it, and so its <a> element has no `href` property. By default, the browsers
         // make such href-less links appear like plaintext & unclickable, but that's just styling.
         // You can still click on it, and get an exception. And you can override the styles with CSS.
-        //{
-        //  dom.console.warn("The code below will print a Waypoint error about UnroutedPage(bar) to the console. This is expected, we are demonstrating this failure on purpose.")
-        //  pageLink(
-        //    UnroutedPage("bar"),
-        //    caption = Some("UnroutedPage – page with no route")
-        //  )
-        //}
+        // {
+        //   dom.console.warn("The code below will print a Waypoint error about UnroutedPage(bar) to the console. This is expected, we are demonstrating this failure on purpose.")
+        //   pageLink(
+        //     UnroutedPage("bar"),
+        //     caption = Some("UnroutedPage – page with no route")
+        //   )
+        // }
       ),
       br(),
       br(),

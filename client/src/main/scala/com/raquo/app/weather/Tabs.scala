@@ -11,8 +11,8 @@ object Tabs {
   // Find and import the LESS (CSS) file for this component.
   // See https://github.com/raquo/vite-plugin-glob-resolver
   // See https://github.com/raquo/vite-plugin-import-side-effect
-  @JSImport("@find/**/Tabs.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/Tabs.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 

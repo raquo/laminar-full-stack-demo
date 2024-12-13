@@ -18,9 +18,9 @@ class WeatherFetcher(httpClient: Client[IO]) {
     * @return (cityStationId, reportXml). IO can fail with ApiError
     */
   def fetchCityWeather(cityStationId: String): IO[ApiResponse[(String, CityStationReportXml)]] = {
-    //val x = EntityDecoder.decodeBy[IO, String](MediaRange.`application/*`) { y =>
+    // val x = EntityDecoder.decodeBy[IO, String](MediaRange.`application/*`) { y =>
     //  DecodeResult.success(y.body)
-    //}
+    // }
     // #TODO implement an XML codec that takes care of error handling (what about 40x / 50x responses?)
     val url = uri"https://dd.weather.gc.ca/citypage_weather/xml/BC" / (cityStationId + "_e.xml")
     httpClient.get(url) { response =>
@@ -60,12 +60,12 @@ class WeatherFetcher(httpClient: Client[IO]) {
         val cityStationIds = gradient.cityIds
         // Make several requests in parallel to speed things up
         cityStationIds.parTraverse { cityStationId =>
-            // The 0 second delay is for demo purposes. You can increase it to e.g. 10 seconds
-            // to prove that requests are being made in parallel. If they were made
-            // sequentially, you would expect a total latency of (N * 10 sec), where N is the
-            // number of requests to be made, but the actual latency will be just 10 seconds.
-            IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
-          }
+          // The 0 second delay is for demo purposes. You can increase it to e.g. 10 seconds
+          // to prove that requests are being made in parallel. If they were made
+          // sequentially, you would expect a total latency of (N * 10 sec), where N is the
+          // number of requests to be made, but the actual latency will be just 10 seconds.
+          IO.sleep(0.seconds) >> fetchCityWeather(cityStationId)
+        }
           .map { cityStationResponses =>
             val maybeError = cityStationResponses.collectFirst {
               case err: ApiResponse.Error => err

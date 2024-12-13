@@ -12,6 +12,8 @@ node_modules/
 .vscode/
 metals.sbt
 
+.downloads
+
 server/src/main/resources/static/
 
 .DS_Store

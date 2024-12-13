@@ -1,3 +1,4 @@
+import com.raquo.buildkit.SourceDownloader
 import org.scalajs.linker.interface.ModuleSplitStyle
 
 import scala.sys.process.Process
@@ -187,6 +188,25 @@ lazy val noPublish = Seq(
   publish / skip := true
 )
 
+// -- Scalafmt
+
+lazy val preload = taskKey[Unit]("runs Laminar-specific pre-load tasks")
+preload := {
+  val projectDir = (ThisBuild / baseDirectory).value
+  // TODO Move code generators here as well?
+  SourceDownloader.downloadVersionedFile(
+    name = "scalafmt-shared-conf",
+    version = "v0.1.0",
+    urlPattern = version => s"https://raw.githubusercontent.com/raquo/scalafmt-config/refs/tags/$version/.scalafmt.shared.conf",
+    versionFile = projectDir / ".downloads" / ".scalafmt.shared.conf.version",
+    outputFile = projectDir / ".downloads" / ".scalafmt.shared.conf",
+    processOutput = "#\n# DO NOT EDIT. See SourceDownloader in build.sbt\n" + _
+  )
+}
+Global / onLoad := {
+  (Global / onLoad).value andThen { state => preload.key.label :: state }
+}
+
 // -- Aliases
 
 // Run the frontend development loop (also run vite: `cd frontend; npm run dev`)
@@ -204,13 +224,7 @@ addCommandAlias("jar", ";packageApplication")
 // https://github.com/JetBrains/sbt-ide-settings
 SettingKey[Seq[File]]("ide-excluded-directories").withRank(KeyRanks.Invisible) := Seq(
   file(".idea"),
-  file("project/project/target"),
-  file("target"),
-  file("client/target"),
-  file("server/target"),
-  file("shared/js/target"),
-  file("shared/jvm/target"),
-  file("shared/shared/target"),
+  file(".downloads"),
   file("dist"),
   file("client/dist"),
   file("client/public/assets/shoelace"),

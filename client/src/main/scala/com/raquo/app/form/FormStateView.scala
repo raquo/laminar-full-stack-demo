@@ -14,8 +14,8 @@ object FormStateView {
   // See https://github.com/raquo/vite-plugin-glob-resolver
   // !! This is using non-standard compact syntax to import CSS
   // See https://github.com/raquo/vite-plugin-import-side-effect#compact-syntax
-  @JSImport("@find/**/FormStateView.less")
-  @js.native private def importStyle(): Unit = js.native
+  @js.native @JSImport("@find/**/FormStateView.less")
+  private def importStyle(): Unit = js.native
 
   importStyle()
 
@@ -40,7 +40,7 @@ object FormStateView {
         onSubmit
           .preventDefault
           .mapTo(stateVar.now()) --> submitter,
-
+        //
         renderInputRow(_.cityError)(
           label("City: "),
           input(
@@ -55,7 +55,7 @@ object FormStateView {
             onClick.mapTo("") --> cityVar
           )
         ),
-
+        //
         renderInputRow(_.zipError)(
           label("Zip code: "),
           input(
@@ -72,9 +72,9 @@ object FormStateView {
             onClick.mapTo("94110") --> zipVar
           )
         ),
-
+        //
         p(button(typ("submit"), "Submit")),
-
+        //
         div(
           fontSize.percent(90),
           color("#777"),

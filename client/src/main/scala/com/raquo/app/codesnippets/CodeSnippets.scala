@@ -10,8 +10,8 @@ import scala.scalajs.js.annotation.JSImport
 // BEGIN[codesnippets/object]
 object CodeSnippets {
 
-  @JSImport("@find/**/CodeSnippets.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/CodeSnippets.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 

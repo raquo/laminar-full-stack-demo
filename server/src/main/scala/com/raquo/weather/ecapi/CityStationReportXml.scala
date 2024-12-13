@@ -1,9 +1,9 @@
 package com.raquo.weather.ecapi
 
 import ru.tinkoff.phobos.decoding.{*, given}
+import ru.tinkoff.phobos.derivation.semiauto.{*, given}
 import ru.tinkoff.phobos.encoding.{*, given}
 import ru.tinkoff.phobos.syntax.{*, given}
-import ru.tinkoff.phobos.derivation.semiauto.{*, given}
 
 import java.time.LocalDateTime
 
@@ -184,7 +184,6 @@ implicit val AbbreviatedForecastDecoder: ElementDecoder[AbbreviatedForecastXml] 
 implicit val TemperatureForecastDecoder: ElementDecoder[TemperatureForecastXml] = deriveElementDecoder
 
 implicit val TemperaturesForecastDecoder: ElementDecoder[TemperaturesForecastXml] = deriveElementDecoder
-
 
 implicit val ForecastDecoder: ElementDecoder[ForecastXml] = deriveElementDecoder
 

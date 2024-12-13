@@ -10,7 +10,7 @@ import org.http4s.*
 
 object Utils {
 
-  extension [L, R] (either: Either[L, R])
+  extension [L, R](either: Either[L, R])
 
     def getRight: R = {
       either match {
@@ -26,19 +26,18 @@ object Utils {
       }
     }
 
-  extension [A] (io: IO[A])
+  extension [A](io: IO[A])
 
     def tap(sideEffect: A => Unit): IO[A] = {
       io.flatTap(v => IO { sideEffect(v) })
     }
 
     def tapError(sideEffect: Throwable => Unit): IO[A] = {
-      io.onError(err => IO {
-        sideEffect(err)
-      })
+      io.onError: err =>
+        IO { sideEffect(err) }
     }
 
-  //extension (status: Status)
+  // extension (status: Status)
   //
   //  def raw(body: String, headers: Header.ToRaw*)(
   //    implicit w: EntityEncoder[IO, String],

@@ -8,8 +8,8 @@ import com.raquo.app.pages.*
 import com.raquo.laminar.api.L.*
 import com.raquo.utils.JsonUtils.*
 import com.raquo.weather.Gradient
-import io.bullet.borer.derivation.MapBasedCodecs.*
 import io.bullet.borer.{Codec, Json}
+import io.bullet.borer.derivation.MapBasedCodecs.*
 import org.scalajs.dom
 
 import java.nio.charset.StandardCharsets
@@ -24,7 +24,7 @@ object LocalStorageView {
       p("The browser's ", a(href("https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"), "localStorage"), " is a simple key-value storage that is shared across all browser tabs and frames of the same origin."),
       p(a(href("https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage"), "SessionStorage"), " is similar but with a different, more limited lifetime – it is scoped to a single browser tab (but still survives e.g. page reloads and navigation)."),
       p("To test LocalStorage syncing, ", a(href(dom.document.location.href), target("_blank"), "open this page in a new tab"), ", and look at both tabs side-by-side."),
-      p(i("Note: this example will work on localhost, but not on a file: url.")),
+      p(i("Note: this example will work on localhost, but not on a file:// url.")),
       LocalStorageTester(),
       CodeSnippets(_.`localstorage/localstorage-tester`, startExpanded = _ => false, caption = "LocalStorage example source:"),
       SessionStorageTester(),

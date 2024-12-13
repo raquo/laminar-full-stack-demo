@@ -4,7 +4,7 @@ import com.raquo.app.codesnippets.CodeSnippets
 import com.raquo.laminar.api.L.{*, given}
 
 object CodeSnippetsView {
-  
+
   def apply(): HtmlElement = {
     div(
       h1("Code Snippets"),

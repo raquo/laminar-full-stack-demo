@@ -53,14 +53,14 @@ object DynamicJsObject {
     }
     // END[wind-gradient]
 
-    //def updateDynamic(key: String, value: js.Any): obj.type = {
-    //  obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
-    //  obj
-    //}
+    // def updateDynamic(key: String, value: js.Any): obj.type = {
+    //   obj.asInstanceOf[js.Dynamic].updateDynamic(key)(value)
+    //   obj
+    // }
     //
-    //def updateDynamic(keyValuePair: (String, js.Any)): obj.type = {
-    //  obj.asInstanceOf[js.Dynamic].updateDynamic(keyValuePair._1)(keyValuePair._2)
-    //  obj
-    //}
+    // def updateDynamic(keyValuePair: (String, js.Any)): obj.type = {
+    //   obj.asInstanceOf[js.Dynamic].updateDynamic(keyValuePair._1)(keyValuePair._2)
+    //   obj
+    // }
 
 }

@@ -8,13 +8,14 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 // BEGIN[codesnippets/highlight.js]
+
 /** This is a simple but ergonomic wrapper for the Highlight.js library.
   * The actual JS interface is in `object raw`, but we make it a bit nicer to use.
   */
 object hljs {
 
-  @JSImport("highlight.js/styles/dark.min.css")
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("highlight.js/styles/dark.min.css")
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 

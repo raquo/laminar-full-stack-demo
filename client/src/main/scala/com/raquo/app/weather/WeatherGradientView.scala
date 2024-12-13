@@ -21,8 +21,8 @@ object WeatherGradientView {
   // Find and import the LESS (CSS) file for this component.
   // See https://github.com/raquo/vite-plugin-glob-resolver
   // See https://github.com/raquo/vite-plugin-import-side-effect
-  @JSImport("@find/**/WeatherGradientView.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/WeatherGradientView.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 
@@ -32,8 +32,8 @@ object WeatherGradientView {
   Chart.register(
     ChartDataLabelsPlugin,
     Legend,
-    //BarController,
-    //BarElement,
+    // BarController,
+    // BarElement,
     LineController,
     LineElement,
     PointElement,
@@ -176,8 +176,6 @@ object WeatherGradientView {
     )
   }
 
-
-
   // Your render functions don't need to return just elements, for example
   // this one returns a Modifier that inserts a dynamic child node wherever
   // it's put.
@@ -190,7 +188,6 @@ object WeatherGradientView {
       div(textAlign.center, span(cls("u-error"), err))
     })
   }
-
 
 }
 // END[wind-gradient]

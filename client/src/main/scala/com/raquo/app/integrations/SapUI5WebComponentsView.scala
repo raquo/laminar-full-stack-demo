@@ -14,15 +14,15 @@ import scala.scalajs.js.annotation.JSImport
 
 object SapUI5WebComponentsView {
 
-  @JSImport("@find/**/SapUI5WebComponentsView.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/SapUI5WebComponentsView.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 
   def apply(): HtmlElement = {
     div(
       cls("SapUI5WebComponentsView"),
-
+      //
       p("All of the below are SAP UI5 components – titles, date picker, combo boxes, buttons. Some of them are custom-styled using different methods."),
       p(a("SAP UI5", href("https://sap.github.io/ui5-webcomponents/playground/")), " is a pretty decent library of web components. We use it via ", a("LaminarSAPUI5Bindings", href("https://github.com/sherpal/LaminarSAPUI5Bindings")), " – good, manually crafted UI5 bindings designed specifically for Laminar. ", a("See live demo", href("https://sherpal.github.io/laminar-ui5-demo/"))),
       p("SAP UI5 works well, but is not very customizable visually. They have some themes that let you change the general appearance, but they don't seem to use CSS parts for most of their components, so injecting custom styles into their components requires some hacks (not shown here)."),
@@ -50,7 +50,7 @@ object SapUI5WebComponentsView {
       ),
       renderDatePicker(),
       CodeSnippets(_.`ui5/renderDatePicker`),
-
+      //
       Title.of(
         _.level := TitleLevel.H2,
         _ => "Multi combo box",
@@ -58,7 +58,7 @@ object SapUI5WebComponentsView {
       ),
       renderMultiComboBox(),
       CodeSnippets(_.`ui5/renderMultiComboBox`),
-
+      //
       Title.of(
         _.level := TitleLevel.H2,
         _ => "Buttons",
@@ -129,12 +129,13 @@ object SapUI5WebComponentsView {
         _.placeholder := "Choose your countries",
         _ => width.px := 300,
         _.events.onSelectionChange.map(_.detail.items.map(_.text).toList) --> selectedCountriesVar,
-        _ => countries.map { country =>
-          MultiComboBox.item(
-            _.text := country,
-            _.selected <-- selectedCountriesVar.signal.map(_.contains(country))
-          )
-        }
+        _ =>
+          countries.map { country =>
+            MultiComboBox.item(
+              _.text := country,
+              _.selected <-- selectedCountriesVar.signal.map(_.contains(country))
+            )
+          }
       ),
       " ",
       Button(

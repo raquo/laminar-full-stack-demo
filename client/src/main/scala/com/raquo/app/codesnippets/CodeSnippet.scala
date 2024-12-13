@@ -20,8 +20,8 @@ case class CodeSnippet(
 
 object CodeSnippet {
 
-  @JSImport("@find/**/CodeSnippet.less", JSImport.Namespace)
-  @js.native private object Stylesheet extends js.Object
+  @js.native @JSImport("@find/**/CodeSnippet.less", JSImport.Namespace)
+  private object Stylesheet extends js.Object
 
   useImport(Stylesheet)
 

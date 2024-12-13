@@ -22,8 +22,8 @@ object JsApp {
   // See https://github.com/raquo/vite-plugin-glob-resolver
   // !! This is using non-standard compact syntax to import CSS
   // See https://github.com/raquo/vite-plugin-import-side-effect#compact-syntax
-  @JSImport("@find/**/JsApp.less")
-  @js.native private def importStyle(): Unit = js.native
+  @js.native @JSImport("@find/**/JsApp.less")
+  private def importStyle(): Unit = js.native
 
   importStyle()
 
