@@ -8,13 +8,13 @@ object Versions {
 
   // -- Frontend --
 
-  val Laminar = "17.1.0"
+  val Laminar = "17.2.0"
 
-  val Airstream = "17.2.0-M2-SNAPSHOT"
+  // val Airstream = "17.2.0"
 
   val LaminarShoelace = "0.1.0"
 
-  val Waypoint = "9.0.0-M2-SNAPSHOT"
+  val Waypoint = "9.0.0"
 
   val UI5 = "2.0.0"
 

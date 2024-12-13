@@ -87,7 +87,7 @@ lazy val client = project
   .settings(
     libraryDependencies ++= List(
       "com.raquo" %%% "laminar" % Versions.Laminar,
-      "com.raquo" %%% "airstream" % Versions.Airstream,
+      // "com.raquo" %%% "airstream" % Versions.Airstream,
       "com.raquo" %%% "laminar-shoelace" % Versions.LaminarShoelace,
       "com.raquo" %%% "waypoint" % Versions.Waypoint,
       "be.doeraene" %%% "web-components-ui5" % Versions.UI5
