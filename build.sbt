@@ -229,4 +229,5 @@ SettingKey[Seq[File]]("ide-excluded-directories").withRank(KeyRanks.Invisible) :
   file("client/dist"),
   file("client/public/assets/shoelace"),
   file("server/src/main/resources/static"),
+  file("target"),
 )
