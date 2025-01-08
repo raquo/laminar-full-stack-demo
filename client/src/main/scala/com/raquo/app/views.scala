@@ -22,7 +22,6 @@ val views: Signal[HtmlElement] =
     .handleValue(ControlledInputsPage)(ControlledInputsView())
     .handleValue(FormStatePage)(FormStateView())
     .handleValue(TodoMvcPage)(TodoMvcApp.node)
-    .handleCase { case p: WeatherGradientPage => p } { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
     .handleType[WeatherGradientPage] { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
     .handleValue(UI5WebComponentsPage)(SapUI5WebComponentsView())
     .handleValue(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
