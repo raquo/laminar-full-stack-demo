@@ -30,21 +30,31 @@ The development of learning materials like this is made possible by [Laminar spo
 
 [HeartAI](https://www.heartai.net/) is a data and analytics platform for digital health and clinical care.
 
+<br />
 
 ### GOLD Sponsors:
+
+<br />
 
 [![Yurique](https://laminar.dev/img/sponsors/yurique-50px.jpg?)](https://github.com/yurique) **[Iurii Malchenko](https://github.com/yurique)**
 <br />
 <br />
+<br />
 [![Aurinko.io](https://laminar.dev/img/sponsors/aurinko-light-250px.png)](https://www.aurinko.io/)
 <br />
+<b>[Aurinko](https://aurinko.io/)</b> is an API platform for workplace addons and integrations.
 <br />
-[Aurinko](https://aurinko.io/) is an API platform for workplace addons and integrations.
 <br />
 <br />
 <a href="https://tawasal.ae"><img src="https://laminar.dev/img/sponsors/tawasal.svg" width="80"></a><br />
 <b><a href="https://tawasal.ae">Tawasal</a></b> is a secure multi-purpose messenger and superapp, offering free voice, text, video conferencing and lifestyle services.
-
+<br />
+<br />
+<br />
+<a href="https://www.ossuminc.com/"><img src="https://laminar.dev/img/sponsors/ossum-square-200px.jpg" width="80"></a><br />
+<b><a href="https://www.ossuminc.com">Ossum Inc.</a></b> is dedicated to creating Ossum experiences for businesses that use software.
+<br />
+<br />
 
 ## Table of Contents
 
