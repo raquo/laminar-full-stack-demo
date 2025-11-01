@@ -2,6 +2,7 @@ package com.raquo.app
 
 import com.raquo.app.JsRouter.*
 import com.raquo.app.basic.*
+import com.raquo.app.features.MathMlView
 import com.raquo.app.form.*
 import com.raquo.app.integrations.*
 import com.raquo.app.pages.*
@@ -30,6 +31,7 @@ val views: Signal[HtmlElement] =
     .handleValue(WaypointRoutingPage)(WaypointRoutingView())
     .handleValue(LocalStoragePage)(LocalStorageView())
     .handleValue(CodeSnippetsPage)(CodeSnippetsView())
+    .handleValue(MathMlPage)(MathMlView())
     .handleValue(NotFoundPage)(renderNotFoundPage())
     // .handleType[UnroutedPage] { (_, _) => ??? } // commented out to demonstrate what happens if you forget to specify a route
     .toSignal // Yes, "match may not be exhaustive" is expected here. See above.

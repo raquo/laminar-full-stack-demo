@@ -45,6 +45,8 @@ object pages {
   case object WaypointRoutingPage extends Page("Waypoint URL Routing")
 
   case object CodeSnippetsPage extends Page("Code Snippets")
+  
+  case object MathMlPage extends Page("MathML")
 
   case object NotFoundPage extends TitledPage("Page Not Found")
 

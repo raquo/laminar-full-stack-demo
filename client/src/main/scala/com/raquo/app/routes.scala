@@ -33,6 +33,7 @@ val routes = List(
   Route.static(LocalStoragePage, appRoot / "integrations" / "localstorage" / endOfSegments),
   Route.static(WaypointRoutingPage, appRoot / "integrations" / "waypoint-url-routing" / endOfSegments),
   Route.static(CodeSnippetsPage, appRoot / "integrations" / "code-snippets" / endOfSegments),
+  Route.static(MathMlPage, appRoot / "features" / "math-ml" / endOfSegments),
   Route[WeatherGradientPage, String](
     encode = page => page.gradientId,
     decode = gradientId => WeatherGradientPage(gradientId = gradientId),

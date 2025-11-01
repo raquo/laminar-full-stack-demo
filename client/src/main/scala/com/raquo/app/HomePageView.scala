@@ -68,6 +68,11 @@ object HomePageView {
         pageLink(WaypointRoutingPage),
         pageLink(CodeSnippetsPage, caption = Some("Code snippets (highlight.js + compile-time data)"))
       ),
+      h2("Features"),
+      ul(
+        listStyles,
+        pageLink(MathMlPage)
+      ),
       h2("Broken links for testing"),
       ul(
         listStyles,
