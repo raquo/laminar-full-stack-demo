@@ -1,6 +1,6 @@
 package vendor.highlightjs
 
-import com.raquo.laminar.DomApi
+import com.raquo.laminar.domapi.DomApi
 import com.raquo.laminar.api.L.{code as codeTag, *}
 import com.raquo.utils.Utils.useImport
 

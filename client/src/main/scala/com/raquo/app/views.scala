@@ -23,7 +23,8 @@ val views: Signal[HtmlElement] =
     .handleValue(FormStatePage)(FormStateView())
     .handleValue(TodoMvcPage)(TodoMvcApp.node)
     .handleType[WeatherGradientPage] { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
-    .handleValue(UI5WebComponentsPage)(SapUI5WebComponentsView())
+    // #nc[Waypoint] why does commenting this out cause error instead of rendering NotFoundPage?? Can we fix that?
+    // .handleValue(UI5WebComponentsPage)(SapUI5WebComponentsView()) // #nc UI5 is not yet published for Laminar 18
     .handleValue(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
     .handleValue(NetworkRequestsPage)(NetworkRequestsView())
     .handleValue(WaypointRoutingPage)(WaypointRoutingView())
@@ -47,7 +48,7 @@ lazy val altViews =
     .collectStatic(FormStatePage)(FormStateView())
     .collectStatic(TodoMvcPage)(TodoMvcApp.node)
     .collectSignal[WeatherGradientPage](WeatherGradientView(_))
-    .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())
+    // .collectStatic(UI5WebComponentsPage)(SapUI5WebComponentsView())  // #nc UI5 is not yet published for Laminar 18
     .collectStatic(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
     .collectStatic(NetworkRequestsPage)(NetworkRequestsView())
     .collectStatic(LocalStoragePage)(LocalStorageView())

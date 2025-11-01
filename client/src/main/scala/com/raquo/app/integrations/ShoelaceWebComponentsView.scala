@@ -75,7 +75,7 @@ object ShoelaceWebComponentsView {
         p(
           display.flex,
           alignItems.end,
-          styleProp("gap")("20px"),
+          styleProp[String]("gap")("20px"),
           sl.Input.of(
             _.label("Enter 5 digit zip code:"),
             _ => width.px(200),
