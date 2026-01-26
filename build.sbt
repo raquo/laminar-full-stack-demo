@@ -96,6 +96,7 @@ lazy val client = project
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
         .withESFeatures(_.withESVersion(ESVersion.ES2020)) // Gets us native JS BigInt-s, lokehead regex-es, and other modern browser JS runtime features.
+        .withModuleSplitStyle(ModuleSplitStyle.SmallestModules)
         // .withModuleSplitStyle(
         //   ModuleSplitStyle.SmallModulesFor(List("com.raquo.app")))
     },
