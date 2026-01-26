@@ -54,9 +54,10 @@ object CodeSnippet {
           "Github"
         )
       ),
-      child(
-        hljs.highlight(code = snippet.lines.mkString("\n"), snippet.fileLanguage)
-      ) <-- isExpandedVar.signal
+      child <-- isExpandedVar.signal.foldBoolean(
+        whenTrue = hljs.highlight(code = snippet.lines.mkString("\n"), snippet.fileLanguage),
+        whenFalse = emptyNode
+      )
     )
   }
 
