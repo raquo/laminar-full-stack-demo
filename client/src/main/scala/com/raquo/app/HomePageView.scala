@@ -62,7 +62,8 @@ object HomePageView {
       ul(
         listStyles,
         pageLink(ShoelaceWebComponentsPage),
-        pageLink(UI5WebComponentsPage),
+        // #nc UI5 is not published for Laminar v18 yet
+        // pageLink(UI5WebComponentsPage),
         pageLink(NetworkRequestsPage, caption = Some("Network requests (Fetch & Ajax)")),
         pageLink(LocalStoragePage),
         pageLink(WaypointRoutingPage),
@@ -71,7 +72,9 @@ object HomePageView {
       h2("Features"),
       ul(
         listStyles,
-        pageLink(MathMlPage)
+        pageLink(SvgPage),
+        pageLink(MathMlPage),
+        pageLink(CodeSplittingPage)
       ),
       h2("Broken links for testing"),
       ul(

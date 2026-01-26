@@ -19,25 +19,27 @@ import com.raquo.waypoint.*
 val appRoot = root / "app"
 
 val routes = List(
-  Route.static(HomePage, root / endOfSegments),
-  Route.static(HelloWorldPage, appRoot / "basic" / "hello" / endOfSegments),
-  Route.static(CounterPage, appRoot / "basic" / "counter" / endOfSegments),
-  Route.static(TimePage, appRoot / "basic" / "time" / endOfSegments),
-  Route.static(UncontrolledInputsPage, appRoot / "form" / "uncontrolled-inputs" / endOfSegments),
-  Route.static(ControlledInputsPage, appRoot / "form" / "controlled-inputs" / endOfSegments),
-  Route.static(FormStatePage, appRoot / "form" / "form-state" / endOfSegments),
-  Route.static(TodoMvcPage, appRoot / "apps" / "todomvc" / endOfSegments),
-  Route.static(UI5WebComponentsPage, appRoot / "integrations" / "web-components" / "sap-ui5" / endOfSegments),
-  Route.static(ShoelaceWebComponentsPage, appRoot / "integrations" / "web-components" / "shoelace" / endOfSegments),
-  Route.static(NetworkRequestsPage, appRoot / "integrations" / "network-requests" / endOfSegments),
-  Route.static(LocalStoragePage, appRoot / "integrations" / "localstorage" / endOfSegments),
-  Route.static(WaypointRoutingPage, appRoot / "integrations" / "waypoint-url-routing" / endOfSegments),
-  Route.static(CodeSnippetsPage, appRoot / "integrations" / "code-snippets" / endOfSegments),
-  Route.static(MathMlPage, appRoot / "features" / "math-ml" / endOfSegments),
+  Route.static(HomePage, root),
+  Route.static(HelloWorldPage, appRoot / "basic" / "hello"),
+  Route.static(CounterPage, appRoot / "basic" / "counter"),
+  Route.static(TimePage, appRoot / "basic" / "time"),
+  Route.static(UncontrolledInputsPage, appRoot / "form" / "uncontrolled-inputs"),
+  Route.static(ControlledInputsPage, appRoot / "form" / "controlled-inputs"),
+  Route.static(FormStatePage, appRoot / "form" / "form-state"),
+  Route.static(TodoMvcPage, appRoot / "apps" / "todomvc"),
+  Route.static(UI5WebComponentsPage, appRoot / "integrations" / "web-components" / "sap-ui5"),
+  Route.static(ShoelaceWebComponentsPage, appRoot / "integrations" / "web-components" / "shoelace"),
+  Route.static(NetworkRequestsPage, appRoot / "integrations" / "network-requests"),
+  Route.static(LocalStoragePage, appRoot / "integrations" / "localstorage"),
+  Route.static(WaypointRoutingPage, appRoot / "integrations" / "waypoint-url-routing"),
+  Route.static(CodeSnippetsPage, appRoot / "integrations" / "code-snippets"),
+  Route.static(SvgPage, appRoot / "features" / "svg"),
+  Route.static(MathMlPage, appRoot / "features" / "math-ml"),
+  Route.static(CodeSplittingPage, appRoot / "features" / "code-splitting"),
   Route[WeatherGradientPage, String](
     encode = page => page.gradientId,
     decode = gradientId => WeatherGradientPage(gradientId = gradientId),
-    pattern = appRoot / "weather" / "gradient" / segment[String] / endOfSegments
+    pattern = appRoot / "weather" / "gradient" / segment[String]
   )
 )
 // END[waypoint/routes]

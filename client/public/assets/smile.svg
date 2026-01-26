@@ -1,0 +1,27 @@
+<svg width="200"
+     height="200"
+     viewBox="0 0 200 200"
+     xmlns="http://www.w3.org/2000/svg"
+     onload="setTimeout(x => alert('Demo message from smile.svg. Example XSS attack.'), 500)"
+     onclick="alert('Hello XSS (demo)')"
+     fill="#FFD700"
+>
+  <!-- Yellow circle face. Fill color inherited from root svg element. -->
+  <circle cx="100" cy="100" r="70" stroke="#000" stroke-width="2" />
+
+  <!-- Left eye -->
+  <circle cx="75" cy="85" r="10" fill="#000" />
+
+  <!-- Left eye center (currentColor is black by default, and is not configurable when loading svg from a URL) -->
+  <circle cx="75" cy="85" r="3" fill="currentColor" />
+
+  <!-- Right eye -->
+  <circle cx="125" cy="85" r="10" fill="#000" />
+
+  <!-- Smile (proper circular arc, 40% larger) -->
+  <path d="M 58 115 A 50 50 0 0 0 142 115"
+        stroke="#000"
+        stroke-width="3"
+        fill="none"
+        stroke-linecap="round" />
+</svg>

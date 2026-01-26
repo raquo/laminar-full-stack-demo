@@ -46,7 +46,11 @@ object pages {
 
   case object CodeSnippetsPage extends Page("Code Snippets")
   
+  case object SvgPage extends Page("SVG")
+  
   case object MathMlPage extends Page("MathML")
+  
+  case object CodeSplittingPage extends Page("Code Splitting")
 
   case object NotFoundPage extends TitledPage("Page Not Found")
 

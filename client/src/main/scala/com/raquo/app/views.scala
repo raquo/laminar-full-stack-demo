@@ -2,7 +2,7 @@ package com.raquo.app
 
 import com.raquo.app.JsRouter.*
 import com.raquo.app.basic.*
-import com.raquo.app.features.MathMlView
+import com.raquo.app.features.{CodeSplittingView, MathMlView, SvgView}
 import com.raquo.app.form.*
 import com.raquo.app.integrations.*
 import com.raquo.app.pages.*
@@ -24,14 +24,15 @@ val views: Signal[HtmlElement] =
     .handleValue(FormStatePage)(FormStateView())
     .handleValue(TodoMvcPage)(TodoMvcApp.node)
     .handleType[WeatherGradientPage] { (initialPage, pageSignal) => WeatherGradientView(pageSignal) }
-    // #nc[Waypoint] why does commenting this out cause error instead of rendering NotFoundPage?? Can we fix that?
     // .handleValue(UI5WebComponentsPage)(SapUI5WebComponentsView()) // #nc UI5 is not yet published for Laminar 18
     .handleValue(ShoelaceWebComponentsPage)(ShoelaceWebComponentsView())
     .handleValue(NetworkRequestsPage)(NetworkRequestsView())
     .handleValue(WaypointRoutingPage)(WaypointRoutingView())
     .handleValue(LocalStoragePage)(LocalStorageView())
     .handleValue(CodeSnippetsPage)(CodeSnippetsView())
+    .handleValue(SvgPage)(SvgView())
     .handleValue(MathMlPage)(MathMlView())
+    .handleValue(CodeSplittingPage)(CodeSplittingView())
     .handleValue(NotFoundPage)(renderNotFoundPage())
     // .handleType[UnroutedPage] { (_, _) => ??? } // commented out to demonstrate what happens if you forget to specify a route
     .toSignal // Yes, "match may not be exhaustive" is expected here. See above.

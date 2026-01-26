@@ -12,18 +12,19 @@ object MathMlView {
 
   def apply(): L.HtmlElement = {
     val resultNameVar = L.Var("x")
+    val resultColorS = resultNameVar.signal.map(if (_) == "x" then "#f00000" else "#00a000")
     L.div(
       L.h1("MathML"),
       L.p("Below you should see a quadratic equation:"),
-      L.p(mathMlEquation(resultNameVar)),
-      L.p("Click on the equals sign to change between ", L.code("x"), " and ", L.code("y"), "."),
-      L.p("This uses standard Laminar features: ", L.code("onClick -->"), " and ", L.code("text <--"), "."),
+      L.p(mathMlEquation(resultNameVar, resultColorS)),
+      L.p("Click on the equals sign to switch result name between ", L.code("x"), " and ", L.code("y"), "."),
+      L.p("We can use standard Laminar features like ", L.code("onClick -->"), ", ", L.code("text <--"), ", and ", L.code("color <--"), "."),
       CodeSnippets(
         _.`mathml/equation`,
         caption = "MathML equation source:",
         startExpanded = _ => false
       ),
-      L.p("In this snippet, we chose to import all MathML tags and attrs for convenience. To avoid name collisions with standard Laminar APIs, we access the latter through the ", L.code("L."), " namespace."),
+      L.p("Similar to SVG, MathML tags and attributes live in their own namespace (", L.code("mathml"), "). In this snippet, we chose to import all MathML tags and attrs for convenience. To avoid name collisions with standard Laminar APIs, we access the latter through the ", L.code("L."), " namespace."),
       CodeSnippets(
         _.`mathml/import`,
         caption = "Imports"
@@ -32,13 +33,24 @@ object MathMlView {
   }
 
   // BEGIN[mathml/equation]
-  def mathMlEquation(resultNameS: L.Var[String]): L.MathMlElement = {
+  def mathMlEquation(
+    resultNameS: L.Var[String],
+    resultColorS: L.Signal[String]
+  ): L.MathMlElement = {
     mathTag(
       xmlns(DomApi.mathmlNamespaceUri), // Optional if rendering MathML in a modern browser
       display("block"),
+      L.padding.px(20),
+      L.backgroundColor("#f0f0f0"),
+      L.borderRadius.px(6),
       mrow(
-        mi(L.text <-- resultNameS),
+        mi(
+          L.text <-- resultNameS,
+          L.color <-- resultColorS
+        ),
         mo(
+          L.cursor.pointer,
+          L.color.blue,
           L.onClick --> resultNameS.update {
             case "x" => "y"
             case _ => "x"
